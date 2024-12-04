@@ -7,110 +7,126 @@
 
 .all-matches-container {
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 2rem auto;
+  padding: 0 1rem;
 }
 
-.all-matches h2 {
+.all-matches-container h2 {
   text-align: center;
-  font-size: 42px;
-  color: #c8b273;
-  margin-bottom: 48px;
-  font-family: 'Playfair Display', serif;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  color: #333;
 }
 
-.matches-filters {
+.matches-filter {
+  margin-bottom: 2rem;
   display: flex;
   justify-content: center;
-  gap: 16px;
-  margin-bottom: 48px;
 }
 
-.filter-button {
-  padding: 8px 24px;
-  background: transparent;
-  border: 1px solid rgba(200, 178, 115, 0.3);
-  color: #c8b273;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 16px;
+.league-filter {
+  padding: 0.8rem 1.5rem;
+  border: 1px solid #ddd;
   border-radius: 4px;
+  font-size: 1rem;
+  background-color: white;
+  min-width: 200px;
+  cursor: pointer;
 }
 
-.filter-button:hover,
-.filter-button.active {
-  background: rgba(200, 178, 115, 0.1);
-  border-color: #c8b273;
+.match-date-group {
+  margin-bottom: 3rem;
+}
+
+.match-date-header {
+  font-size: 1.5rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #c8b273;
 }
 
 .matches-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 24px;
+  gap: 1.5rem;
 }
 
 .match-card {
-  background: rgba(22, 22, 22, 0.6);
-  padding: 24px;
-  border: 1px solid rgba(200, 178, 115, 0.1);
+  background: white;
   border-radius: 8px;
-  transition: transform 0.3s ease;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .match-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(200, 178, 115, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .match-league {
-  color: #c8b273;
-  font-size: 14px;
+  font-size: 0.9rem;
+  color: #666;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 8px;
+  font-weight: 500;
+  margin-bottom: 1rem;
 }
 
-.match-teams {
-  font-size: 18px;
-  color: #e4e4e4;
-  margin-bottom: 16px;
+.teams {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.team {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.vs {
+  font-size: 1rem;
+  color: #c8b273;
   font-weight: 500;
 }
 
-.match-datetime {
-  display: flex;
-  justify-content: space-between;
-  color: #a8a8a8;
-  font-size: 14px;
+.match-time {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.no-matches {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.2rem;
+  color: #666;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.2rem;
+  color: #c8b273;
 }
 
 @media (max-width: 768px) {
-  .all-matches {
-    padding: 80px 16px;
+  .all-matches-container h2 {
+    font-size: 2rem;
   }
 
-  .all-matches h2 {
-    font-size: 36px;
-    margin-bottom: 32px;
-  }
-
-  .matches-filters {
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 32px;
-  }
-
-  .filter-button {
-    padding: 6px 16px;
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 480px) {
   .matches-grid {
     grid-template-columns: 1fr;
   }
 
-  .match-teams {
-    font-size: 16px;
+  .match-card {
+    padding: 1rem;
   }
 }

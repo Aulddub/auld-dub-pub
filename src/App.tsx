@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Admin from './components/Admin';
 
 // Lazy load components
 const About = lazy(() => import('./components/About'));
@@ -57,8 +58,16 @@ function App() {
           </div>
         } />
         <Route path="/all-matches" element={
+          <>
+            <Navbar />
+            <Suspense fallback={<Loading />}>
+              <AllMatches />
+            </Suspense>
+          </>
+        } />
+        <Route path="/admin" element={
           <Suspense fallback={<Loading />}>
-            <AllMatches />
+            <Admin />
           </Suspense>
         } />
       </Routes>

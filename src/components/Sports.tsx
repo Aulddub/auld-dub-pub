@@ -1,29 +1,65 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Sports.css';
 import sportsCrowd from '../assets/sports-crowd.jpg';
+import { collection, query, getDocs, orderBy } from 'firebase/firestore';
+import { db } from '../config/firebase';
+
+interface Match {
+  id: string;
+  league: string;
+  team1: string;
+  team2: string;
+  date: string;
+  time: string;
+}
 
 const Sports: React.FC = () => {
-  const upcomingMatches = [
-    {
-      league: "Premier League",
-      match: "Liverpool vs Manchester United",
-      date: "Saturday, Dec 17",
-      time: "17:30"
-    },
-    {
-      league: "Champions League",
-      match: "Real Madrid vs Manchester City",
-      date: "Tuesday, Dec 20",
-      time: "21:00"
-    },
-    {
-      league: "Six Nations Rugby",
-      match: "Ireland vs England",
-      date: "Sunday, Dec 18",
-      time: "18:00"
-    }
-  ];
+  const [upcomingMatches, setUpcomingMatches] = useState<Match[]>([]);
+
+  useEffect(() => {
+    const fetchUpcomingMatches = async () => {
+      try {
+        const matchesRef = collection(db, 'matches');
+        const q = query(matchesRef);
+        const querySnapshot = await getDocs(q);
+        
+        const now = new Date();
+        const matches = querySnapshot.docs
+          .map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          })) as Match[];
+
+        // Filter and sort upcoming matches
+        const upcomingMatches = matches
+          .filter(match => {
+            const matchDate = new Date(match.date + 'T' + match.time);
+            return matchDate >= now;
+          })
+          .sort((a, b) => {
+            const dateA = new Date(a.date + 'T' + a.time);
+            const dateB = new Date(b.date + 'T' + b.time);
+            return dateA.getTime() - dateB.getTime();
+          })
+          .slice(0, 3); // Get only the next 3 matches
+
+        setUpcomingMatches(upcomingMatches);
+      } catch (error) {
+        console.error('Error fetching upcoming matches:', error);
+      }
+    };
+
+    fetchUpcomingMatches();
+  }, []);
+
+  const formatDate = (date: string, time: string) => {
+    const d = new Date(date + 'T' + time);
+    return {
+      date: d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
+      time: d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
+    };
+  };
 
   return (
     <section className="sports" id="sports">
@@ -61,16 +97,19 @@ const Sports: React.FC = () => {
             <div className="upcoming-matches">
               <h3>Upcoming Matches</h3>
               <div className="matches-list">
-                {upcomingMatches.map((match, index) => (
-                  <div className="match-card" key={index}>
-                    <div className="match-league">{match.league}</div>
-                    <div className="match-teams">{match.match}</div>
-                    <div className="match-time">
-                      <span>{match.date}</span>
-                      <span>{match.time}</span>
+                {upcomingMatches.map((match) => {
+                  const { date, time } = formatDate(match.date, match.time);
+                  return (
+                    <div className="match-card" key={match.id}>
+                      <div className="match-league">{match.league}</div>
+                      <div className="match-teams">{match.team1} vs {match.team2}</div>
+                      <div className="match-time">
+                        <span>{date}</span>
+                        <span>{time}</span>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
               <Link to="/matches" className="view-all-button">
                 View All Matches

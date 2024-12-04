@@ -1,83 +1,126 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../config/firebase';
 import '../styles/AllMatches.css';
 
-const AllMatches: React.FC = () => {
-  const allMatches = [
-    {
-      league: "Premier League",
-      match: "Liverpool vs Manchester United",
-      date: "Saturday, Dec 17",
-      time: "17:30"
-    },
-    {
-      league: "Champions League",
-      match: "Real Madrid vs Manchester City",
-      date: "Tuesday, Dec 20",
-      time: "21:00"
-    },
-    {
-      league: "Six Nations Rugby",
-      match: "Ireland vs England",
-      date: "Sunday, Dec 18",
-      time: "18:00"
-    },
-    {
-      league: "Premier League",
-      match: "Arsenal vs Chelsea",
-      date: "Sunday, Dec 17",
-      time: "16:30"
-    },
-    {
-      league: "Champions League",
-      match: "Bayern Munich vs Barcelona",
-      date: "Wednesday, Dec 21",
-      time: "20:00"
-    },
-    {
-      league: "GAA Football",
-      match: "Dublin vs Kerry",
-      date: "Saturday, Dec 24",
-      time: "15:00"
-    },
-    {
-      league: "Rugby Champions Cup",
-      match: "Leinster vs Toulouse",
-      date: "Friday, Dec 23",
-      time: "19:45"
-    },
-    {
-      league: "Premier League",
-      match: "Manchester City vs Tottenham",
-      date: "Monday, Dec 19",
-      time: "20:00"
+interface Match {
+  id: string;
+  league: string;
+  team1: string;
+  team2: string;
+  date: string;
+  time: string;
+}
+
+const LEAGUES = [
+  "Premier League",
+  "Champions League",
+  "Europa League",
+  "La Liga",
+  "Bundesliga",
+  "Serie A",
+  "Six Nations Rugby",
+  "Champions Cup Rugby",
+  "GAA Football",
+  "GAA Hurling"
+];
+
+const AllMatches = () => {
+  const [matches, setMatches] = useState<Match[]>([]);
+  const [selectedLeague, setSelectedLeague] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchMatches = async () => {
+      try {
+        const matchesCollection = collection(db, 'matches');
+        const matchesSnapshot = await getDocs(matchesCollection);
+        const matchesList = matchesSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as Match[];
+        
+        // Sort matches by date and time
+        matchesList.sort((a, b) => {
+          const dateA = new Date(a.date + 'T' + a.time);
+          const dateB = new Date(b.date + 'T' + b.time);
+          return dateA.getTime() - dateB.getTime();
+        });
+        
+        setMatches(matchesList);
+      } catch (error) {
+        console.error('Error fetching matches:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMatches();
+  }, []);
+
+  const filteredMatches = selectedLeague
+    ? matches.filter(match => match.league === selectedLeague)
+    : matches;
+
+  if (loading) {
+    return <div className="loading">Loading matches...</div>;
+  }
+
+  const groupedMatches = filteredMatches.reduce((groups, match) => {
+    const date = new Date(match.date).toLocaleDateString('en-GB', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+    if (!groups[date]) {
+      groups[date] = [];
     }
-  ];
+    groups[date].push(match);
+    return groups;
+  }, {} as Record<string, Match[]>);
 
   return (
-    <div className="all-matches">
-      <div className="all-matches-container">
-        <h2>All Upcoming Matches</h2>
-        
-        <div className="matches-filters">
-          <button className="filter-button active">All</button>
-          <button className="filter-button">Football</button>
-          <button className="filter-button">Rugby</button>
-          <button className="filter-button">GAA</button>
-        </div>
+    <div className="all-matches-container">
+      <h2>Upcoming Matches</h2>
+      
+      <div className="matches-filter">
+        <select
+          value={selectedLeague}
+          onChange={(e) => setSelectedLeague(e.target.value)}
+          className="league-filter"
+        >
+          <option value="">All Leagues</option>
+          {LEAGUES.map(league => (
+            <option key={league} value={league}>{league}</option>
+          ))}
+        </select>
+      </div>
 
-        <div className="matches-grid">
-          {allMatches.map((match, index) => (
-            <div className="match-card" key={index}>
-              <div className="match-league">{match.league}</div>
-              <div className="match-teams">{match.match}</div>
-              <div className="match-datetime">
-                <div className="match-date">{match.date}</div>
+      {Object.entries(groupedMatches).map(([date, dateMatches]) => (
+        <div key={date} className="match-date-group">
+          <h3 className="match-date-header">{date}</h3>
+          <div className="matches-grid">
+            {dateMatches.map((match) => (
+              <div key={match.id} className="match-card">
+                <div className="match-league">{match.league}</div>
+                <div className="teams">
+                  <span className="team">{match.team1}</span>
+                  <span className="vs">VS</span>
+                  <span className="team">{match.team2}</span>
+                </div>
                 <div className="match-time">{match.time}</div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      ))}
+
+      {filteredMatches.length === 0 && (
+        <div className="no-matches">
+          No matches found {selectedLeague && `for ${selectedLeague}`}
+        </div>
+      )}
     </div>
   );
 };

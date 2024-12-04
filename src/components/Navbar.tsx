@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/Navbar.css';
 import logo from '../assets/theaulddub-logo.png';
 
@@ -7,29 +8,34 @@ const Navbar: React.FC = () => {
     <nav className="navbar">
       <div className="navbar-container">
         <div className="navbar-left">
-          <img src={logo} alt="The Auld Dub Logo" className="navbar-logo" />
+          <Link to="/">
+            <img src={logo} alt="The Auld Dub Logo" className="navbar-logo" />
+          </Link>
         </div>
         <div className="navbar-center">
           <ul className="nav-menu">
             <li className="nav-item">
-              <a href="#menu">Menu</a>
+              <Link to="/#menu">Menu</Link>
             </li>
             <li className="nav-item">
-              <a href="#events">Events</a>
+              <Link to="/#events">Events</Link>
             </li>
             <li className="nav-item">
-              <a href="#about">About</a>
+              <Link to="/#about">About</Link>
             </li>
             <li className="nav-item">
-              <a href="#gallery">Gallery</a>
+              <Link to="/#gallery">Gallery</Link>
             </li>
             <li className="nav-item">
-              <a href="#contact">Contact</a>
+              <Link to="/all-matches">Matches</Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/#contact">Contact</Link>
             </li>
           </ul>
         </div>
         <div className="navbar-right">
-          <a href="#reserve" className="reserve-button">Reserve</a>
+          <Link to="/#reserve" className="reserve-button">Reserve</Link>
         </div>
       </div>
     </nav>
