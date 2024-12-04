@@ -1,25 +1,68 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Lazy load components
+const About = lazy(() => import('./components/About'));
+const Gallery = lazy(() => import('./components/Gallery'));
+const Menu = lazy(() => import('./components/Menu'));
+const Sports = lazy(() => import('./components/Sports'));
+const LiveMusic = lazy(() => import('./components/LiveMusic'));
+const AllMatches = lazy(() => import('./components/AllMatches'));
+
+gsap.registerPlugin(ScrollTrigger);
+
+// Loading component
+const Loading = () => (
+  <div style={{ 
+    display: 'flex', 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    height: '200px',
+    color: '#c8b273'
+  }}>
+    Loading...
+  </div>
+);
 
 function App() {
+  useEffect(() => {
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={
+          <div className="outer-container">
+            <div className="inner-container">
+              <div className="App">
+                <Navbar />
+                <Hero />
+                <Suspense fallback={<Loading />}>
+                  <About />
+                  <Menu />
+                  <Gallery />
+                  <Sports />
+                  <LiveMusic />
+                </Suspense>
+              </div>
+            </div>
+          </div>
+        } />
+        <Route path="/all-matches" element={
+          <Suspense fallback={<Loading />}>
+            <AllMatches />
+          </Suspense>
+        } />
+      </Routes>
+    </Router>
   );
 }
 

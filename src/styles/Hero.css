@@ -1,0 +1,161 @@
+.hero {
+  min-height: 100vh;
+  background-color: #121212;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 2rem;
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.version-badge {
+  background-color: rgba(244, 208, 63, 0.1);
+  color: #c8b273;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+  font-weight: 500;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.hero-content {
+  max-width: 900px;
+  text-align: center;
+  z-index: 1;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.hero-title {
+  font-size: 4.5rem;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+  font-weight: 600;
+}
+
+.highlight {
+  color: #c8b273;
+  position: relative;
+  display: inline-block;
+  will-change: transform;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: #a0a0a0;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.hero-button {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease-out;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.hero-button:not(.secondary) {
+  background-color: #c8b273;
+  color: #000000;
+ 
+}
+
+.hero-button.secondary {
+  background-color: rgba(244, 208, 63, 0.1);
+  color: #c8b273;
+}
+
+.hero-button:hover {
+  transform: translateY(-2px);
+}
+
+.hero-button:not(.secondary):hover {
+  background-color: #F7DC6F;
+}
+
+.hero-button.secondary:hover {
+  background-color: rgba(244, 208, 63, 0.2);
+}
+
+.hero-note {
+  color: #666666;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.cta-button {
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  background-color: #F4D03F;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #F7DC6F;
+}
+
+.button-icon {
+  font-size: 1.3rem;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 4rem 1rem;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  .hero-button {
+    width: 100%;
+  }
+}
