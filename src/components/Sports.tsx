@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Sports.css';
 import sportsCrowd from '../assets/sports-crowd.jpg';
-import { collection, query, getDocs, orderBy } from 'firebase/firestore';
+import { collection, query, getDocs } from 'firebase/firestore';
 import { db } from '../config/firebase';
 
 interface Match {
