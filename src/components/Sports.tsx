@@ -16,9 +16,13 @@ interface Match {
 
 const Sports: React.FC = () => {
   const [upcomingMatches, setUpcomingMatches] = useState<Match[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUpcomingMatches = async () => {
+      setIsLoading(true);
+      setError(null);
       try {
         const matchesRef = collection(db, 'matches');
         const q = query(matchesRef);
@@ -45,8 +49,11 @@ const Sports: React.FC = () => {
           .slice(0, 3); // Get only the next 3 matches
 
         setUpcomingMatches(upcomingMatches);
-      } catch (error) {
-        console.error('Error fetching upcoming matches:', error);
+        setIsLoading(false);
+      } catch (error: any) {
+        console.error('Error fetching matches:', error);
+        setError(error.message || 'Failed to load matches');
+        setIsLoading(false);
       }
     };
 
@@ -97,19 +104,27 @@ const Sports: React.FC = () => {
             <div className="upcoming-matches">
               <h3>Upcoming Matches</h3>
               <div className="matches-list">
-                {upcomingMatches.map((match) => {
-                  const { date, time } = formatDate(match.date, match.time);
-                  return (
-                    <div className="match-card" key={match.id}>
-                      <div className="match-league">{match.league}</div>
-                      <div className="match-teams">{match.team1} vs {match.team2}</div>
-                      <div className="match-time">
-                        <span>{date}</span>
-                        <span>{time}</span>
+                {isLoading ? (
+                  <div className="loading">Loading matches...</div>
+                ) : error ? (
+                  <div className="error">{error}</div>
+                ) : upcomingMatches.length === 0 ? (
+                  <div className="no-matches">No upcoming matches scheduled</div>
+                ) : (
+                  upcomingMatches.map((match) => {
+                    const { date, time } = formatDate(match.date, match.time);
+                    return (
+                      <div className="match-card" key={match.id}>
+                        <div className="match-league">{match.league}</div>
+                        <div className="match-teams">{match.team1} vs {match.team2}</div>
+                        <div className="match-time">
+                          <span>{date}</span>
+                          <span>{time}</span>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                )}
               </div>
               <Link to="/matches" className="view-all-button">
                 View All Matches

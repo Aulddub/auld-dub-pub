@@ -128,9 +128,9 @@ const Admin = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       setIsLoggedIn(true);
-    } catch (error) {
-      console.error('Error logging in:', error);
-      alert('Invalid login credentials');
+    } catch (error: any) {
+      console.error('Login error:', error);
+      alert(error.message || 'Failed to login. Please check your credentials.');
     }
   };
 
@@ -138,8 +138,9 @@ const Admin = () => {
     try {
       await signOut(auth);
       setIsLoggedIn(false);
-    } catch (error) {
-      console.error('Error logging out:', error);
+    } catch (error: any) {
+      console.error('Logout error:', error);
+      alert(error.message || 'Failed to logout.');
     }
   };
 
