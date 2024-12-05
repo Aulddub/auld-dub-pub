@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Navbar.css';
 import logo from '../assets/theaulddub-logo.png';
-import { FaBars, FaTimes, FaCalendarAlt } from 'react-icons/fa';
+import { IoMenu, IoClose } from 'react-icons/io5';
 
 const Navbar: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,91 +17,92 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-    document.body.style.overflow = !isMenuOpen ? 'hidden' : 'auto';
-  };
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isMobileMenuOpen]);
 
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-    document.body.style.overflow = 'auto';
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   return (
-    <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
-      <div className="navbar-container">
-        <div className="navbar-left">
-          <Link to="/" onClick={closeMenu}>
-            <img src={logo} alt="The Auld Dub Logo" className="navbar-logo" />
+    <>
+      <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
+        <div className="navbar-container">
+          <Link to="/" className="navbar-logo-link">
+            <img src={logo} alt="Auld Dub Pub" className="navbar-logo" />
           </Link>
-        </div>
-        
-        <div className={`navbar-center ${isMenuOpen ? 'active' : ''}`}>
-          <ul className="nav-menu">
-            <li className="nav-item">
-              <Link to="/#menu" onClick={closeMenu}>Menu</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/#about" onClick={closeMenu}>About</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/#gallery" onClick={closeMenu}>Gallery</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/all-matches" onClick={closeMenu}>Sports</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/#live-music" onClick={closeMenu}>Live Music</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/#quiz" onClick={closeMenu}>Pub Quiz</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/#contact" onClick={closeMenu}>Contact</Link>
-            </li>
-          </ul>
-        </div>
 
-        <div className="navbar-right">
-          <Link to="/#reserve" className="reserve-button" onClick={closeMenu}>
-            <FaCalendarAlt className="reserve-icon" />
+          <div className="navbar-content">
+            <ul className="nav-menu">
+              <li className="nav-item">
+                <Link to="/">Home</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/menu">Menu</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/sports">Sports</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/events">Events</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/about">About</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/contact">Contact</Link>
+              </li>
+            </ul>
+          </div>
+
+          <Link to="/reserve" className="reserve-button">
             Reserve
           </Link>
-          <button className="menu-toggle" onClick={toggleMenu} aria-label="Toggle menu">
-            {isMenuOpen ? <FaTimes /> : <FaBars />}
+
+          <button className="menu-icon" onClick={toggleMobileMenu}>
+            {isMobileMenuOpen ? <IoClose size={28} /> : <IoMenu size={28} />}
           </button>
         </div>
-      </div>
+      </nav>
 
-      {/* Mobile Menu Overlay */}
-      <div className={`mobile-menu-overlay ${isMenuOpen ? 'active' : ''}`} onClick={closeMenu}>
-        <div className="mobile-menu-content" onClick={e => e.stopPropagation()}>
-          <ul className="mobile-nav-menu">
-            <li className="mobile-nav-item" style={{"--item-index": 0} as React.CSSProperties}>
-              <Link to="/#menu" onClick={closeMenu}>Menu</Link>
-            </li>
-            <li className="mobile-nav-item" style={{"--item-index": 1} as React.CSSProperties}>
-              <Link to="/#about" onClick={closeMenu}>About</Link>
-            </li>
-            <li className="mobile-nav-item" style={{"--item-index": 2} as React.CSSProperties}>
-              <Link to="/#gallery" onClick={closeMenu}>Gallery</Link>
-            </li>
-            <li className="mobile-nav-item" style={{"--item-index": 3} as React.CSSProperties}>
-              <Link to="/all-matches" onClick={closeMenu}>Sports</Link>
-            </li>
-            <li className="mobile-nav-item" style={{"--item-index": 4} as React.CSSProperties}>
-              <Link to="/#live-music" onClick={closeMenu}>Live Music</Link>
-            </li>
-            <li className="mobile-nav-item" style={{"--item-index": 5} as React.CSSProperties}>
-              <Link to="/#quiz" onClick={closeMenu}>Pub Quiz</Link>
-            </li>
-            <li className="mobile-nav-item" style={{"--item-index": 6} as React.CSSProperties}>
-              <Link to="/#contact" onClick={closeMenu}>Contact</Link>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+      {isMobileMenuOpen && (
+        <>
+          <div className="mobile-menu-overlay" onClick={toggleMobileMenu} />
+          <div className="mobile-menu">
+            <ul className="mobile-nav-menu">
+              <li className="mobile-nav-item">
+                <Link to="/" onClick={toggleMobileMenu}>Home</Link>
+              </li>
+              <li className="mobile-nav-item">
+                <Link to="/menu" onClick={toggleMobileMenu}>Menu</Link>
+              </li>
+              <li className="mobile-nav-item">
+                <Link to="/sports" onClick={toggleMobileMenu}>Sports</Link>
+              </li>
+              <li className="mobile-nav-item">
+                <Link to="/events" onClick={toggleMobileMenu}>Events</Link>
+              </li>
+              <li className="mobile-nav-item">
+                <Link to="/about" onClick={toggleMobileMenu}>About</Link>
+              </li>
+              <li className="mobile-nav-item">
+                <Link to="/contact" onClick={toggleMobileMenu}>Contact</Link>
+              </li>
+              <li className="mobile-nav-item">
+                <Link to="/reserve" className="reserve-button" onClick={toggleMobileMenu}>
+                  Reserve
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </>
+      )}
+    </>
   );
 };
 
