@@ -63,7 +63,13 @@ const AllMatches = () => {
     : matches;
 
   if (loading) {
-    return <div className="loading">Loading matches...</div>;
+    return (
+      <section className="all-matches">
+        <div className="all-matches-container">
+          <div className="loading">Loading matches...</div>
+        </div>
+      </section>
+    );
   }
 
   const groupedMatches = filteredMatches.reduce((groups, match) => {
@@ -81,47 +87,64 @@ const AllMatches = () => {
   }, {} as Record<string, Match[]>);
 
   return (
-    <div className="all-matches-container">
-      <h2>Upcoming Matches</h2>
-      
-      <div className="matches-filter">
-        <select
-          value={selectedLeague}
-          onChange={(e) => setSelectedLeague(e.target.value)}
-          className="league-filter"
-        >
-          <option value="">All Leagues</option>
-          {LEAGUES.map(league => (
-            <option key={league} value={league}>{league}</option>
-          ))}
-        </select>
-      </div>
-
-      {Object.entries(groupedMatches).map(([date, dateMatches]) => (
-        <div key={date} className="match-date-group">
-          <h3 className="match-date-header">{date}</h3>
-          <div className="matches-grid">
-            {dateMatches.map((match) => (
-              <div key={match.id} className="match-card">
-                <div className="match-league">{match.league}</div>
-                <div className="teams">
-                  <span className="team">{match.team1}</span>
-                  <span className="vs">VS</span>
-                  <span className="team">{match.team2}</span>
-                </div>
-                <div className="match-time">{match.time}</div>
-              </div>
+    <section className="all-matches">
+      <div className="all-matches-container">
+        <h2>Upcoming Matches</h2>
+        
+        <div className="matches-filter">
+          <select
+            value={selectedLeague}
+            onChange={(e) => setSelectedLeague(e.target.value)}
+            className="league-filter"
+          >
+            <option value="">All Leagues</option>
+            {LEAGUES.map(league => (
+              <option key={league} value={league}>{league}</option>
             ))}
-          </div>
+          </select>
         </div>
-      ))}
 
-      {filteredMatches.length === 0 && (
-        <div className="no-matches">
-          No matches found {selectedLeague && `for ${selectedLeague}`}
-        </div>
-      )}
-    </div>
+        {Object.entries(groupedMatches).map(([date, dateMatches]) => (
+          <div key={date} className="match-date-group">
+            <h3 className="match-date-header">{date}</h3>
+            <div className="matches-grid">
+              {dateMatches.map(match => {
+                const matchDate = new Date(match.date + 'T' + match.time);
+                return (
+                  <div key={match.id} className="match-card">
+                    <div className="match-date">
+                      <span className="day">{matchDate.getDate()}</span>
+                      <span className="month">
+                        {matchDate.toLocaleString('en-US', { month: 'short' })}
+                      </span>
+                    </div>
+                    <div className="match-details">
+                      <div className="match-league">{match.league}</div>
+                      <div className="match-teams">
+                        {match.team1} vs {match.team2}
+                      </div>
+                      <div className="match-time">
+                        {matchDate.toLocaleString('en-US', { weekday: 'short' })} •{' '}
+                        {matchDate.toLocaleTimeString('en-US', {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          hour12: false
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+        {filteredMatches.length === 0 && (
+          <div className="no-matches">
+            No matches found {selectedLeague && `for ${selectedLeague}`}
+          </div>
+        )}
+      </div>
+    </section>
   );
 };
 

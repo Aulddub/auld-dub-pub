@@ -63,7 +63,9 @@ const Sports: React.FC = () => {
   const formatDate = (date: string, time: string) => {
     const d = new Date(date + 'T' + time);
     return {
-      date: d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
+      weekday: d.toLocaleDateString('en-US', { weekday: 'short' }),
+      day: d.getDate(),
+      month: d.toLocaleDateString('en-US', { month: 'short' }),
       time: d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
     };
   };
@@ -111,15 +113,18 @@ const Sports: React.FC = () => {
                 ) : upcomingMatches.length === 0 ? (
                   <div className="no-matches">No upcoming matches scheduled</div>
                 ) : (
-                  upcomingMatches.map((match) => {
-                    const { date, time } = formatDate(match.date, match.time);
+                  upcomingMatches.map(match => {
+                    const formattedDate = formatDate(match.date, match.time);
                     return (
-                      <div className="match-card" key={match.id}>
-                        <div className="match-league">{match.league}</div>
-                        <div className="match-teams">{match.team1} vs {match.team2}</div>
-                        <div className="match-time">
-                          <span>{date}</span>
-                          <span>{time}</span>
+                      <div key={match.id} className="match-card">
+                        <div className="match-date">
+                          <span className="day">{formattedDate.day}</span>
+                          <span className="date">{formattedDate.month}</span>
+                        </div>
+                        <div className="match-details">
+                          <div className="match-league">{match.league}</div>
+                          <div className="match-teams">{match.team1} vs {match.team2}</div>
+                          <div className="match-time">{formattedDate.weekday} • {formattedDate.time}</div>
                         </div>
                       </div>
                     );

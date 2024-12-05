@@ -14,6 +14,8 @@ const Menu = lazy(() => import('./components/Menu'));
 const Sports = lazy(() => import('./components/Sports'));
 const LiveMusic = lazy(() => import('./components/LiveMusic'));
 const AllMatches = lazy(() => import('./components/AllMatches'));
+const PubQuiz = lazy(() => import('./components/PubQuiz'));
+const Contact = lazy(() => import('./components/Contact'));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -52,6 +54,8 @@ function App() {
                   <Gallery />
                   <Sports />
                   <LiveMusic />
+                  <PubQuiz />
+                  <Contact />
                 </Suspense>
               </div>
             </div>
