@@ -1,6 +1,5 @@
 import React from 'react';
 import '../styles/PubQuiz.css';
-import quizImage from '../assets/quiz-night.jpg';
 import { FaTrophy, FaUsers, FaBrain, FaBeer } from 'react-icons/fa';
 
 const PubQuiz: React.FC = () => {
