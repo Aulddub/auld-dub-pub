@@ -53,6 +53,13 @@
   gap: 24px;
 }
 
+.quiz-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+}
+
 .feature {
   display: flex;
   align-items: center;

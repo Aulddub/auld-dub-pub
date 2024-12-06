@@ -131,7 +131,7 @@ const Sports: React.FC = () => {
                   })
                 )}
               </div>
-              <Link to="/matches" className="view-all-button">
+              <Link to="/all-matches" className="view-all-button">
                 View All Matches
               </Link>
             </div>

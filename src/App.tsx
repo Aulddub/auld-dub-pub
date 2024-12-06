@@ -9,7 +9,6 @@ import Admin from './components/Admin';
 
 // Lazy load components
 const About = lazy(() => import('./components/About'));
-const Gallery = lazy(() => import('./components/Gallery'));
 const Menu = lazy(() => import('./components/Menu'));
 const Sports = lazy(() => import('./components/Sports'));
 const LiveMusic = lazy(() => import('./components/LiveMusic'));
@@ -34,6 +33,23 @@ const Loading = () => (
 
 function App() {
   useEffect(() => {
+    // Обработка хэша в URL при загрузке страницы
+    const hash = window.location.hash;
+    if (hash) {
+      setTimeout(() => {
+        const element = document.querySelector(hash);
+        if (element) {
+          const offset = 80;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - offset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }, 100);
+    }
+
     setTimeout(() => {
       ScrollTrigger.refresh();
     }, 100);
@@ -47,15 +63,28 @@ function App() {
             <div className="inner-container">
               <div className="App">
                 <Navbar />
-                <Hero />
+                <section id="hero">
+                  <Hero />
+                </section>
                 <Suspense fallback={<Loading />}>
-                  <About />
-                  <Menu />
-                  <Gallery />
-                  <Sports />
-                  <LiveMusic />
-                  <PubQuiz />
-                  <Contact />
+                  <section id="about">
+                    <About />
+                  </section>
+                  <section id="menu">
+                    <Menu />
+                  </section>
+                  <section id="live-music">
+                    <LiveMusic />
+                  </section>
+                  <section id="live-sport">
+                    <Sports />
+                  </section>
+                  <section id="pubquiz">
+                    <PubQuiz />
+                  </section>
+                  <section id="contact">
+                    <Contact />
+                  </section>
                 </Suspense>
               </div>
             </div>

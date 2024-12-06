@@ -6,216 +6,220 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  padding: 35px 0;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  font-family: 'Montserrat', sans-serif;
+  padding: 1rem 0;
+  transition: all 0.3s ease;
+  background: transparent;
 }
 
 .navbar.scrolled {
-  background: rgba(10, 10, 10, 0.98);
-  padding: 10px 0;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-  border-bottom: 1px solid rgba(200, 178, 115, 0.1);
+  background: rgba(10, 10, 10, 0.95);
   backdrop-filter: blur(10px);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  padding: 0.75rem 0;
+}
+
+.navbar.scrolled .navbar-container {
+  justify-content: center;
+}
+
+.navbar.scrolled .navbar-logo {
+  position: absolute;
+  left: 1rem;
+}
+
+.navbar.scrolled .menu-toggle {
+  position: absolute;
+  right: 1rem;
 }
 
 .navbar-container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 24px;
+  width: 100%;
+  padding: 0 1rem;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  align-items: center;
   position: relative;
-  z-index: 1001;
-}
-
-.navbar-logo-link {
-  display: block;
-  flex-shrink: 0;
+  transition: all 0.3s ease;
 }
 
 .navbar-logo {
-  height: 34px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.navbar-logo a {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.navbar-logo a:hover {
+  transform: scale(1.05);
+}
+
+.navbar-logo img {
+  height: 100%;
   width: auto;
   transition: all 0.3s ease;
 }
 
-.scrolled .navbar-logo {
-  height: 40px;
-}
-
-.navbar-content {
-  background: rgba(10, 10, 10, 0.85);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(200, 178, 115, 0.2);
-  border-radius: 50px;
-  padding: 12px 32px;
-  transition: all 0.3s ease;
-  flex-grow: 0;
-  margin: 0 auto;
-}
-
-.scrolled .navbar-content {
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
   background: transparent;
-  backdrop-filter: none;
   border: none;
+  cursor: pointer;
   padding: 0;
+  z-index: 10;
 }
 
-.nav-menu {
+.hamburger-line {
+  width: 100%;
+  height: 2px;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.menu-toggle.active .hamburger-line:nth-child(1) {
+  transform: translateY(9.5px) rotate(45deg);
+}
+
+.menu-toggle.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.active .hamburger-line:nth-child(3) {
+  transform: translateY(-9.5px) rotate(-45deg);
+}
+
+.navbar-menu {
   display: flex;
-  gap: 32px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  gap: 2rem;
   align-items: center;
-  justify-content: center;
+  transition: all 0.3s ease;
 }
 
-.nav-item a {
+.nav-link {
   color: #fff;
   text-decoration: none;
-  font-size: 15px;
+  font-size: 1rem;
   font-weight: 500;
   transition: all 0.3s ease;
-  letter-spacing: 0.5px;
-  padding: 8px 0;
-  font-family: 'Cinzel', serif;
+  position: relative;
+  padding: 0.5rem 0;
 }
 
-.nav-item a:hover {
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #c8b273;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-link:hover {
   color: #c8b273;
 }
 
 .reserve-button {
-  background: #c8b273;
-  color: #000;
-  border: none;
-  padding: 12px 32px;
-  border-radius: 50px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  display: none;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: 2px solid #c8b273;
+  color: #c8b273;
   text-decoration: none;
-  font-family: 'Cinzel', serif;
+  font-weight: 500;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .reserve-button:hover {
-  background: #d4c08f;
-  transform: translateY(-2px);
+  background: #c8b273;
+  color: #0a0a0a;
 }
 
-.scrolled .reserve-button {
-  padding: 10px 24px;
-  font-size: 14px;
-}
-
-.menu-icon {
-  display: none;
-  color: #fff;
-  font-size: 24px;
-  cursor: pointer;
-  transition: color 0.3s ease;
-  background: none;
-  border: none;
-  padding: 8px;
-}
-
-.menu-icon:hover {
-  color: #c8b273;
-}
-
-/* Mobile Menu Styles */
-.mobile-menu-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.8);
-  z-index: 999;
-  opacity: 1;
-  visibility: visible;
-}
-
-.mobile-menu {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 100%;
-  max-width: 300px;
-  height: 100vh;
-  background: #121212;
-  padding: 100px 32px 32px;
-  overflow-y: auto;
-  z-index: 1000;
-}
-
-.mobile-nav-menu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.mobile-nav-item {
-  margin: 16px 0;
-  opacity: 0;
-  animation: fadeIn 0.5s ease-out forwards;
-}
-
-.mobile-nav-item a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 20px;
-  font-weight: 500;
+.navbar.scrolled .reserve-button {
   display: block;
-  padding: 12px 0;
-  transition: color 0.3s ease;
-  font-family: 'Cinzel', serif;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.mobile-nav-item a:hover {
-  color: #c8b273;
-}
-
-.mobile-nav-item .reserve-button {
-  width: 100%;
-  text-align: center;
-  margin-top: 24px;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  position: absolute;
+  right: 1rem;
 }
 
 @media (max-width: 1024px) {
-  .navbar-content {
-    display: none;
+  .navbar-container {
+    padding: 0 1rem;
   }
 
-  .menu-icon {
+  .navbar.scrolled .navbar-container {
+    justify-content: space-between;
+  }
+
+  .navbar.scrolled .navbar-logo,
+  .navbar.scrolled .menu-toggle {
+    position: static;
+  }
+
+  .navbar.scrolled .reserve-button {
+    display: none;
+  }
+  
+  .menu-toggle {
+    display: flex;
+  }
+
+  .navbar-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    height: 100vh;
+    width: 300px;
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(10px);
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    gap: 1.5rem;
+  }
+
+  .navbar-menu.active {
+    right: 0;
+  }
+
+  .navbar-menu.active .reserve-button {
     display: block;
+    margin-top: 1rem;
+    text-align: center;
   }
 
-  .reserve-button {
-    display: none;
+  .nav-link {
+    font-size: 1.2rem;
   }
+}
 
+@media (max-width: 768px) {
   .navbar {
-    padding: 15px 0;
+    padding: 0.75rem 0;
+  }
+
+  .navbar-logo {
+    height: 40px;
+  }
+
+  .navbar-menu {
+    width: 100%;
   }
 }

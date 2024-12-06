@@ -1,6 +1,7 @@
 import React from 'react';
 import '../styles/PubQuiz.css';
 import { FaTrophy, FaUsers, FaBrain, FaBeer } from 'react-icons/fa';
+import pubquizImage from '../assets/pubquiz.webp';
 
 const PubQuiz: React.FC = () => {
   return (
@@ -14,7 +15,7 @@ const PubQuiz: React.FC = () => {
               <div className="quiz-description">
                 <h3>Test Your Knowledge</h3>
                 <p>
-                  Join us every Thursday night for Dublin's most entertaining pub quiz! 
+                  Join us every Thursday night for The Auld Dub's most entertaining pub quiz! 
                   Gather your friends, form a team, and compete for exciting prizes while 
                   enjoying our special quiz night deals on drinks and snacks.
                 </p>
@@ -37,6 +38,7 @@ const PubQuiz: React.FC = () => {
                   </div>
                 </div>
               </div>
+              <img src={pubquizImage} alt="Pub Quiz Night" className="quiz-image" />
             </div>
 
             <div className="quiz-details">

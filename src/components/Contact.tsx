@@ -46,60 +46,64 @@ const Contact: React.FC = () => {
         
         <div className="contact-content">
           <div className="contact-info">
-            <div className="info-card">
-              <div className="info-header">
-                <FaMapMarkerAlt className="info-icon" />
-                <h3>Location</h3>
+            <div className="contact-details-grid">
+              <div className="info-card">
+                <div className="info-header">
+                  <FaMapMarkerAlt className="info-icon" />
+                  <h3>Location</h3>
+                </div>
+                <p className="address">
+                  123 O'Connell Street<br />
+                  Dublin City Centre<br />
+                  Dublin 1, Ireland
+                </p>
+                <a href="https://goo.gl/maps/your-map-link" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   className="directions-button">
+                  Get Directions
+                </a>
               </div>
-              <p className="address">
-                123 O'Connell Street<br />
-                Dublin City Centre<br />
-                Dublin 1, Ireland
-              </p>
-              <a href="https://goo.gl/maps/your-map-link" 
-                 target="_blank" 
-                 rel="noopener noreferrer" 
-                 className="directions-button">
-                Get Directions
-              </a>
-            </div>
 
-            <div className="info-card">
-              <div className="info-header">
-                <FaClock className="info-icon" />
-                <h3>Opening Hours</h3>
+              <div className="info-card">
+                <div className="info-header">
+                  <FaClock className="info-icon" />
+                  <h3>Opening Hours</h3>
+                </div>
+                <div className="hours-list">
+                  <div className="hours-item">
+                    <span>Mon - Thu</span>
+                    <span>12:00 - 23:00</span>
+                  </div>
+                  <div className="hours-item">
+                    <span>Fri - Sat</span>
+                    <span>12:00 - 01:00</span>
+                  </div>
+                  <div className="hours-item">
+                    <span>Sun</span>
+                    <span>12:00 - 22:00</span>
+                  </div>
+                </div>
               </div>
-              <div className="hours-list">
-                <div className="hours-item">
-                  <span>Monday - Thursday</span>
-                  <span>12:00 - 23:00</span>
-                </div>
-                <div className="hours-item">
-                  <span>Friday - Saturday</span>
-                  <span>12:00 - 01:00</span>
-                </div>
-                <div className="hours-item">
-                  <span>Sunday</span>
-                  <span>12:00 - 22:00</span>
-                </div>
-              </div>
-            </div>
 
-            <div className="info-card">
-              <div className="info-header">
-                <FaPhone className="info-icon" />
-                <h3>Phone</h3>
+              <div className="info-card">
+                <div className="contact-links">
+                  <div>
+                    <div className="info-header">
+                      <FaPhone className="info-icon" />
+                      <h3>Phone</h3>
+                    </div>
+                    <a href="tel:+353-1-234-5678" className="contact-link">+353 1 234 5678</a>
+                  </div>
+                  <div>
+                    <div className="info-header">
+                      <FaEnvelope className="info-icon" />
+                      <h3>Email</h3>
+                    </div>
+                    <a href="mailto:info@aulddubpub.ie" className="contact-link">info@aulddubpub.ie</a>
+                  </div>
+                </div>
               </div>
-              <a href="tel:+353-1-234-5678" className="contact-link">
-                +353 1 234 5678
-              </a>
-              <div className="info-header" style={{ marginTop: '20px' }}>
-                <FaEnvelope className="info-icon" />
-                <h3>Email</h3>
-              </div>
-              <a href="mailto:info@aulddubpub.ie" className="contact-link">
-                info@aulddubpub.ie
-              </a>
             </div>
 
             <div className="contact-section info-card">
@@ -108,25 +112,27 @@ const Contact: React.FC = () => {
                 <h3>Send us a Message</h3>
               </div>
               <form className="contact-form" onSubmit={handleSubmit}>
-                <div className="form-group">
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    placeholder="Your Name"
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    placeholder="Your Email"
-                    required
-                  />
+                <div className="form-grid">
+                  <div className="form-group">
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      placeholder="Your Name"
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="Your Email"
+                      required
+                    />
+                  </div>
                 </div>
                 <div className="form-group">
                   <select
@@ -176,24 +182,18 @@ const Contact: React.FC = () => {
           <div className="review-cards">
             <div className="review-card">
               <div className="stars">★★★★★</div>
-              <p className="review-text">
-                "Amazing authentic Irish pub experience! Great food, fantastic atmosphere, and the staff are incredibly friendly."
-              </p>
-              <p className="reviewer">- John D. on Google</p>
+              <p className="review-text">"Amazing authentic Irish pub experience! Great food and fantastic atmosphere."</p>
+              <p className="reviewer">- John D.</p>
             </div>
             <div className="review-card">
               <div className="stars">★★★★★</div>
-              <p className="review-text">
-                "Best Guinness in Dublin! The live music sessions are absolutely brilliant."
-              </p>
-              <p className="reviewer">- Sarah M. on TripAdvisor</p>
+              <p className="review-text">"Best Guinness in Dublin! The live music sessions are brilliant."</p>
+              <p className="reviewer">- Sarah M.</p>
             </div>
             <div className="review-card">
               <div className="stars">★★★★★</div>
-              <p className="review-text">
-                "A must-visit pub in Dublin. The quiz nights are super fun and the atmosphere is unbeatable!"
-              </p>
-              <p className="reviewer">- Mike R. on Yelp</p>
+              <p className="review-text">"A must-visit pub in Dublin. The quiz nights are super fun!"</p>
+              <p className="reviewer">- Mike R.</p>
             </div>
           </div>
         </div>
