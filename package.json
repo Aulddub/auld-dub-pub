@@ -20,6 +20,7 @@
     "react-icons": "^5.4.0",
     "react-router-dom": "^7.0.2",
     "react-scripts": "5.0.1",
+    "typescript": "^5.7.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -49,7 +50,10 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/node": "^22.10.5",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.7.2"
+    "ts-node": "^10.9.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=10.0.0"
   }
 }
