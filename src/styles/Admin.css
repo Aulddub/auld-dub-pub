@@ -12,11 +12,68 @@
   max-width: 400px;
 }
 
+.admin-mode-switcher {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+
 .admin-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.admin-header-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+}
+
+.admin-header-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.admin-header-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.admin-header-bottom {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .admin-header {
+    padding: 1rem;
+  }
+  
+  .admin-header-top {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .admin-header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .admin-header-bottom {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }
 
 form {
@@ -167,6 +224,119 @@ button:hover {
 
   .match-info {
     align-items: center;
+  }
+  
+  .admin-mode-switcher {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  
+  .admin-mode-switcher button {
+    padding: 0.8rem 2rem;
+    background-color: #f0f0f0;
+    color: #666;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
+    max-width: 200px;
+    text-align: center;
+  }
+  
+  .admin-mode-switcher button:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .admin-mode-switcher button.active {
+    background-color: #c8b273;
+    color: white;
+    border-color: #c8b273;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  @media (max-width: 600px) {
+    .admin-mode-switcher {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .admin-mode-switcher button {
+      width: 100%;
+      max-width: none;
+      padding: 0.8rem;
+    }
+  }
+  
+  .add-band-form {
+    margin-top: 2rem;
+  }
+  
+  .bands-list {
+    margin-top: 2rem;
+  }
+  
+  .band-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    background-color: #fff;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .band-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .band-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .band-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  
+  .band-genre {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  .band-datetime {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  @media (max-width: 600px) {
+    .admin-mode-switcher {
+      flex-direction: column;
+      width: 100%;
+    }
+    
+    .admin-mode-switcher button {
+      width: 100%;
+    }
+    
+    .band-item {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+    }
+    
+    .band-info {
+      align-items: center;
+    }
   }
 
   .input-toggle {

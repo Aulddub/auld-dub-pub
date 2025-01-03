@@ -27,7 +27,7 @@ const Hero: React.FC = () => {
         </div>
 
         <div className="version-badge">
-          Est. 1995
+          Est. 2010
         </div>
 
         <h1 className="hero-title">

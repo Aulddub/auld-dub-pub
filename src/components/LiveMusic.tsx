@@ -1,32 +1,53 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
+import { db } from '../config/firebase';
 import '../styles/LiveMusic.css';
 import bandImage from '../assets/band.jpg';
 
+interface Band {
+  id: string;
+  name: string;
+  date: string;
+  time: string;
+  genre: string;
+}
+
 const LiveMusic: React.FC = () => {
-  const upcomingEvents = [
-    {
-      artist: "The Dublin Rebels",
-      date: "Friday, Dec 16",
-      time: "21:00",
-      genre: "Irish Folk Rock"
-    },
-    {
-      artist: "Celtic Storm",
-      date: "Saturday, Dec 17",
-      time: "21:30",
-      genre: "Traditional Irish"
-    },
-    {
-      artist: "Green Valley Boys",
-      date: "Friday, Dec 23",
-      time: "21:00",
-      genre: "Irish Folk/Country"
-    }
-  ];
+  const [latestBands, setLatestBands] = useState<Band[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchLatestBands = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const bandsRef = collection(db, 'bands');
+        const q = query(bandsRef, orderBy('date', 'desc'), limit(3));
+        const querySnapshot = await getDocs(q);
+        
+        const bands = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          name: doc.data().name,
+          date: doc.data().date,
+          time: doc.data().time,
+          genre: doc.data().genre
+        }));
+        
+        setLatestBands(bands);
+      } catch (error: any) {
+        setError(error.message || 'Failed to load bands');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchLatestBands();
+  }, []);
 
   return (
     <section className="live-music" id="livemusic">
-      <div className="live-music-bg">
+      <div className="live-music-bg">        
         <div className="live-music-container">
           <h2>Live Music</h2>
           
@@ -40,7 +61,7 @@ const LiveMusic: React.FC = () => {
               </p>
               <div className="music-stats">
                 <div className="stat">
-                  <span>3</span>
+                  <span>2</span>
                   <p>Live Shows Weekly</p>
                 </div>
                 <div className="stat">
@@ -59,21 +80,29 @@ const LiveMusic: React.FC = () => {
           </div>
 
           <div className="events-section">
-            <h3>Upcoming Performances</h3>
+            <h3>Upcoming Live Music</h3>
             <div className="events-grid">
-              {upcomingEvents.map((event, index) => (
-                <div className="event-card" key={index}>
-                  <div className="event-date">
-                    <span className="day">{event.date.split(',')[0]}</span>
-                    <span className="date">{event.date.split(',')[1]}</span>
+              {isLoading ? (
+                <div className="loading">Loading bands...</div>
+              ) : error ? (
+                <div className="error">{error}</div>
+              ) : latestBands.length === 0 ? (
+                <div className="no-bands">No bands available</div>
+              ) : (
+                latestBands.map((band) => (
+                  <div className="event-card" key={band.id}>
+                    <div className="event-date">
+                      <span className="day">{new Date(band.date).toLocaleDateString('en-US', { weekday: 'long' })}</span>
+                      <span className="date">{new Date(band.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                    </div>
+                    <div className="event-details">
+                      <h4>{band.name}</h4>
+                      <p className="genre">{band.genre}</p>
+                      <p className="time">{band.time}</p>
+                    </div>
                   </div>
-                  <div className="event-details">
-                    <h4>{event.artist}</h4>
-                    <p className="genre">{event.genre}</p>
-                    <p className="time">{event.time}</p>
-                  </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
 

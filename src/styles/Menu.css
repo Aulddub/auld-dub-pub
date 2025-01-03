@@ -1,7 +1,6 @@
 .menu {
   padding: 120px 24px;
-  background: linear-gradient(rgba(0, 0, 0, 0.92), rgba(0, 0, 0, 0.92)),
-              url('../assets/menu-bg.jpg') center/cover;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9));
   min-height: 100vh;
   color: #e4e4e4;
 }

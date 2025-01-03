@@ -53,9 +53,9 @@ const Contact: React.FC = () => {
                   <h3>Location</h3>
                 </div>
                 <p className="address">
-                  123 O'Connell Street<br />
-                  Dublin City Centre<br />
-                  Dublin 1, Ireland
+                  Holländargatan 1<br />
+                  111 36 Stockholm<br />
+                  Sweden
                 </p>
                 <a href="https://goo.gl/maps/your-map-link" 
                    target="_blank" 
@@ -73,15 +73,19 @@ const Contact: React.FC = () => {
                 <div className="hours-list">
                   <div className="hours-item">
                     <span>Mon - Thu</span>
-                    <span>12:00 - 23:00</span>
+                    <span>15:00 - 01:00</span>
                   </div>
                   <div className="hours-item">
-                    <span>Fri - Sat</span>
-                    <span>12:00 - 01:00</span>
+                    <span>Fri</span>
+                    <span>14:00 - 03:00</span>
+                  </div>
+                  <div className="hours-item">
+                    <span>Sat</span>
+                    <span>12:00 - 03:00</span>
                   </div>
                   <div className="hours-item">
                     <span>Sun</span>
-                    <span>12:00 - 22:00</span>
+                    <span>12:00 - 23:00</span>
                   </div>
                 </div>
               </div>
@@ -93,14 +97,14 @@ const Contact: React.FC = () => {
                       <FaPhone className="info-icon" />
                       <h3>Phone</h3>
                     </div>
-                    <a href="tel:+353-1-234-5678" className="contact-link">+353 1 234 5678</a>
+                    <a href="tel:08-679-77-07" className="contact-link">08-679 77 07</a>
                   </div>
                   <div>
                     <div className="info-header">
                       <FaEnvelope className="info-icon" />
                       <h3>Email</h3>
                     </div>
-                    <a href="mailto:info@aulddubpub.ie" className="contact-link">info@aulddubpub.ie</a>
+                    <a href="mailto:info@theaulddub.se" className="contact-link">info@theaulddub.se</a>
                   </div>
                 </div>
               </div>

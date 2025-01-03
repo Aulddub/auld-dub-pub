@@ -4,13 +4,25 @@
 }
 
 .live-music-bg {
-  background-color: #0a0a0a;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)),
-    url('../assets/band.jpg');
+  background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+ 
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
   padding: 120px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.live-music-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 80%, rgba(200, 178, 115, 0.1) 0%, transparent 30%);
+  pointer-events: none;
 }
 
 .live-music-container {

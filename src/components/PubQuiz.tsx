@@ -8,7 +8,7 @@ const PubQuiz: React.FC = () => {
     <section className="pub-quiz" id="quiz">
       <div className="quiz-bg">
         <div className="quiz-container">
-          <h2>Pub Quiz Night</h2>
+          <h2>Pub Quiz</h2>
           
           <div className="quiz-content">
             <div className="quiz-info">
