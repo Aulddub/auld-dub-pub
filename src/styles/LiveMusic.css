@@ -19,12 +19,7 @@
 }
 
 .live-music h2 {
-  text-align: center;
-  font-size: 42px;
-  color: #c8b273;
   margin-bottom: 64px;
-  letter-spacing: 1px;
-  font-family: 'Playfair Display', serif;
 }
 
 .live-music-hero {
@@ -199,6 +194,7 @@
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+  
 }
 
 .cta-button {
@@ -233,7 +229,7 @@
   }
 
   .live-music h2 {
-    font-size: 36px;
+    font-size: var(--font-size-h2);
     margin-bottom: 48px;
   }
 
@@ -242,7 +238,7 @@
   }
 
   .hero-content p {
-    font-size: 16px;
+    font-family: var(--font-secondary);
   }
 
   .stat span {

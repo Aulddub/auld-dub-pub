@@ -1,9 +1,38 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import '../styles/About.css';
 import pubInterior from '../assets/irish-pub-interior.jpeg';
 import { FaBeer, FaMusic, FaFutbol, FaMapMarkerAlt, FaClock, FaHistory } from 'react-icons/fa';
 
 const About: React.FC = () => {
+  const aboutRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (aboutRef.current) {
+          if (entry.isIntersecting) {
+            aboutRef.current.classList.add('about-active');
+          } else {
+            aboutRef.current.classList.remove('about-active');
+          }
+        }
+      },
+      {
+        threshold: 0.1,
+      }
+    );
+
+    if (aboutRef.current) {
+      observer.observe(aboutRef.current);
+    }
+
+    return () => {
+      if (aboutRef.current) {
+        observer.unobserve(aboutRef.current);
+      }
+    };
+  }, []);
+
   const stats = [
     { number: '1962', text: 'Established' },
     { number: '60+', text: 'Years of Service' },

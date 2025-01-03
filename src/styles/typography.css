@@ -67,10 +67,15 @@ h1, .h1 {
 
 h2, .h2 {
   font-family: var(--font-primary);
-  font-size: var(--font-size-h2);
+  font-size: 3rem;
   font-weight: var(--font-weight-bold);
-  letter-spacing: var(--letter-spacing-normal);
+  letter-spacing: 2px;
   line-height: var(--line-height-tight);
+  text-align: center;
+  margin-bottom: 4rem;
+  text-transform: uppercase;
+  color: #d4b572;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 h3, .h3 {

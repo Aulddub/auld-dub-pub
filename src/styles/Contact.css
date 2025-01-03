@@ -10,11 +10,9 @@
 }
 
 .contact h2 {
-  text-align: center;
-  font-size: 36px;
-  color: #c8b273;
+  
   margin-bottom: 40px;
-  font-family: 'Playfair Display', serif;
+ 
 }
 
 .contact-content {
@@ -245,9 +243,10 @@
   }
   
   .contact h2 {
-    font-size: 32px;
-    margin-bottom: 32px;
+    font-size: var(--font-size-h2);
   }
+
+
   
   .form-grid {
     grid-template-columns: 1fr;

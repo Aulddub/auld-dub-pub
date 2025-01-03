@@ -18,12 +18,7 @@
 }
 
 .pub-quiz h2 {
-  text-align: center;
-  font-size: 42px;
-  color: #c8b273;
   margin-bottom: 64px;
-  letter-spacing: 1px;
-  font-family: 'Playfair Display', serif;
 }
 
 .quiz-content {
@@ -250,7 +245,7 @@
   }
 
   .pub-quiz h2 {
-    font-size: 36px;
+    font-size: var(--font-size-h2);
   }
 
   .quiz-features {

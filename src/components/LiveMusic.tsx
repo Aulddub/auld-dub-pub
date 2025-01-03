@@ -25,7 +25,7 @@ const LiveMusic: React.FC = () => {
   ];
 
   return (
-    <section className="live-music" id="live-music">
+    <section className="live-music" id="livemusic">
       <div className="live-music-bg">
         <div className="live-music-container">
           <h2>Live Music</h2>
