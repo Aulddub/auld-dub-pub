@@ -57,12 +57,7 @@ const Contact: React.FC = () => {
                   111 36 Stockholm<br />
                   Sweden
                 </p>
-                <a href="https://goo.gl/maps/your-map-link" 
-                   target="_blank" 
-                   rel="noopener noreferrer" 
-                   className="directions-button">
-                  Get Directions
-                </a>
+                
               </div>
 
               <div className="info-card">
@@ -170,7 +165,7 @@ const Contact: React.FC = () => {
 
           <div className="map-container">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2381.7399659243538!2d-6.2617!3d53.3498!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM0zCsDIwJzU5LjIiTiA2wrAxNScxOC4xIlc!5e0!3m2!1sen!2sie!4v1234567890!5m2!1sen!2sie"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2000.1234567890123!2d18.0592!3d59.3376!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465f9d6799555555%3A0x1234567890abcdef!2sHoll%C3%A4ndargatan%201%2C%20111%2036%20Stockholm%2C%20Sweden!5e0!3m2!1sen!2sse!4v1234567890!5m2!1sen!2sse"
               width="100%"
               height="100%"
               style={{ border: 0 }}
@@ -186,18 +181,18 @@ const Contact: React.FC = () => {
           <div className="review-cards">
             <div className="review-card">
               <div className="stars">★★★★★</div>
-              <p className="review-text">"Amazing authentic Irish pub experience! Great food and fantastic atmosphere."</p>
-              <p className="reviewer">- John D.</p>
+              <p className="review-text">"Fantastisk irländsk pub med riktig stämning! Bra ölutbud och trevlig personal."</p>
+              <p className="reviewer">- Emma L.</p>
             </div>
             <div className="review-card">
               <div className="stars">★★★★★</div>
-              <p className="review-text">"Best Guinness in Dublin! The live music sessions are brilliant."</p>
-              <p className="reviewer">- Sarah M.</p>
+              <p className="review-text">"Bästa Guinness i Stockholm! Live-musiken är helt underbar."</p>
+              <p className="reviewer">- Johan K.</p>
             </div>
             <div className="review-card">
               <div className="stars">★★★★★</div>
-              <p className="review-text">"A must-visit pub in Dublin. The quiz nights are super fun!"</p>
-              <p className="reviewer">- Mike R.</p>
+              <p className="review-text">"En riktig pärla! Mysig atmosfär och god mat. Rekommenderas varmt!"</p>
+              <p className="reviewer">- Sofia N.</p>
             </div>
           </div>
         </div>

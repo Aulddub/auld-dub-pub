@@ -7,7 +7,7 @@ import {
   FaFutbol,
   FaMapMarkerAlt,
   FaClock,
-  FaHistory,
+
 } from "react-icons/fa";
 
 const About: React.FC = () => {
@@ -88,7 +88,7 @@ const About: React.FC = () => {
         <div className="about-sections">
           <div className="history-section">
             <div className="section-header">
-              <FaHistory className="section-icon" />
+              
               <h3>Our Story</h3>
             </div>
             <p>

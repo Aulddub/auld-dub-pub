@@ -132,39 +132,78 @@ p {
 .about-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  margin-top: 3rem;
+  gap: 1.5rem;
+  margin-top: 2rem;
 }
 
 .stat {
   text-align: center;
-  padding: 1.5rem;
+  padding: 0.9rem;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 8px;
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .stat:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
   background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .stat span {
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #b69456;
   font-weight: bold;
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
 }
 
 .stat p {
   color: #e0e0e0;
-  font-size: 1rem;
+  font-size: 0.9rem;
   margin: 0;
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .about-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .stat {
+    padding: 0.8rem;
+  }
+  
+  .stat span {
+    font-size: 1.3rem;
+  }
+  
+  .stat p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-stats {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+  
+  .stat {
+    padding: 0.6rem;
+  }
+  
+  .stat span {
+    font-size: 1.2rem;
+  }
+  
+  .stat p {
+    font-size: 0.75rem;
+  }
 }
 
 .hero-image {
@@ -307,7 +346,7 @@ p {
 .info-header {
   display: flex;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .info-icon {
@@ -329,6 +368,7 @@ p {
   line-height: 1.6;
   color: #e0e0e0;
   margin-bottom: 1rem;
+  margin-top: 4rem;
 }
 
 .hours-grid {
