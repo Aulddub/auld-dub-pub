@@ -19,10 +19,11 @@
 }
 
 .navbar.scrolled .navbar-container {
-  justify-content: center;
+  justify-content: center !important;
 }
 
 .navbar.scrolled .navbar-logo {
+  display: flex;
   position: absolute;
   left: 1rem;
 }
@@ -36,7 +37,7 @@
   width: 100%;
   padding: 1rem 3rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   position: relative;
   transition: all 0.3s ease;
@@ -44,7 +45,7 @@
 
 .navbar-logo {
   height: 50px;
-  display: flex;
+  display: none;
   align-items: center;
   transition: all 0.3s ease;
 }
@@ -77,6 +78,8 @@
   cursor: pointer;
   padding: 0;
   z-index: 10;
+  position: absolute;
+  right: 3rem;
 }
 
 .hamburger-line {
@@ -161,17 +164,18 @@
 @media (max-width: 1024px) {
   .navbar-container {
     padding: 0 1rem;
+    justify-content: center;
   }
-
   .navbar.scrolled .navbar-container {
-    justify-content: space-between;
+    justify-content: center !important;
   }
-
-  .navbar.scrolled .navbar-logo,
+  .navbar.scrolled .navbar-logo {
+    display: flex;
+    position: static;
+  }
   .navbar.scrolled .menu-toggle {
     position: static;
   }
-
   .navbar.scrolled .reserve-button {
     display: none;
   }

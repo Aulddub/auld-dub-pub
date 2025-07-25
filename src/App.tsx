@@ -6,6 +6,8 @@ import Hero from './components/Hero';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Admin from './components/Admin';
+import { StagewiseToolbar } from '@stagewise/toolbar-react';
+import ReactPlugin from '@stagewise-plugins/react';
 
 // Lazy load components
 const About = lazy(() => import('./components/About'));
@@ -56,55 +58,60 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={
-          <div className="outer-container">
-            <div className="inner-container">
-              <div className="App">
-                <Navbar />
-                <section id="hero">
-                  <Hero />
-                </section>
-                <Suspense fallback={<Loading />}>
-                  <section id="about">
-                    <About />
+    <>
+      {process.env.NODE_ENV === 'development' && (
+        <StagewiseToolbar config={{ plugins: [ReactPlugin] }} />
+      )}
+      <Router>
+        <Routes>
+          <Route path="/" element={
+            <div className="outer-container">
+              <div className="inner-container">
+                <div className="App">
+                  <Navbar />
+                  <section id="hero">
+                    <Hero />
                   </section>
-                  <section id="menu">
-                    <Menu />
-                  </section>
-                  <section id="live-music">
-                    <LiveMusic />
-                  </section>
-                  <section id="live-sport">
-                    <Sports />
-                  </section>
-                  <section id="pubquiz">
-                    <PubQuiz />
-                  </section>
-                  <section id="contact">
-                    <Contact />
-                  </section>
-                </Suspense>
+                  <Suspense fallback={<Loading />}>
+                    <section id="about">
+                      <About />
+                    </section>
+                    <section id="menu">
+                      <Menu />
+                    </section>
+                    <section id="live-music">
+                      <LiveMusic />
+                    </section>
+                    <section id="live-sport">
+                      <Sports />
+                    </section>
+                    <section id="pubquiz">
+                      <PubQuiz />
+                    </section>
+                    <section id="contact">
+                      <Contact />
+                    </section>
+                  </Suspense>
+                </div>
               </div>
             </div>
-          </div>
-        } />
-        <Route path="/all-matches" element={
-          <>
-            <Navbar />
+          } />
+          <Route path="/all-matches" element={
+            <>
+              <Navbar />
+              <Suspense fallback={<Loading />}>
+                <AllMatches />
+              </Suspense>
+            </>
+          } />
+          <Route path="/admin" element={
             <Suspense fallback={<Loading />}>
-              <AllMatches />
+              <Admin />
             </Suspense>
-          </>
-        } />
-        <Route path="/admin" element={
-          <Suspense fallback={<Loading />}>
-            <Admin />
-          </Suspense>
-        } />
-      </Routes>
-    </Router>
+          } />
+        </Routes>
+      </Router>
+    </>
   );
 }
 

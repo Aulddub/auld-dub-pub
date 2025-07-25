@@ -41,11 +41,6 @@ const About: React.FC = () => {
     };
   }, []);
 
-  const stats = [
-    { number: "2010", text: "Established" },
-    { number: "15", text: "Years of Service" },
-    { number: "100%", text: "Irish Spirit" },
-  ];
 
   return (
     <section className="about" id="about">
@@ -56,29 +51,18 @@ const About: React.FC = () => {
 
         <div className="about-hero">
           <div className="hero-content">
-            <h3>A True Irish Experience</h3>
+            
             <p>
-              Welcome to Sweden´s longest established genuine Irish Pub. Since
-              the start the focus of the pub has been authentic Irish food and
-              live music in an enjoyable, welcoming environment. We show all
-              major sporting events on our many TV screens and our projector
-              screen and you can always come to us to get in the right mood for
-              a big game. Every weekend we have live music on stage from a
-              selection of the finest musicians who guarantee you’ll have a
-              cracking time!
+              Step into The Auld Dub and discover Stockholm's most authentic Irish experience. 
+              Our warm, wood-paneled interior buzzes with the genuine spirit of Irish hospitality, 
+              where every guest becomes part of our extended family.
             </p>
             <p>
-              So if you’re looking for a good time, good food and good friends,
-              look no further.
+              From the perfectly poured Guinness that settles with pride, to the traditional Irish 
+              dishes crafted with love, every detail reflects our commitment to authenticity. 
+              Whether you're catching the match with friends, enjoying live music, or simply 
+              seeking refuge from the Stockholm winter, our doors are always open.
             </p>
-            <div className="about-stats">
-              {stats.map((stat, index) => (
-                <div className="stat" key={index}>
-                  <span>{stat.number}</span>
-                  <p>{stat.text}</p>
-                </div>
-              ))}
-            </div>
           </div>
           <div className="hero-image">
             <img src={pubInterior} alt="Inside Auld Dub Pub" />
@@ -88,39 +72,37 @@ const About: React.FC = () => {
         <div className="about-sections">
           <div className="history-section">
             <div className="section-header">
-              
-              <h3>Our Story</h3>
+              <h3 className="section-header">What Makes Us Special</h3>
             </div>
             <p>
-              Since 2010, Auld Dub has been a cornerstone of Irish culture in
-              the heart of the city. Our pub has maintained its authentic charm
-              while becoming a beloved gathering place for locals and visitors
-              alike. Our walls echo with decades of stories, laughter, and Irish
-              music.
+              More than just a pub, we're a cultural bridge between Ireland and Sweden. 
+              Our carefully curated atmosphere combines the cozy intimacy of a traditional 
+              Irish pub with Stockholm's cosmopolitan energy. Every element, from our 
+              imported Irish fixtures to our locally-sourced ingredients, tells a story 
+              of two cultures coming together.
             </p>
             <p>
-              Our team of friendly bartenders and chefs are dedicated to making
-              your evening special. With years of experience and genuine Irish
-              hospitality, they're here to ensure you have an authentic pub
-              experience.
+              Our passionate team doesn't just serve drinks – they create experiences. 
+              Behind the bar, you'll find genuine Irish hospitality paired with Swedish 
+              efficiency, ensuring every visit feels both familiar and special.
             </p>
           </div>
 
           <div className="features-grid">
             <div className="feature">
               <FaBeer className="feature-icon" />
-              <span className="feature-title">Premium Beer</span>
-              <span className="feature-text">Irish & Local Craft</span>
+              <span className="feature-title">Authentic Pours</span>
+              <span className="feature-text">Perfect Guinness & Craft Selection</span>
             </div>
             <div className="feature">
               <FaFutbol className="feature-icon" />
-              <span className="feature-title">Live Sports</span>
-              <span className="feature-text">Football & Rugby</span>
+              <span className="feature-title">Sports Haven</span>
+              <span className="feature-text">Every Match, Every Moment</span>
             </div>
             <div className="feature">
               <FaMusic className="feature-icon" />
-              <span className="feature-title">Live Music</span>
-              <span className="feature-text">Every Friday</span>
+              <span className="feature-title">Live Sessions</span>
+              <span className="feature-text">Traditional & Contemporary</span>
             </div>
           </div>
         </div>
@@ -129,7 +111,7 @@ const About: React.FC = () => {
           <div className="location-card">
             <div className="info-header">
               <FaMapMarkerAlt className="info-icon" />
-              <h3>Find Us</h3>
+              <h3 className="section-header">Find Us</h3>
             </div>
             <p>
               Just 5 minutes from Central Station, in the heart of the historic
@@ -141,7 +123,7 @@ const About: React.FC = () => {
           <div className="hours-card">
             <div className="info-header">
               <FaClock className="info-icon" />
-              <h3>Opening Hours</h3>
+              <h3 className="section-header">Opening Hours</h3>
             </div>
             <div className="hours-grid">
               <div className="day-time">
@@ -166,13 +148,13 @@ const About: React.FC = () => {
 
         <div className="about-cta">
           <div className="cta-content">
-            <h3>Join Us Tonight</h3>
+            <h3 className="section-header">Your Table Awaits</h3>
             <p>
-              Experience the warmth of Irish hospitality and the taste of
-              perfectly poured Guinness. Book your table now and become part of
-              our story.
+              Ready to experience Stockholm's finest Irish hospitality? Join us for 
+              an evening where every pint tells a story and every conversation feels 
+              like coming home.
             </p>
-            <button className="cta-button">Book a Table</button>
+            <button className="cta-button">Reserve Your Experience</button>
           </div>
         </div>
       </div>

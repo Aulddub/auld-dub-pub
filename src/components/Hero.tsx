@@ -26,10 +26,6 @@ const Hero: React.FC = () => {
           <span className="location-tag">Stockholm</span>
         </div>
 
-        <div className="version-badge">
-          Est. 2010
-        </div>
-
         <h1 className="hero-title">
           Experience True
           <span className="highlight">Irish Spirit</span>
@@ -63,7 +59,6 @@ const Hero: React.FC = () => {
       </div>
 
       <div className="scroll-indicator" onClick={scrollToAbout}>
-        <span className="scroll-text">Scroll Down</span>
         <FaArrowDown className="scroll-icon" />
       </div>
     </section>
