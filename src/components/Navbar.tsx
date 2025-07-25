@@ -45,9 +45,9 @@ const Navbar: React.FC = () => {
         <nav className={`navbar-menu ${isOpen ? 'active' : ''}`}>
           <a href="#about" className="nav-link" onClick={closeMenu}>About</a>
           <a href="#menu" className="nav-link" onClick={closeMenu}>Menu</a>
-          <a href="#live-music" className="nav-link" onClick={closeMenu}>Live Music</a>
-          <a href="#live-sport" className="nav-link" onClick={closeMenu}>Live Sport</a>
-          <a href="#pubquiz" className="nav-link" onClick={closeMenu}>Pub Quiz</a>
+          <a href="#entertainment?tab=music" className="nav-link" onClick={closeMenu}>Live Music</a>
+          <a href="#entertainment?tab=sports" className="nav-link" onClick={closeMenu}>Live Sports</a>
+          <a href="#entertainment?tab=quiz" className="nav-link" onClick={closeMenu}>Pub Quiz</a>
           <a href="#contact" className="nav-link" onClick={closeMenu}>Contact</a>
         </nav>
         <a href="#contact" className="reserve-button" onClick={closeMenu}>

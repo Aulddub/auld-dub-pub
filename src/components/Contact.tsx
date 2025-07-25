@@ -177,25 +177,7 @@ const Contact: React.FC = () => {
           </div>
         </div>
 
-        <div className="social-proof">
-          <div className="review-cards">
-            <div className="review-card">
-              <div className="stars">★★★★★</div>
-              <p className="review-text">"Fantastisk irländsk pub med riktig stämning! Bra ölutbud och trevlig personal."</p>
-              <p className="reviewer">- Emma L.</p>
-            </div>
-            <div className="review-card">
-              <div className="stars">★★★★★</div>
-              <p className="review-text">"Bästa Guinness i Stockholm! Live-musiken är helt underbar."</p>
-              <p className="reviewer">- Johan K.</p>
-            </div>
-            <div className="review-card">
-              <div className="stars">★★★★★</div>
-              <p className="review-text">"En riktig pärla! Mysig atmosfär och god mat. Rekommenderas varmt!"</p>
-              <p className="reviewer">- Sofia N.</p>
-            </div>
-          </div>
-        </div>
+
       </div>
     </section>
   );

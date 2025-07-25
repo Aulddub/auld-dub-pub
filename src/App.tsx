@@ -12,10 +12,8 @@ import ReactPlugin from '@stagewise-plugins/react';
 // Lazy load components
 const About = lazy(() => import('./components/About'));
 const Menu = lazy(() => import('./components/Menu'));
-const Sports = lazy(() => import('./components/Sports'));
-const LiveMusic = lazy(() => import('./components/LiveMusic'));
+const Entertainment = lazy(() => import('./components/Entertainment'));
 const AllMatches = lazy(() => import('./components/AllMatches'));
-const PubQuiz = lazy(() => import('./components/PubQuiz'));
 const Contact = lazy(() => import('./components/Contact'));
 
 gsap.registerPlugin(ScrollTrigger);
@@ -39,7 +37,9 @@ function App() {
     const hash = window.location.hash;
     if (hash) {
       setTimeout(() => {
-        const element = document.querySelector(hash);
+        // Извлекаем только ID элемента из хеша, игнорируя параметры URL
+        const elementId = hash.split('?')[0];
+        const element = document.querySelector(elementId);
         if (element) {
           const offset = 80;
           const elementPosition = element.getBoundingClientRect().top;
@@ -79,14 +79,8 @@ function App() {
                     <section id="menu">
                       <Menu />
                     </section>
-                    <section id="live-music">
-                      <LiveMusic />
-                    </section>
-                    <section id="live-sport">
-                      <Sports />
-                    </section>
-                    <section id="pubquiz">
-                      <PubQuiz />
+                    <section id="entertainment">
+                      <Entertainment />
                     </section>
                     <section id="contact">
                       <Contact />

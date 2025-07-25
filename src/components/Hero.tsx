@@ -42,15 +42,15 @@ const Hero: React.FC = () => {
               <FaCalendarAlt className="button-icon" />
               Book a Table
             </a>
-            <a href="#livemusic" className="hero-button secondary-button">
+            <a href="#entertainment?tab=music" className="hero-button secondary-button">
               <FaMusic className="button-icon" />
               Live Music
             </a>
-            <a href="#sports" className="hero-button secondary-button">
+            <a href="#entertainment?tab=sports" className="hero-button secondary-button">
               <FaFutbol className="button-icon" />
               Sports
             </a>
-            <a href="#pubquiz" className="hero-button secondary-button">
+            <a href="#entertainment?tab=quiz" className="hero-button secondary-button">
               <FaBrain className="button-icon" />
               Pub Quiz
             </a>

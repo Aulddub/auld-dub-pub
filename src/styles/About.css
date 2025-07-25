@@ -202,32 +202,200 @@
 .location-card,
 .hours-card {
   background: linear-gradient(135deg, rgba(30,30,30,0.95) 0%, rgba(20,20,20,0.95) 100%);
-  padding: 56px 48px;
+  padding: 0;
   border-radius: 28px;
   border: 1.5px solid rgba(255, 255, 255, 0.10);
   box-shadow: 0 8px 40px 0 rgba(0,0,0,0.25), 0 1.5px 8px 0 rgba(200,178,115,0.08);
-  transition: box-shadow 0.3s, transform 0.3s, background 0.3s;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(12px);
   position: relative;
+  overflow: hidden;
+}
+
+.location-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #c8b273 0%, #d4c08f 50%, #c8b273 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.location-card:hover::before {
+  opacity: 1;
+}
+
+.location-card-inner {
+  padding: 56px 48px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .location-card:hover,
 .hours-card:hover {
   background: linear-gradient(135deg, rgba(40,40,40,1) 0%, rgba(30,30,30,1) 100%);
-  box-shadow: 0 16px 48px 0 rgba(200,178,115,0.10), 0 4px 24px 0 rgba(0,0,0,0.18);
-  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 20px 60px 0 rgba(200,178,115,0.15), 0 8px 32px 0 rgba(0,0,0,0.25);
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(200, 178, 115, 0.2);
 }
 
 .info-header {
   display: flex;
   align-items: center;
-  margin-bottom: 28px;
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.icon-wrapper {
+  position: relative;
+  margin-right: 18px;
+}
+
+.icon-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, rgba(200, 178, 115, 0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.location-card:hover .icon-wrapper::before {
+  background: radial-gradient(circle, rgba(200, 178, 115, 0.3) 0%, transparent 70%);
+  transform: translate(-50%, -50%) scale(1.2);
 }
 
 .info-icon {
   font-size: 36px;
   color: #c8b273;
-  margin-right: 18px;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.location-card:hover .info-icon {
+  color: #d4c08f;
+  transform: scale(1.1);
+}
+
+.location-content {
+  flex-grow: 1;
+  margin-bottom: 32px;
+}
+
+.location-description {
+  font-size: 18px;
+  line-height: 1.7;
+  color: #e0e0e0;
+  margin-bottom: 24px;
+  font-family: var(--font-secondary);
+}
+
+.address-container {
+  text-align: center;
+}
+
+.main-address {
+  font-size: 22px;
+  font-weight: 700;
+  color: #c8b273;
+  font-style: normal;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+  display: block;
+  position: relative;
+}
+
+.main-address::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #c8b273 50%, transparent 100%);
+}
+
+.location-highlights {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.highlight-item {
+  background: rgba(200, 178, 115, 0.1);
+  color: #c8b273;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid rgba(200, 178, 115, 0.2);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.highlight-item:hover {
+  background: rgba(200, 178, 115, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(200, 178, 115, 0.2);
+}
+
+.location-footer {
+  text-align: center;
+}
+
+.directions-btn {
+  background: linear-gradient(135deg, #c8b273 0%, #d4c08f 100%);
+  color: #000;
+  border: none;
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 16px rgba(200, 178, 115, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.directions-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+  transition: left 0.5s ease;
+}
+
+.directions-btn:hover::before {
+  left: 100%;
+}
+
+.directions-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(200, 178, 115, 0.4);
+  background: linear-gradient(135deg, #d4c08f 0%, #e0d4a3 100%);
+}
+
+.hours-card {
+  padding: 56px 48px;
 }
 
 .info-section h3.section-header, .info-section h3 {
@@ -240,21 +408,11 @@
   text-transform: capitalize;
 }
 
-.location-card p {
+.hours-card .location-card p {
   font-size: 18px;
   line-height: 1.7;
   color: #e0e0e0;
   margin-bottom: 18px;
-}
-
-.location-card address {
-  font-size: 20px;
-  font-weight: 700;
-  color: #c8b273;
-  font-style: normal;
-  letter-spacing: 0.5px;
-  margin-top: 10px;
-  display: block;
 }
 
 .hours-grid {
@@ -362,8 +520,29 @@
   }
   .location-card,
   .hours-card {
-    padding: 36px 18px;
-    border-radius: 18px;
+    border-radius: 20px;
+  }
+  
+  .location-card-inner {
+    padding: 40px 32px;
+  }
+  
+  .hours-card {
+    padding: 40px 32px;
+  }
+  
+  .location-highlights {
+    gap: 8px;
+  }
+  
+  .highlight-item {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  .directions-btn {
+    padding: 12px 24px;
+    font-size: 14px;
   }
 }
 
@@ -405,7 +584,29 @@
 
   .location-card,
   .hours-card {
-    padding: 32px 24px;
+    border-radius: 18px;
+  }
+  
+  .location-card-inner {
+    padding: 32px 20px;
+  }
+  
+  .hours-card {
+    padding: 32px 20px;
+  }
+  
+  .location-highlights {
+    gap: 6px;
+  }
+  
+  .highlight-item {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  .directions-btn {
+    padding: 12px 24px;
+    font-size: 14px;
   }
 
   .about-cta {
@@ -435,12 +636,22 @@
     padding: 14px 32px;
     font-size: 14px;
   }
-}
-
-.location-card p, .location-card address {
-  text-align: center;
-}
-
-.location-card {
-  text-align: center;
+  
+  .location-card-inner {
+    padding: 28px 16px;
+  }
+  
+  .main-address {
+    font-size: 18px;
+  }
+  
+  .location-highlights {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .highlight-item {
+    padding: 8px 16px;
+  }
 }

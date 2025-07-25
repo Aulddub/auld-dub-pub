@@ -2,12 +2,8 @@ import React, { useEffect, useRef } from "react";
 import "../styles/About.css";
 import pubInterior from "../assets/irish-pub-interior.jpeg";
 import {
-  FaBeer,
-  FaMusic,
-  FaFutbol,
   FaMapMarkerAlt,
   FaClock,
-
 } from "react-icons/fa";
 
 const About: React.FC = () => {
@@ -88,36 +84,36 @@ const About: React.FC = () => {
             </p>
           </div>
 
-          <div className="features-grid">
-            <div className="feature">
-              <FaBeer className="feature-icon" />
-              <span className="feature-title">Authentic Pours</span>
-              <span className="feature-text">Perfect Guinness & Craft Selection</span>
-            </div>
-            <div className="feature">
-              <FaFutbol className="feature-icon" />
-              <span className="feature-title">Sports Haven</span>
-              <span className="feature-text">Every Match, Every Moment</span>
-            </div>
-            <div className="feature">
-              <FaMusic className="feature-icon" />
-              <span className="feature-title">Live Sessions</span>
-              <span className="feature-text">Traditional & Contemporary</span>
-            </div>
-          </div>
+
         </div>
 
         <div className="info-section">
           <div className="location-card">
-            <div className="info-header">
-              <FaMapMarkerAlt className="info-icon" />
-              <h3 className="section-header">Find Us</h3>
+            <div className="location-card-inner">
+              <div className="info-header">
+                <div className="icon-wrapper">
+                  <FaMapMarkerAlt className="info-icon" />
+                </div>
+                <h3 className="section-header">Find Us</h3>
+              </div>
+              <div className="location-content">
+                <p className="location-description">
+                  Just 5 minutes from Central Station, in the heart of the historic
+                  district.
+                </p>
+                <div className="address-container">
+                  <address className="main-address">Holländargatan 1, 111 36 Stockholm</address>
+                  <div className="location-highlights">
+                    <span className="highlight-item">Historic District</span>
+                    <span className="highlight-item">5 min from Central Station</span>
+                    <span className="highlight-item">Easy Access</span>
+                  </div>
+                </div>
+              </div>
+              <div className="location-footer">
+                <button className="directions-btn">Get Directions</button>
+              </div>
             </div>
-            <p>
-              Just 5 minutes from Central Station, in the heart of the historic
-              district.
-            </p>
-            <address>Holländargatan 1, 111 36 Stockholm</address>
           </div>
 
           <div className="hours-card">
