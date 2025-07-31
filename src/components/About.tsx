@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import "../styles/About.css";
-import pubInterior from "../assets/irish-pub-interior.jpeg";
+import pubInterior from "../assets/irish-pub-interior.png";
 import {
   FaMapMarkerAlt,
   FaClock,

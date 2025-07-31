@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Sports.css';
-import sportsCrowd from '../assets/sports-crowd.jpg';
+import sportsCrowd from '../assets/sports-crowd.png';
 import { collection, query, getDocs } from 'firebase/firestore';
 import { db } from '../config/firebase';
 

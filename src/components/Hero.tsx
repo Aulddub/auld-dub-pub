@@ -1,10 +1,30 @@
-import React from 'react';
-import { FaCalendarAlt, FaMusic, FaFutbol, FaBrain, FaArrowDown } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { FaCalendarAlt, FaMusic, FaFutbol, FaBrain, FaArrowDown, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import '../styles/Hero.css';
 import logo from '../assets/theaulddub-logo.png';
 import sceneImage from '../assets/scene.jpg';
+import womanBarImage from '../assets/woman-bar.webp';
 
 const Hero: React.FC = () => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const images = [sceneImage, womanBarImage];
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 5000); // Change image every 5 seconds
+    
+    return () => clearInterval(interval);
+  }, [images.length]);
+
+  const nextSlide = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+  };
+
   const scrollToAbout = () => {
     const aboutSection = document.getElementById('about');
     if (aboutSection) {
@@ -14,8 +34,25 @@ const Hero: React.FC = () => {
 
   return (
     <section className="hero" id="home">
-      <img src={sceneImage} alt="Irish Pub Scene" className="hero-background" />
+      <div className="hero-slider">
+        {images.map((image, index) => (
+          <img
+            key={index}
+            src={image}
+            alt={`Irish Pub Scene ${index + 1}`}
+            className={`hero-background ${index === currentImageIndex ? 'active' : ''}`}
+          />
+        ))}
+      </div>
       <div className="hero-overlay" />
+      
+      <button className="slider-arrow slider-arrow-left" onClick={prevSlide} aria-label="Previous slide">
+        <FaChevronLeft />
+      </button>
+      
+      <button className="slider-arrow slider-arrow-right" onClick={nextSlide} aria-label="Next slide">
+        <FaChevronRight />
+      </button>
       
       <div className="hero-content">
         <div className="hero-logo-container">

@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 import '../styles/Entertainment.css';
 import { FaMusic, FaFutbol, FaCalendarAlt } from 'react-icons/fa';
 import sceneImage from '../assets/scene.jpg';
-import sportsCrowd from '../assets/sports-crowd.jpg';
-import pubquizImage from '../assets/pubquiz.webp';
+import sportsCrowd from '../assets/sports-crowd.png';
+import pubquizImage from '../assets/pubquiz.png';
 
 interface Band {
   id: string;
