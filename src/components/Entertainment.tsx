@@ -5,7 +5,7 @@ import { db } from '../config/firebase';
 import { Link } from 'react-router-dom';
 import '../styles/Entertainment.css';
 import { FaMusic, FaFutbol, FaCalendarAlt } from 'react-icons/fa';
-import bandImage from '../assets/band.jpg';
+import sceneImage from '../assets/scene.jpg';
 import sportsCrowd from '../assets/sports-crowd.jpg';
 import pubquizImage from '../assets/pubquiz.webp';
 
@@ -175,7 +175,7 @@ const Entertainment: React.FC = () => {
           </div>
         </div>
         <div className="hero-image">
-          <img src={bandImage} alt="Live band performing" />
+          <img src={sceneImage} alt="Live band performing" />
         </div>
       </div>
       

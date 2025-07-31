@@ -2,7 +2,7 @@ import React from 'react';
 import { FaCalendarAlt, FaMusic, FaFutbol, FaBrain, FaArrowDown } from 'react-icons/fa';
 import '../styles/Hero.css';
 import logo from '../assets/theaulddub-logo.png';
-import pubVideo from '../assets/pub-atmosphere.m4v';
+import sceneImage from '../assets/scene.jpg';
 
 const Hero: React.FC = () => {
   const scrollToAbout = () => {
@@ -14,10 +14,7 @@ const Hero: React.FC = () => {
 
   return (
     <section className="hero" id="home">
-      <video className="hero-video" autoPlay loop muted playsInline>
-        <source src={pubVideo} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+      <img src={sceneImage} alt="Irish Pub Scene" className="hero-background" />
       <div className="hero-overlay" />
       
       <div className="hero-content">
