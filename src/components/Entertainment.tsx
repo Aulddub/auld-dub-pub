@@ -314,42 +314,7 @@ const Entertainment: React.FC = () => {
         </div>
       </div>
 
-      <div className="quiz-details-section">
 
-        <div className="quiz-rules">
-          <h4>How to Play</h4>
-          <div className="rules-grid">
-            <div className="rule-item">
-              <div className="rule-number">1</div>
-              <div className="rule-text">
-                <strong>Form Your Team</strong>
-                <p>Maximum 6 people per team. Mix of knowledge is key!</p>
-              </div>
-            </div>
-            <div className="rule-item">
-              <div className="rule-number">2</div>
-              <div className="rule-text">
-                <strong>Register at the Bar</strong>
-                <p>Come early to secure your spot and order drinks</p>
-              </div>
-            </div>
-            <div className="rule-item">
-              <div className="rule-number">3</div>
-              <div className="rule-text">
-                <strong>Answer & Submit</strong>
-                <p>Write answers clearly and hand in after each round</p>
-              </div>
-            </div>
-            <div className="rule-item">
-              <div className="rule-number">4</div>
-              <div className="rule-text">
-                <strong>Enjoy the Night</strong>
-                <p>Win or lose, have fun with friends and great drinks!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <div className="quiz-cta">
         <div className="cta-content">

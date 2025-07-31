@@ -144,10 +144,11 @@
   border: 2px solid #c8b273;
   color: #c8b273;
   text-decoration: none;
-  font-weight: 500;
-  border-radius: 4px;
+  font-weight: 600;
+  border-radius: 12px;
   transition: all 0.3s ease;
   white-space: nowrap;
+  font-family: var(--font-secondary);
 }
 
 .reserve-button:hover {

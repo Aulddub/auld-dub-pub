@@ -96,10 +96,11 @@
   background: #c8b273;
   color: #000;
   text-decoration: none;
-  border-radius: 6px;
-  font-weight: 500;
+  border-radius: 12px;
+  font-weight: 600;
   transition: all 0.3s ease;
   font-size: 14px;
+  font-family: var(--font-secondary);
 }
 
 .directions-button:hover {
@@ -182,11 +183,12 @@
   background: #c8b273;
   color: #000;
   border: none;
-  border-radius: 6px;
-  font-weight: 500;
+  border-radius: 12px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 14px;
+  font-family: var(--font-secondary);
 }
 
 .submit-button:hover {

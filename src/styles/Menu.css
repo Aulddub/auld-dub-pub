@@ -25,13 +25,15 @@
 .menu-nav-button {
   background: transparent;
   border: 1px solid rgba(200, 178, 115, 0.3);
+  border-radius: 12px;
   color: #c8b273;
   padding: 12px 24px;
   font-size: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-secondary);
   letter-spacing: 0.5px;
+  font-weight: 600;
 }
 
 .menu-nav-button:hover {

@@ -4,6 +4,7 @@ import pubInterior from "../assets/irish-pub-interior.jpeg";
 import {
   FaMapMarkerAlt,
   FaClock,
+  FaPhone,
 } from "react-icons/fa";
 
 const About: React.FC = () => {
@@ -102,16 +103,31 @@ const About: React.FC = () => {
                   district.
                 </p>
                 <div className="address-container">
-                  <address className="main-address">Holländargatan 1, 111 36 Stockholm</address>
-                  <div className="location-highlights">
-                    <span className="highlight-item">Historic District</span>
-                    <span className="highlight-item">5 min from Central Station</span>
-                    <span className="highlight-item">Easy Access</span>
-                  </div>
+                  <FaMapMarkerAlt className="address-icon" />
+                  <a 
+                    href="https://maps.google.com/?q=Holländargatan+1,+111+36+Stockholm" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="main-address"
+                  >
+                    Holländargatan 1, 111 36 Stockholm
+                  </a>
+                </div>
+                <div className="phone-container">
+                  <FaPhone className="phone-icon" />
+                  <a href="tel:+46728464471" className="phone-number">+46 728 464 471</a>
                 </div>
               </div>
               <div className="location-footer">
-                <button className="directions-btn">Get Directions</button>
+                <a 
+                  href="https://maps.google.com/?q=Holländargatan+1,+111+36+Stockholm" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="directions-btn"
+                >
+                  Get Directions
+                </a>
+                <a href="tel:+46728464471" className="call-btn">Call Us</a>
               </div>
             </div>
           </div>

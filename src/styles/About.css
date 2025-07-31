@@ -229,11 +229,12 @@
 }
 
 .location-card-inner {
-  padding: 56px 48px;
+  padding: 40px 36px;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 24px;
 }
 
 .location-card:hover,
@@ -289,88 +290,116 @@
 
 .location-content {
   flex-grow: 1;
-  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .location-description {
-  font-size: 18px;
-  line-height: 1.7;
-  color: #e0e0e0;
-  margin-bottom: 24px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #b8b8b8;
   font-family: var(--font-secondary);
+  text-align: center;
 }
 
 .address-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
   text-align: center;
+  background: rgba(200, 178, 115, 0.08);
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid rgba(200, 178, 115, 0.15);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
-.main-address {
-  font-size: 22px;
-  font-weight: 700;
+.address-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(200, 178, 115, 0.1) 50%, transparent 100%);
+  transition: left 0.8s ease;
+}
+
+.location-card:hover .address-container::before {
+  left: 100%;
+}
+
+.address-icon {
   color: #c8b273;
-  font-style: normal;
-  letter-spacing: 0.5px;
-  margin-bottom: 20px;
-  display: block;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  z-index: 1;
   position: relative;
 }
 
-.main-address::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent 0%, #c8b273 50%, transparent 100%);
+.address-container:hover .address-icon {
+  color: #d4c08f;
+  transform: scale(1.1);
 }
 
-.location-highlights {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 20px;
-}
-
-.highlight-item {
-  background: rgba(200, 178, 115, 0.1);
-  color: #c8b273;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 500;
-  border: 1px solid rgba(200, 178, 115, 0.2);
+.main-address {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  font-style: normal;
+  letter-spacing: 0.3px;
+  text-decoration: none;
+  position: relative;
+  z-index: 1;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
+  font-family: var(--font-secondary);
 }
 
-.highlight-item:hover {
-  background: rgba(200, 178, 115, 0.2);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(200, 178, 115, 0.2);
+.main-address:hover {
+  color: #d4c08f;
 }
+
+.address-container:hover {
+  background: rgba(200, 178, 115, 0.15);
+  border-color: rgba(200, 178, 115, 0.3);
+  transform: translateY(-2px);
+}
+
+
 
 .location-footer {
-  text-align: center;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .directions-btn {
   background: linear-gradient(135deg, #c8b273 0%, #d4c08f 100%);
   color: #000;
   border: none;
-  padding: 14px 32px;
-  font-size: 16px;
+  padding: 12px 24px;
+  font-size: 14px;
   font-weight: 600;
-  border-radius: 25px;
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  box-shadow: 0 4px 16px rgba(200, 178, 115, 0.3);
+  letter-spacing: 0.8px;
+  box-shadow: 0 4px 16px rgba(200, 178, 115, 0.25);
   position: relative;
   overflow: hidden;
+  flex: 1;
+  min-width: 120px;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  font-family: var(--font-secondary);
 }
 
 .directions-btn::before {
@@ -392,6 +421,180 @@
   transform: translateY(-3px);
   box-shadow: 0 8px 24px rgba(200, 178, 115, 0.4);
   background: linear-gradient(135deg, #d4c08f 0%, #e0d4a3 100%);
+}
+
+.phone-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 18px;
+  background: rgba(200, 178, 115, 0.12);
+  border-radius: 16px;
+  border: 1px solid rgba(200, 178, 115, 0.2);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.phone-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(200, 178, 115, 0.15) 50%, transparent 100%);
+  transition: left 0.8s ease;
+}
+
+.location-card:hover .phone-container::before {
+  left: 100%;
+}
+
+.phone-container:hover {
+  background: rgba(200, 178, 115, 0.18);
+  border-color: rgba(200, 178, 115, 0.3);
+  transform: translateY(-2px);
+}
+
+.phone-icon {
+  color: #c8b273;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  z-index: 1;
+  position: relative;
+}
+
+.phone-container:hover .phone-icon {
+  color: #d4c08f;
+  transform: scale(1.1);
+}
+
+.phone-number {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  z-index: 1;
+  position: relative;
+  letter-spacing: 0.5px;
+  font-family: var(--font-secondary);
+}
+
+.phone-number:hover {
+  color: #d4c08f;
+}
+
+.call-btn {
+  background: linear-gradient(135deg, #c8b273 0%, #d4c08f 100%);
+  color: #000;
+  border: none;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  box-shadow: 0 4px 16px rgba(200, 178, 115, 0.25);
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  display: inline-block;
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  font-family: var(--font-secondary);
+}
+
+.call-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+  transition: left 0.5s ease;
+}
+
+.call-btn:hover::before {
+  left: 100%;
+}
+
+.call-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(200, 178, 115, 0.4);
+  background: linear-gradient(135deg, #d4c08f 0%, #e0d4a3 100%);
+}
+
+/* Responsive styles for location card */
+@media (max-width: 768px) {
+  .location-card-inner {
+    padding: 28px 24px;
+    gap: 20px;
+  }
+  
+  .info-header {
+    margin-bottom: 24px;
+  }
+  
+  .info-icon {
+    font-size: 28px;
+  }
+  
+  .location-description {
+    font-size: 14px;
+  }
+  
+  .main-address {
+    font-size: 16px;
+  }
+  
+  .address-container {
+    padding: 16px;
+  }
+  
+  .phone-container {
+    padding: 14px;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+  
+  .phone-number {
+    font-size: 14px;
+  }
+  
+  .location-footer {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .directions-btn,
+  .call-btn {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 13px;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .location-card-inner {
+    padding: 24px 20px;
+  }
+  
+  .phone-container {
+    padding: 12px;
+  }
+  
+  .address-container {
+    padding: 14px;
+  }
 }
 
 .hours-card {
@@ -484,12 +687,13 @@
   padding: 16px 40px;
   font-size: 16px;
   font-weight: 600;
-  border-radius: 50px;
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 1px;
   box-shadow: 0 4px 16px rgba(200, 178, 115, 0.3);
+  font-family: var(--font-secondary);
 }
 
 .cta-button:hover {
@@ -531,14 +735,7 @@
     padding: 40px 32px;
   }
   
-  .location-highlights {
-    gap: 8px;
-  }
-  
-  .highlight-item {
-    padding: 6px 12px;
-    font-size: 12px;
-  }
+
   
   .directions-btn {
     padding: 12px 24px;
@@ -595,14 +792,7 @@
     padding: 32px 20px;
   }
   
-  .location-highlights {
-    gap: 6px;
-  }
-  
-  .highlight-item {
-    padding: 6px 12px;
-    font-size: 12px;
-  }
+
   
   .directions-btn {
     padding: 12px 24px;
@@ -645,13 +835,5 @@
     font-size: 18px;
   }
   
-  .location-highlights {
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .highlight-item {
-    padding: 8px 16px;
-  }
+
 }
