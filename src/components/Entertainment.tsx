@@ -202,7 +202,7 @@ const Entertainment: React.FC = () => {
             ))
           )}
         </div>
-        <button className="cta-button">Want to Perform? Contact Us</button>
+        <Link to="/live-music" className="cta-button">View All</Link>
       </div>
     </motion.div>
   );

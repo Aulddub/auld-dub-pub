@@ -22,15 +22,28 @@
   justify-content: center !important;
 }
 
+.navbar.scrolled .navbar-menu {
+  justify-content: center !important;
+  flex: 1;
+}
+
 .navbar.scrolled .navbar-logo {
   display: flex;
   position: absolute;
-  left: 1rem;
+  left: 3rem;
+}
+
+.navbar.scrolled .navbar-right {
+  position: absolute;
+  right: 3rem;
 }
 
 .navbar.scrolled .menu-toggle {
-  position: absolute;
-  right: 1rem;
+  display: none;
+}
+
+.navbar.scrolled .navbar-right {
+  display: flex;
 }
 
 .navbar-container {
@@ -41,6 +54,11 @@
   align-items: center;
   position: relative;
   transition: all 0.3s ease;
+}
+
+.navbar-container .navbar-menu {
+  justify-content: center;
+  flex: 1;
 }
 
 .navbar-logo {
@@ -106,6 +124,13 @@
   gap: 2rem;
   align-items: center;
   transition: all 0.3s ease;
+  justify-content: center !important;
+  flex: 1;
+}
+
+.navbar-menu .social-links.desktop-only {
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 .nav-link {
@@ -135,6 +160,49 @@
 
 .nav-link:hover {
   color: #c8b273;
+}
+
+.navbar-right {
+  display: none;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.social-links {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.social-link {
+  color: rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+  padding: 0.4rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+
+.social-link:hover {
+  color: #c8b273;
+  background: rgba(200, 178, 115, 0.1);
+  transform: translateY(-2px);
+}
+
+.social-link svg {
+  width: 18px;
+  height: 18px;
+}
+
+.desktop-only {
+  display: flex;
+}
+
+.mobile-only {
+  display: none;
 }
 
 .reserve-button {
@@ -212,6 +280,32 @@
 
   .nav-link {
     font-size: 1.2rem;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(200, 178, 115, 0.2);
+  }
+
+  .mobile-only .social-links {
+    gap: 1rem;
+  }
+
+  .mobile-only .social-link {
+    padding: 0.75rem;
+    background: rgba(200, 178, 115, 0.1);
+    border-radius: 50%;
+  }
+
+  .navbar-right {
+    display: none;
   }
 }
 
