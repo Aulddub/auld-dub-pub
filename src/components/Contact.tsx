@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import '../styles/Contact.css';
 import { FaPhone, FaEnvelope, FaClock, FaMapMarkerAlt } from 'react-icons/fa';
+import emailjs from '@emailjs/browser';
+import { emailjsConfig } from '../config/emailjs';
 
 interface ContactFormData {
   name: string;
@@ -16,6 +18,9 @@ const Contact: React.FC = () => {
     subject: '',
     message: ''
   });
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -27,16 +32,42 @@ const Contact: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
-    console.log('Form submitted:', formData);
-    // Reset form after submission
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: ''
-    });
-    alert('Thank you for your message! We will get back to you soon.');
+    setIsSubmitting(true);
+    
+    try {
+      // Send email using EmailJS with public key in options
+      const result = await emailjs.send(
+        emailjsConfig.serviceId,
+        emailjsConfig.templateId,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          to_email: emailjsConfig.restaurantEmail
+        },
+        {
+          publicKey: emailjsConfig.publicKey
+        }
+      );
+      
+      console.log('Email sent successfully:', result);
+      
+      // Reset form after successful submission
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
+      
+      setShowSuccessModal(true);
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setShowErrorModal(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -156,8 +187,8 @@ const Contact: React.FC = () => {
                     required
                   />
                 </div>
-                <button type="submit" className="submit-button">
-                  Send Message
+                <button type="submit" className="submit-button" disabled={isSubmitting}>
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
                 </button>
               </form>
             </div>
@@ -177,7 +208,35 @@ const Contact: React.FC = () => {
           </div>
         </div>
 
+        {/* Success Modal */}
+        {showSuccessModal && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h3>Message Sent Successfully!</h3>
+              <p>Thank you for your message! We will get back to you soon.</p>
+              <div className="modal-buttons">
+                <button onClick={() => setShowSuccessModal(false)} className="confirm-button">
+                  OK
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
+        {/* Error Modal */}
+        {showErrorModal && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h3>Error Sending Message</h3>
+              <p>Sorry, there was an error sending your message. Please try again or contact us directly at info@theaulddub.se</p>
+              <div className="modal-buttons">
+                <button onClick={() => setShowErrorModal(false)} className="confirm-button">
+                  OK
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
