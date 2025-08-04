@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { FaCalendarAlt, FaMusic, FaFutbol, FaBrain, FaArrowDown, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaCalendarAlt, FaMusic, FaFutbol, FaBrain, FaArrowDown } from 'react-icons/fa';
 import '../styles/Hero.css';
 import logo from '../assets/theaulddub-logo.png';
-import sceneImage from '../assets/scene.jpg';
+// import sceneImage from '../assets/scene.jpg';
 import womanBarImage from '../assets/woman-bar.webp';
 
 const Hero: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const images = [sceneImage, womanBarImage];
+  const images = [womanBarImage];
   
   useEffect(() => {
     const interval = setInterval(() => {
@@ -17,13 +17,6 @@ const Hero: React.FC = () => {
     return () => clearInterval(interval);
   }, [images.length]);
 
-  const nextSlide = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
-  };
 
   const scrollToAbout = () => {
     const aboutSection = document.getElementById('about');
@@ -46,13 +39,7 @@ const Hero: React.FC = () => {
       </div>
       <div className="hero-overlay" />
       
-      <button className="slider-arrow slider-arrow-left" onClick={prevSlide} aria-label="Previous slide">
-        <FaChevronLeft />
-      </button>
-      
-      <button className="slider-arrow slider-arrow-right" onClick={nextSlide} aria-label="Next slide">
-        <FaChevronRight />
-      </button>
+    
       
       <div className="hero-content">
         <div className="hero-logo-container">

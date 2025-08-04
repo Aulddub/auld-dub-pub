@@ -210,9 +210,13 @@
   backdrop-filter: blur(12px);
   position: relative;
   overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-.location-card::before {
+.location-card::before,
+.hours-card::before {
   content: '';
   position: absolute;
   top: 0;
@@ -224,7 +228,8 @@
   transition: opacity 0.3s ease;
 }
 
-.location-card:hover::before {
+.location-card:hover::before,
+.hours-card:hover::before {
   opacity: 1;
 }
 
@@ -257,35 +262,11 @@
   margin-right: 18px;
 }
 
-.icon-wrapper::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 60px;
-  height: 60px;
-  background: radial-gradient(circle, rgba(200, 178, 115, 0.2) 0%, transparent 70%);
-  border-radius: 50%;
-  transition: all 0.3s ease;
-}
-
-.location-card:hover .icon-wrapper::before {
-  background: radial-gradient(circle, rgba(200, 178, 115, 0.3) 0%, transparent 70%);
-  transform: translate(-50%, -50%) scale(1.2);
-}
-
 .info-icon {
   font-size: 36px;
   color: #c8b273;
   position: relative;
   z-index: 1;
-  transition: all 0.3s ease;
-}
-
-.location-card:hover .info-icon {
-  color: #d4c08f;
-  transform: scale(1.1);
 }
 
 .location-content {
@@ -598,7 +579,7 @@
 }
 
 .hours-card {
-  padding: 56px 48px;
+  padding: 40px 36px;
 }
 
 .info-section h3.section-header, .info-section h3 {
