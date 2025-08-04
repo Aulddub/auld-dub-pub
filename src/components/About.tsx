@@ -5,6 +5,7 @@ import {
   FaMapMarkerAlt,
   FaClock,
   FaPhone,
+  FaHome,
 } from "react-icons/fa";
 
 const About: React.FC = () => {
@@ -103,7 +104,7 @@ const About: React.FC = () => {
                   district.
                 </p>
                 <div className="address-container">
-                  <FaMapMarkerAlt className="address-icon" />
+                  <FaHome className="address-icon" />
                   <a 
                     href="https://maps.google.com/?q=Holländargatan+1,+111+36+Stockholm" 
                     target="_blank" 

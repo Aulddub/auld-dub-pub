@@ -96,7 +96,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 0 2rem;
+  padding: 0 0rem;
   color: #fff;
   max-width: 1200px;
   gap: 1.5rem;
@@ -147,15 +147,15 @@
 
 .hero-title {
   font-family: var(--font-primary);
-  font-size: 2rem;
-  font-weight: 700;
-  line-height: 1.1;
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
   margin: 0;
   text-transform: uppercase;
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 0.8s ease forwards 0.4s;
-  letter-spacing: 2px;
+  letter-spacing: var(--letter-spacing-wide);
 }
 
 .highlight {
@@ -166,9 +166,9 @@
 
 .hero-subtitle {
   font-family: var(--font-secondary);
-  font-size: 1.3rem;
+  font-size: var(--font-size-large);
   font-weight: var(--font-weight-regular);
-  line-height: 1.7;
+  line-height: var(--line-height-loose);
   color: #c0c0c0;
   max-width: 900px;
   margin: 1.5rem 0 2.5rem;
@@ -201,8 +201,8 @@
   gap: 0.5rem;
   padding: 1rem 1.5rem;
   border-radius: 50px;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
   text-decoration: none;
   transition: all 0.3s ease;
   white-space: nowrap;
@@ -321,63 +321,140 @@
 @media (max-width: 768px) {
   .hero {
     min-height: 600px;
-    padding: 1rem;
+    padding: 0.5rem;
   }
 
   .hero-logo-container {
-    display: none;
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+
+  .pub-logo {
+    width: 250px;
+    height: auto;
+  }
+
+  .location-tag {
+    font-size: var(--font-size-small);
+    right: -15px;
+    bottom: -15px;
   }
 
   .hero-title {
-    font-size: 2.5rem;
+    font-size: var(--font-size-h2);
   }
 
   .hero-subtitle {
-    font-size: 1rem;
+    font-size: var(--font-size-body);
+    margin: 1rem 0 2rem;
+    padding: 0 1rem;
   }
 
   .button-row {
     flex-direction: column;
     width: 100%;
+    gap: 0.75rem;
   }
 
   .hero-button {
     width: 100%;
     justify-content: center;
+    padding: 0.875rem 1.25rem;
+    font-size: var(--font-size-body);
   }
 
   .slider-arrow {
-    width: 50px;
-    height: 50px;
-    font-size: 1.2rem;
+    width: 45px;
+    height: 45px;
+    font-size: 1.1rem;
   }
 
   .slider-arrow-left {
-    left: 1rem;
+    left: 0.75rem;
   }
 
   .slider-arrow-right {
-    right: 1rem;
+    right: 0.75rem;
   }
 }
 
 @media (max-width: 480px) {
+  .hero {
+    min-height: 550px;
+    padding: 0.25rem;
+  }
+
+  .hero-content {
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+
   .pub-logo {
-    width: 240px;
+    width: 200px;
   }
 
   .location-tag {
-    font-size: var(--font-size-medium);
-    right: -10px;
-    bottom: -10px;
+    font-size: var(--font-size-small);
+    right: -8px;
+    bottom: -8px;
+  }
+
+  .hero-title {
+    font-size: var(--font-size-h3);
+    line-height: 1.1;
+  }
+
+  .hero-subtitle {
+    font-size: var(--font-size-small);
+    margin: 0.75rem 0 1.5rem;
+    padding: 0 0.5rem;
+  }
+
+  .version-badge {
+    font-size: var(--font-size-small);
+    padding: 0.25rem 0.5rem;
+  }
+
+  .hero-button {
+    padding: 0.75rem 1rem;
+    font-size: var(--font-size-small);
+  }
+
+  .slider-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .slider-arrow-left {
+    left: 0.5rem;
+  }
+
+  .slider-arrow-right {
+    right: 0.5rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .hero {
+    min-height: 500px;
+  }
+
+  .pub-logo {
+    width: 180px;
   }
 
   .hero-title {
     font-size: var(--font-size-h4);
   }
 
-  .version-badge {
+  .hero-subtitle {
     font-size: var(--font-size-small);
-    padding: 0.375rem 0.75rem;
+    padding: 0;
+  }
+
+  .hero-button {
+    padding: 0.625rem 0.875rem;
+    font-size: var(--font-size-small);
   }
 }

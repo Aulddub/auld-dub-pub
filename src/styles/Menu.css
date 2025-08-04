@@ -1,5 +1,5 @@
 .menu {
-  padding: 40px 24px;
+  padding: 2rem 1.5rem;
   background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9));
   min-height: 100vh;
   color: #e4e4e4;
@@ -28,12 +28,12 @@
 }
 
 .menu-title {
-  font-size: 4rem;
-  font-family: 'Playfair Display', serif;
+  font-size: var(--font-size-h1);
+  font-family: var(--font-primary);
   color: #c8b273;
   margin-bottom: 2rem;
-  letter-spacing: 2px;
-  font-weight: 400;
+  letter-spacing: var(--letter-spacing-wide);
+  font-weight: var(--font-weight-regular);
   text-align: center;
 }
 
@@ -57,19 +57,19 @@
 }
 
 .menu-section h3 {
-  font-size: 3.5rem;
-  font-family: 'Playfair Display', serif;
+  font-size: var(--font-size-h2);
+  font-family: var(--font-primary);
   color: #c8b273;
   margin-bottom: 1rem;
-  font-weight: 400;
-  letter-spacing: 1px;
+  font-weight: var(--font-weight-regular);
+  letter-spacing: var(--letter-spacing-normal);
 }
 
 .menu-section-subtitle {
-  font-size: 1.2rem;
+  font-size: var(--font-size-large);
   color: #a8a8a8;
   font-family: var(--font-secondary);
-  letter-spacing: 2px;
+  letter-spacing: var(--letter-spacing-wide);
   margin: 0;
 }
 
@@ -109,14 +109,14 @@
   border: 2px solid rgba(200, 178, 115, 0.5);
   border-radius: 12px;
   color: #c8b273;
-  padding: 16px 32px;
-  font-size: 16px;
-  font-family: 'Playfair Display', serif;
-  letter-spacing: 1.5px;
+  padding: 1rem 2rem;
+  font-size: var(--font-size-body);
+  font-family: var(--font-primary);
+  letter-spacing: var(--letter-spacing-normal);
   cursor: pointer;
   transition: all 0.3s ease;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   box-shadow: 0 4px 15px rgba(200, 178, 115, 0.2);
 }
 
@@ -143,13 +143,13 @@
   border: 1px solid rgba(200, 178, 115, 0.3);
   border-radius: 12px;
   color: #c8b273;
-  padding: 12px 24px;
-  font-size: 16px;
+  padding: 0.75rem 1.5rem;
+  font-size: var(--font-size-body);
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: var(--font-secondary);
-  letter-spacing: 0.5px;
-  font-weight: 600;
+  letter-spacing: var(--letter-spacing-tight);
+  font-weight: var(--font-weight-semibold);
 }
 
 .menu-nav-button:hover {
@@ -199,28 +199,28 @@
 }
 
 .menu-item h4 {
-  font-size: 20px;
+  font-size: var(--font-size-large);
   color: #c8b273;
   margin: 0;
-  font-family: 'Playfair Display', serif;
-  font-weight: 500;
-  letter-spacing: 0.5px;
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-tight);
 }
 
 .menu-item .price {
-  font-size: 18px;
+  font-size: var(--font-size-medium);
   color: #c8b273;
-  font-weight: normal;
+  font-weight: var(--font-weight-regular);
   white-space: nowrap;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-primary);
 }
 
 .menu-item .description {
   color: #a8a8a8;
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-normal);
   margin: 0;
-  font-weight: 300;
+  font-weight: var(--font-weight-light);
 }
 
 .menu-item .tag {
@@ -246,35 +246,38 @@
 
 @media (max-width: 768px) {
   .menu {
-    padding: 20px 16px;
+    padding: 1.25rem 1rem;
     align-items: flex-start;
   }
 
   .menu h2 {
     font-size: var(--font-size-h2);
-    margin-bottom: 40px;
+    margin-bottom: 2.5rem;
   }
 
-  /* Menu Overview Mobile Styles */
   .menu-title {
-    font-size: 2.5rem;
+    font-size: var(--font-size-h2);
     margin-bottom: 1.5rem;
-    text-align: center;
   }
 
   .menu-showcase {
     grid-template-columns: 1fr;
     gap: 1rem;
     text-align: center;
+    justify-items: center;
+  }
+
+  .menu-section {
+    padding: 1.5rem;
   }
 
   .menu-section h3 {
-    font-size: 1.8rem;
+    font-size: var(--font-size-h3);
     margin-bottom: 0.5rem;
   }
 
   .menu-section-subtitle {
-    font-size: 0.9rem;
+    font-size: var(--font-size-body);
     margin-bottom: 1rem;
   }
 
@@ -284,9 +287,9 @@
   }
 
   .see-full-menu-btn {
-    font-size: 14px;
-    padding: 14px 28px;
-    letter-spacing: 1px;
+    font-size: var(--font-size-small);
+    padding: 0.75rem 1.5rem;
+    letter-spacing: var(--letter-spacing-normal);
   }
 
   .menu-image-container {
@@ -294,34 +297,115 @@
   }
 
   .menu-navigation {
-    gap: 10px;
-    margin-bottom: 32px;
+    gap: 0.625rem;
+    margin-bottom: 2rem;
   }
 
   .menu-nav-button {
-    padding: 8px 16px;
-    font-size: 14px;
+    padding: 0.5rem 1rem;
+    font-size: var(--font-size-small);
   }
 
   .menu-items {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 1.5rem;
   }
 
   .menu-item {
-    padding: 20px;
+    padding: 1.25rem;
   }
 
   .menu-item h4 {
-    font-size: 18px;
+    font-size: var(--font-size-medium);
   }
 
   .menu-item .price {
-    font-size: 16px;
+    font-size: var(--font-size-body);
   }
 
   .menu-item .description {
-    font-size: 14px;
+    font-size: var(--font-size-small);
+  }
+}
+
+@media (max-width: 480px) {
+  .menu {
+    padding: 1rem 0.75rem;
+  }
+
+  .menu-container {
+    padding: 0 0.5rem;
+  }
+
+  .menu h2 {
+    margin-bottom: 2rem;
+  }
+
+  .menu-title {
+    font-size: var(--font-size-h3);
+    margin-bottom: 1rem;
+  }
+
+  .menu-section {
+    padding: 1rem;
+  }
+
+  .menu-section h3 {
+    font-size: var(--font-size-h4);
+  }
+
+  .menu-section-subtitle {
+    font-size: var(--font-size-small);
+  }
+
+  .see-full-menu-btn {
+    padding: 0.625rem 1.25rem;
+    font-size: var(--font-size-small);
+  }
+
+  .menu-navigation {
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .menu-nav-button {
+    padding: 0.5rem 0.875rem;
+    font-size: var(--font-size-small);
+  }
+
+  .menu-items {
+    gap: 1.25rem;
+  }
+
+  .menu-item {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .menu {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .menu-title {
+    font-size: var(--font-size-h4);
+  }
+
+  .menu-section h3 {
+    font-size: var(--font-size-large);
+  }
+
+  .see-full-menu-btn {
+    padding: 0.5rem 1rem;
+    font-size: var(--font-size-small);
+  }
+
+  .menu-nav-button {
+    padding: 0.375rem 0.75rem;
+  }
+
+  .menu-item {
+    padding: 0.875rem;
   }
 }
 
