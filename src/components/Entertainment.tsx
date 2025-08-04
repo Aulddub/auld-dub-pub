@@ -320,7 +320,7 @@ const Entertainment: React.FC = () => {
         <div className="cta-content">
           <h4>Ready to Test Your Knowledge?</h4>
           <p>Join us this Thursday for an evening of fun, competition, and great craic!</p>
-          <button className="cta-button">Reserve Your Table</button>
+          <a href="https://booking-legacy.caspeco.net/public/webBooking?system=se_aulsto&unitId=13&v=1" className="cta-button" target="_blank" rel="noopener noreferrer">Reserve Your Table</a>
         </div>
       </div>
     </motion.div>

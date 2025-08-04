@@ -72,7 +72,7 @@ const Hero: React.FC = () => {
         
         <div className="hero-buttons">
           <div className="button-row">
-            <a href="#reserve" className="hero-button primary-button">
+            <a href="https://booking-legacy.caspeco.net/public/webBooking?system=se_aulsto&unitId=13&v=1" className="hero-button primary-button" target="_blank" rel="noopener noreferrer">
               <FaCalendarAlt className="button-icon" />
               Book a Table
             </a>

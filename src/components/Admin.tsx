@@ -116,6 +116,8 @@ const Admin = () => {
     team1: 'select',
     team2: 'select'
   });
+  const [bandToDelete, setBandToDelete] = useState<string | null>(null);
+  const [matchToDelete, setMatchToDelete] = useState<string | null>(null);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -160,15 +162,35 @@ const Admin = () => {
   };
 
   const handleDeleteBand = async (bandId: string) => {
-    if (window.confirm('Are you sure you want to delete this band?')) {
-      try {
-        await deleteDoc(doc(db, 'bands', bandId));
-        fetchBands();
-      } catch (error) {
-        console.error('Error deleting band:', error);
-        alert('Error deleting band');
-      }
+    console.log('Attempting to delete band with ID:', bandId);
+    setBandToDelete(bandId);
+  };
+
+  const confirmDeleteBand = async () => {
+    if (!bandToDelete) return;
+    
+    try {
+      console.log('User confirmed deletion, proceeding...');
+      await deleteDoc(doc(db, 'bands', bandToDelete));
+      console.log('Band deleted successfully from Firestore');
+      fetchBands();
+      console.log('Bands list refreshed');
+      setBandToDelete(null);
+    } catch (error) {
+      console.error('Error deleting band:', error);
+      console.error('Error details:', {
+        code: (error as any).code,
+        message: (error as any).message,
+        bandId: bandToDelete
+      });
+      alert(`Error deleting band: ${(error as any).message}`);
+      setBandToDelete(null);
     }
+  };
+
+  const cancelDeleteBand = () => {
+    console.log('User cancelled deletion');
+    setBandToDelete(null);
   };
 
   useEffect(() => {
@@ -231,15 +253,35 @@ const Admin = () => {
   };
 
   const handleDeleteMatch = async (matchId: string) => {
-    if (window.confirm('Are you sure you want to delete this match?')) {
-      try {
-        await deleteDoc(doc(db, 'matches', matchId));
-        fetchMatches();
-      } catch (error) {
-        console.error('Error deleting match:', error);
-        alert('Error deleting match');
-      }
+    console.log('Attempting to delete match with ID:', matchId);
+    setMatchToDelete(matchId);
+  };
+
+  const confirmDeleteMatch = async () => {
+    if (!matchToDelete) return;
+    
+    try {
+      console.log('User confirmed match deletion, proceeding...');
+      await deleteDoc(doc(db, 'matches', matchToDelete));
+      console.log('Match deleted successfully from Firestore');
+      fetchMatches();
+      console.log('Matches list refreshed');
+      setMatchToDelete(null);
+    } catch (error) {
+      console.error('Error deleting match:', error);
+      console.error('Error details:', {
+        code: (error as any).code,
+        message: (error as any).message,
+        matchId: matchToDelete
+      });
+      alert(`Error deleting match: ${(error as any).message}`);
+      setMatchToDelete(null);
     }
+  };
+
+  const cancelDeleteMatch = () => {
+    console.log('User cancelled match deletion');
+    setMatchToDelete(null);
   };
 
   const toggleInputMode = (team: 'team1' | 'team2') => {
@@ -413,7 +455,12 @@ const Admin = () => {
                   </div>
                 </div>
                 <button
-                  onClick={() => handleDeleteMatch(match.id)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Delete match button clicked for ID:', match.id);
+                    handleDeleteMatch(match.id);
+                  }}
                   className="delete-button"
                 >
                   Delete
@@ -473,7 +520,12 @@ const Admin = () => {
                   </div>
                 </div>
                 <button
-                  onClick={() => handleDeleteBand(band.id)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Delete button clicked for band:', band.id, band.name);
+                    handleDeleteBand(band.id);
+                  }}
                   className="delete-button"
                 >
                   Delete
@@ -482,6 +534,41 @@ const Admin = () => {
             ))}
           </div>
         </>
+      )}
+      
+      {/* Delete Confirmation Modal */}
+      {bandToDelete && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Confirm Deletion</h3>
+            <p>Are you sure you want to delete this band?</p>
+            <div className="modal-buttons">
+              <button onClick={confirmDeleteBand} className="confirm-button">
+                Yes, Delete
+              </button>
+              <button onClick={cancelDeleteBand} className="cancel-button">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {matchToDelete && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Confirm Deletion</h3>
+            <p>Are you sure you want to delete this match?</p>
+            <div className="modal-buttons">
+              <button onClick={confirmDeleteMatch} className="confirm-button">
+                Yes, Delete
+              </button>
+              <button onClick={cancelDeleteMatch} className="cancel-button">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

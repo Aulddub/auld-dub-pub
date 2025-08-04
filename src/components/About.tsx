@@ -115,7 +115,7 @@ const About: React.FC = () => {
                 </div>
                 <div className="phone-container">
                   <FaPhone className="phone-icon" />
-                  <a href="tel:+46728464471" className="phone-number">+46 728 464 471</a>
+                  <a href="tel:08-679-77-07" className="phone-number">08-679 77 07</a>
                 </div>
               </div>
               <div className="location-footer">
@@ -127,7 +127,7 @@ const About: React.FC = () => {
                 >
                   Get Directions
                 </a>
-                <a href="tel:+46728464471" className="call-btn">Call Us</a>
+                <a href="tel:08-679-77-07" className="call-btn">Call Us</a>
               </div>
             </div>
           </div>
@@ -166,7 +166,7 @@ const About: React.FC = () => {
               an evening where every pint tells a story and every conversation feels 
               like coming home.
             </p>
-            <button className="cta-button">Reserve Your Experience</button>
+            <a href="https://booking-legacy.caspeco.net/public/webBooking?system=se_aulsto&unitId=13&v=1" className="cta-button" target="_blank" rel="noopener noreferrer">Reserve Your Experience</a>
           </div>
         </div>
       </div>

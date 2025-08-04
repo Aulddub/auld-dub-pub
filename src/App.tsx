@@ -6,8 +6,7 @@ import Hero from './components/Hero';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Admin from './components/Admin';
-import { StagewiseToolbar } from '@stagewise/toolbar-react';
-import ReactPlugin from '@stagewise-plugins/react';
+
 
 // Lazy load components
 const About = lazy(() => import('./components/About'));
@@ -59,9 +58,7 @@ function App() {
 
   return (
     <>
-      {process.env.NODE_ENV === 'development' && (
-        <StagewiseToolbar config={{ plugins: [ReactPlugin] }} />
-      )}
+
       <Router>
         <Routes>
           <Route path="/" element={

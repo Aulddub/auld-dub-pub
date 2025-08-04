@@ -97,7 +97,7 @@ const PubQuiz: React.FC = () => {
               Book your table now to secure your spot at our next quiz night. 
               Early booking is recommended as spaces fill up quickly!
             </p>
-            <button className="book-quiz-button">Book Your Table</button>
+            <a href="https://booking-legacy.caspeco.net/public/webBooking?system=se_aulsto&unitId=13&v=1" className="book-quiz-button" target="_blank" rel="noopener noreferrer">Book Your Table</a>
           </div>
         </div>
       </div>

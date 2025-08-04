@@ -50,7 +50,7 @@ const Navbar: React.FC = () => {
           <a href="#entertainment?tab=quiz" className="nav-link" onClick={closeMenu}>Pub Quiz</a>
           <a href="#contact" className="nav-link" onClick={closeMenu}>Contact</a>
         </nav>
-        <a href="#contact" className="reserve-button" onClick={closeMenu}>
+        <a href="https://booking-legacy.caspeco.net/public/webBooking?system=se_aulsto&unitId=13&v=1" className="reserve-button" target="_blank" rel="noopener noreferrer">
           Reserve a Table
         </a>
       </div>
