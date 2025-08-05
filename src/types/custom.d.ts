@@ -3,7 +3,12 @@ declare module '*.mp4' {
     export default src;
 }
 
-declare module '*.m4v' {
+declare module '*.svg' {
+    const src: string;
+    export default src;
+}
+
+declare module '*.pdf' {
     const src: string;
     export default src;
 }

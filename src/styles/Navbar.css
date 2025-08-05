@@ -39,7 +39,7 @@
 }
 
 .navbar.scrolled .menu-toggle {
-  display: flex;
+  display: none;
 }
 
 .navbar.scrolled .navbar-right {
@@ -94,18 +94,27 @@
 .menu-toggle {
   display: none;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 30px;
-  height: 21px;
+  height: 30px;
   background: transparent;
   border: none;
   cursor: pointer;
   padding: 0;
-  z-index: 10;
-  position: absolute;
-  right: 3rem;
-  top: 50%;
-  transform: translateY(-50%);
+  z-index: 1001;
+  position: relative;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: 0;
+}
+
+.menu-toggle:focus {
+  outline: none;
+}
+
+.menu-toggle:hover {
+  background: transparent;
+  outline: none;
 }
 
 .hamburger-line {
@@ -113,6 +122,10 @@
   height: 2px;
   background-color: #fff;
   transition: all 0.3s ease;
+}
+
+.menu-toggle:hover .hamburger-line {
+  background-color: #fff;
 }
 
 .menu-toggle.active .hamburger-line:nth-child(1) {
@@ -256,6 +269,9 @@
     display: flex;
     top: auto;
     transform: none;
+  }
+  .navbar.scrolled .navbar-right {
+    display: none;
   }
   .navbar.scrolled .reserve-button {
     display: none;
