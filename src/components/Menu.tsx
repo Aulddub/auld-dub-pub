@@ -32,7 +32,12 @@ const Menu: React.FC = () => {
           </div>
           
           <div className="menu-image-container">
-             <img src={menuPreview} alt="Menu Preview" className="menu-preview-image" />
+             <img 
+               src={menuPreview} 
+               alt="Menu Preview" 
+               className="menu-preview-image" 
+               onClick={() => openPDF(menuPdf, 'Food Menu')}
+             />
              <button className="see-full-menu-btn" onClick={() => openPDF(menuPdf, 'Food Menu')}>See Full Menu</button>
            </div>
           

@@ -299,7 +299,34 @@
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1300px) and (min-width: 1031px) {
+  .hero {
+    min-height: 750px;
+  }
+
+  .hero-content {
+    padding: 0 2rem;
+  }
+
+  .pub-logo {
+    width: 380px;
+  }
+
+  .location-tag {
+    font-size: var(--font-size-h3);
+    right: -25px;
+  }
+
+  .hero-subtitle {
+    max-width: 800px;
+  }
+
+  .button-row {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 1030px) {
   .hero {
     min-height: 700px;
   }

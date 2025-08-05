@@ -804,7 +804,46 @@
 }
 
 /* Responsive Design */
-@media (max-width: 1024px) {
+@media (max-width: 1300px) and (min-width: 1031px) {
+  .about-container {
+    padding: 0 2rem;
+  }
+
+  .about-hero {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .info-section {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .location-card,
+  .hours-card {
+    border-radius: 20px;
+  }
+  
+  .location-card-inner {
+    padding: 2.5rem 2rem;
+  }
+  
+  .hours-card {
+    padding: 2.5rem 2rem;
+  }
+  
+  .directions-btn {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 1030px) {
   .about-container {
     padding: 0 20px;
   }

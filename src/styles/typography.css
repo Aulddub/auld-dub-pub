@@ -35,7 +35,16 @@
 }
 
 /* Responsive Typography */
-@media (max-width: 1024px) {
+@media (max-width: 1300px) and (min-width: 1031px) {
+  :root {
+    --font-size-h1: 3.75rem;    /* 60px */
+    --font-size-h2: 2.5rem;     /* 40px */
+    --font-size-h3: 1.875rem;   /* 30px */
+    --font-size-h4: 1.5rem;     /* 24px */
+  }
+}
+
+@media (max-width: 1030px) {
   :root {
     --font-size-h1: 3.5rem;    /* 56px */
     --font-size-h2: 2.25rem;   /* 36px */

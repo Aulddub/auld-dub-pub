@@ -6,6 +6,7 @@ import Hero from './components/Hero';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Admin from './components/Admin';
+import { useLenis } from './hooks/useLenis';
 
 
 // Lazy load components
@@ -32,6 +33,9 @@ const Loading = () => (
 );
 
 function App() {
+  // Инициализируем плавный скролл Lenis
+  useLenis();
+
   useEffect(() => {
     // Обработка хэша в URL при загрузке страницы
     const hash = window.location.hash;
