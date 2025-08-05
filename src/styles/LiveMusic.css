@@ -184,6 +184,32 @@
   color: #a8a8a8;
 }
 
+.view-all-section {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.view-all-button {
+  display: inline-block;
+  background: linear-gradient(135deg, #c8b273 0%, #a8925f 100%);
+  color: #1a1a1a;
+  text-decoration: none;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-body);
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.view-all-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(200, 178, 115, 0.3);
+  background: linear-gradient(135deg, #d4c285 0%, #b8a575 100%);
+}
+
 .music-cta {
   text-align: center;
   padding: 48px;

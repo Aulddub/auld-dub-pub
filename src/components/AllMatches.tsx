@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../config/firebase';
+import { useNavigate } from 'react-router-dom';
 import '../styles/AllMatches.css';
 
 interface Match {
@@ -29,6 +30,7 @@ const AllMatches = () => {
   const [matches, setMatches] = useState<Match[]>([]);
   const [selectedLeague, setSelectedLeague] = useState('');
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMatches = async () => {
@@ -89,7 +91,16 @@ const AllMatches = () => {
   return (
     <section className="all-matches">
       <div className="all-matches-container">
-        <h2>Upcoming Matches</h2>
+        <div className="all-matches-header">
+          <button 
+            className="back-button" 
+            onClick={() => navigate('/')}
+            aria-label="Back to home"
+          >
+            ← Back to Home
+          </button>
+          <h2>Upcoming Matches</h2>
+        </div>
         
         <div className="matches-filter">
           <select

@@ -13,6 +13,7 @@ const About = lazy(() => import('./components/About'));
 const Menu = lazy(() => import('./components/Menu'));
 const Entertainment = lazy(() => import('./components/Entertainment'));
 const AllMatches = lazy(() => import('./components/AllMatches'));
+const AllLiveMusic = lazy(() => import('./components/AllLiveMusic'));
 const Contact = lazy(() => import('./components/Contact'));
 
 gsap.registerPlugin(ScrollTrigger);
@@ -92,6 +93,14 @@ function App() {
               <Navbar />
               <Suspense fallback={<Loading />}>
                 <AllMatches />
+              </Suspense>
+            </>
+          } />
+          <Route path="/all-live-music" element={
+            <>
+              <Navbar />
+              <Suspense fallback={<Loading />}>
+                <AllLiveMusic />
               </Suspense>
             </>
           } />

@@ -35,6 +35,22 @@ const Entertainment: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Listen for tab switch events from Navbar
+    const handleTabSwitch = (event: CustomEvent) => {
+      const { tab } = event.detail;
+      if (tab && ['music', 'sports', 'quiz'].includes(tab)) {
+        setActiveTab(tab as TabType);
+      }
+    };
+
+    window.addEventListener('switchTab', handleTabSwitch as EventListener);
+    
+    return () => {
+      window.removeEventListener('switchTab', handleTabSwitch as EventListener);
+    };
+  }, []);
+
+  useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
@@ -202,7 +218,7 @@ const Entertainment: React.FC = () => {
             ))
           )}
         </div>
-        <Link to="/live-music" className="cta-button">View All</Link>
+        <Link to="/all-live-music" className="cta-button">View All</Link>
       </div>
     </motion.div>
   );
@@ -294,20 +310,7 @@ const Entertainment: React.FC = () => {
             Gather your friends, form a team, and compete for exciting prizes while 
             enjoying our special quiz night deals on drinks and snacks.
           </p>
-          <div className="stats-grid">
-            <div className="stat">
-              <span className="stat-number">8</span>
-              <span className="stat-label">Teams Max</span>
-            </div>
-            <div className="stat">
-              <span className="stat-number">6</span>
-              <span className="stat-label">Rounds</span>
-            </div>
-            <div className="stat">
-              <span className="stat-number">€100</span>
-              <span className="stat-label">Prize Pool</span>
-            </div>
-          </div>
+
         </div>
         <div className="hero-image">
           <img src={pubquizImage} alt="Pub Quiz Night" />

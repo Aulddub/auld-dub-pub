@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/Navbar.css';
 import logo from '../assets/theaulddub-logo.png';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,11 +26,42 @@ const Navbar: React.FC = () => {
     setIsOpen(false);
   };
 
+  const handleNavigation = (sectionId: string, tab?: string) => {
+    closeMenu();
+    if (location.pathname !== '/') {
+      // If not on home page, navigate to home first
+      navigate('/');
+      // Wait for navigation to complete, then scroll to section
+      setTimeout(() => {
+        const element = document.getElementById(sectionId.replace('#', ''));
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+        // Handle tab switching for entertainment section
+        if (tab && sectionId === '#entertainment') {
+          const event = new CustomEvent('switchTab', { detail: { tab } });
+          window.dispatchEvent(event);
+        }
+      }, 100);
+    } else {
+      // If on home page, just scroll to section
+      const element = document.getElementById(sectionId.replace('#', ''));
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+      // Handle tab switching for entertainment section
+      if (tab && sectionId === '#entertainment') {
+        const event = new CustomEvent('switchTab', { detail: { tab } });
+        window.dispatchEvent(event);
+      }
+    }
+  };
+
   return (
     <header className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       <div className="navbar-container">
         <div className="navbar-logo">
-          <a href="#hero" onClick={closeMenu}>
+          <a href="#hero" onClick={() => handleNavigation('#hero')}>
             <img src={logo} alt="The Auld Dub" />
           </a>
         </div>
@@ -43,12 +77,12 @@ const Navbar: React.FC = () => {
         </button>
 
         <nav className={`navbar-menu ${isOpen ? 'active' : ''}`}>
-          <a href="#about" className="nav-link" onClick={closeMenu}>About</a>
-          <a href="#menu" className="nav-link" onClick={closeMenu}>Menu</a>
-          <a href="#entertainment?tab=music" className="nav-link" onClick={closeMenu}>Live Music</a>
-          <a href="#entertainment?tab=sports" className="nav-link" onClick={closeMenu}>Live Sports</a>
-          <a href="#entertainment?tab=quiz" className="nav-link" onClick={closeMenu}>Pub Quiz</a>
-          <a href="#contact" className="nav-link" onClick={closeMenu}>Contact</a>
+          <a href="#about" className="nav-link" onClick={() => handleNavigation('#about')}>About</a>
+          <a href="#menu" className="nav-link" onClick={() => handleNavigation('#menu')}>Menu</a>
+          <a href="#entertainment" className="nav-link" onClick={() => handleNavigation('#entertainment', 'music')}>Live Music</a>
+          <a href="#entertainment" className="nav-link" onClick={() => handleNavigation('#entertainment', 'sports')}>Live Sports</a>
+          <a href="#entertainment" className="nav-link" onClick={() => handleNavigation('#entertainment', 'quiz')}>Pub Quiz</a>
+          <a href="#contact" className="nav-link" onClick={() => handleNavigation('#contact')}>Contact</a>
           
           <div className="social-links desktop-only">
             <a href="https://www.facebook.com/aulddubstockholm" target="_blank" rel="noopener noreferrer" className="social-link">

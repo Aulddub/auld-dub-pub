@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
 import { db } from '../config/firebase';
+import { Link } from 'react-router-dom';
 import '../styles/LiveMusic.css';
 import bandImage from '../assets/band.jpg';
 
@@ -104,6 +105,13 @@ const LiveMusic: React.FC = () => {
                 ))
               )}
             </div>
+            {latestBands.length > 0 && (
+              <div className="view-all-section">
+                <Link to="/all-live-music" className="view-all-button">
+                  View All Live Music Events
+                </Link>
+              </div>
+            )}
           </div>
 
           <div className="music-cta">

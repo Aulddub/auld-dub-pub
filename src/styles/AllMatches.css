@@ -28,16 +28,48 @@
 
 .all-matches-container {
   max-width: 1200px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+  margin: 0 auto;
+  padding: 2rem 0;
 }
 
-.all-matches-container h2 {
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2.5rem;
+.all-matches-header {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.back-button {
+  background: linear-gradient(135deg, #c8b273 0%, #a8925f 100%);
+  color: #1a1a1a;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-body);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.back-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(200, 178, 115, 0.3);
+  background: linear-gradient(135deg, #d4c285 0%, #b8a575 100%);
+}
+
+.all-matches h2 {
+  font-size: var(--font-size-h1);
+  font-family: var(--font-primary);
   color: #c8b273;
-  font-family: 'Playfair Display', serif;
+  margin: 0;
+  letter-spacing: var(--letter-spacing-wide);
+  font-weight: var(--font-weight-regular);
 }
 
 .matches-filter {
