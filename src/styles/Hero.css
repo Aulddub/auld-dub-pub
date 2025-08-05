@@ -82,9 +82,10 @@
   height: 100%;
   background: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.3) 0%,
-    rgba(0, 0, 0, 0.2) 50%,
-    rgba(0, 0, 0, 0.4) 100%
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.1) 30%,
+    rgba(0, 0, 0, 0.3) 70%,
+    rgba(0, 0, 0, 0.6) 100%
   );
   z-index: 1;
 }
@@ -102,6 +103,7 @@
   gap: 1.5rem;
   opacity: 0;
   animation: fadeIn 1s ease forwards;
+  margin-top: 15vh;
 }
 
 .hero-logo-container {
@@ -147,15 +149,16 @@
 
 .hero-title {
   font-family: var(--font-primary);
-  font-size: var(--font-size-h1);
+  font-size: var(--font-size-h2);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-tight);
   margin: 0;
   text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 0.8s ease forwards 0.4s;
-  letter-spacing: var(--letter-spacing-wide);
 }
 
 .highlight {
@@ -166,12 +169,12 @@
 
 .hero-subtitle {
   font-family: var(--font-secondary);
-  font-size: var(--font-size-large);
+  font-size: var(--font-size-body);
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-loose);
-  color: #c0c0c0;
-  max-width: 900px;
+  color: #e0e0e0;
   margin: 1.5rem 0 2.5rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 0.8s ease forwards 0.6s;
@@ -368,13 +371,12 @@
   }
 
   .hero-title {
-    font-size: var(--font-size-h2);
+    font-size: var(--font-size-h3);
   }
 
   .hero-subtitle {
-    font-size: var(--font-size-body);
+    font-size: var(--font-size-small);
     margin: 1rem 0 2rem;
-    padding: 0 1rem;
   }
 
   .button-row {
@@ -427,14 +429,13 @@
   }
 
   .hero-title {
-    font-size: var(--font-size-h3);
+    font-size: var(--font-size-h4);
     line-height: 1.1;
   }
 
   .hero-subtitle {
     font-size: var(--font-size-small);
     margin: 0.75rem 0 1.5rem;
-    padding: 0 0.5rem;
   }
 
   .version-badge {
@@ -472,12 +473,12 @@
   }
 
   .hero-title {
-    font-size: var(--font-size-h4);
+    font-size: var(--font-size-h5);
   }
 
   .hero-subtitle {
     font-size: var(--font-size-small);
-    padding: 0;
+    margin: 0.5rem 0 1rem;
   }
 
   .hero-button {

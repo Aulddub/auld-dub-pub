@@ -53,8 +53,7 @@ const Hero: React.FC = () => {
         </h1>
         
         <p className="hero-subtitle">
-          Authentic Irish Pub in the Heart of Stockholm, Bringing You the Finest Craft Beers,
-          Traditional Food, and Live Music.
+          Authentic Irish Pub in Stockholm
         </p>
         
         <div className="hero-buttons">
