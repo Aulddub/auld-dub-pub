@@ -7,7 +7,6 @@
   position: relative;
   overflow: hidden;
   z-index: 10;
-  margin-top: -25vh;
 }
 
 .gradient-background {

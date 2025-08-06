@@ -10,6 +10,10 @@
   align-items: center;
   justify-content: center;
   z-index: 1;
+  /* Оптимизация для анимаций */
+  will-change: transform;
+  transform: translateZ(0); /* Принудительное использование GPU */
+  backface-visibility: hidden;
 }
 
 .hero-slider {
@@ -122,6 +126,11 @@
   filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
 }
 
+.animated-logo .pub-logo {
+  width: 400px;
+  height: auto;
+}
+
 .location-tag {
   position: absolute;
   bottom: -28px;
@@ -176,9 +185,16 @@
   color: #e0e0e0;
   margin: 1.5rem 0 2.5rem;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.8s ease forwards 0.6s;
+  min-height: 1.5em; /* Резервируем место для typewriter текста */
+}
+
+.typewriter-subtitle {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-loose);
+  color: #e0e0e0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
 
 .hero-buttons {
@@ -242,20 +258,6 @@
   font-size: 1.2rem;
 }
 
-.scroll-indicator {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  opacity: 0;
-  animation: fadeIn 0.8s ease forwards 1.2s;
-  cursor: pointer;
-  z-index: 2;
-}
 
 .scroll-text {
   font-family: var(--font-primary);
@@ -312,7 +314,8 @@
     padding: 0 2rem;
   }
 
-  .pub-logo {
+  .pub-logo,
+  .animated-logo .pub-logo {
     width: 380px;
   }
 
@@ -339,7 +342,8 @@
     font-size: var(--font-size-h2);
   }
 
-  .pub-logo {
+  .pub-logo,
+  .animated-logo .pub-logo {
     width: 350px;
   }
 
@@ -360,7 +364,8 @@
     margin-bottom: 1rem;
   }
 
-  .pub-logo {
+  .pub-logo,
+  .animated-logo .pub-logo {
     width: 250px;
     height: auto;
   }
@@ -406,6 +411,7 @@
   .slider-arrow-right {
     right: 0.75rem;
   }
+
 }
 
 @media (max-width: 480px) {
@@ -419,7 +425,8 @@
     gap: 1rem;
   }
 
-  .pub-logo {
+  .pub-logo,
+  .animated-logo .pub-logo {
     width: 230px;
   }
 
@@ -462,6 +469,7 @@
   .slider-arrow-right {
     right: 0.5rem;
   }
+
 }
 
 @media (max-width: 360px) {
@@ -469,7 +477,8 @@
     min-height: 500px;
   }
 
-  .pub-logo {
+  .pub-logo,
+  .animated-logo .pub-logo {
     width: 180px;
   }
 

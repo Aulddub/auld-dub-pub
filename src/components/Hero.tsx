@@ -1,13 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import { FaCalendarAlt, FaMusic, FaFutbol, FaBrain, FaArrowDown } from 'react-icons/fa';
+import { FaCalendarAlt, FaMusic, FaFutbol, FaBrain } from 'react-icons/fa';
 import '../styles/Hero.css';
 import logo from '../assets/theaulddub-logo.png';
 // import sceneImage from '../assets/scene.jpg';
 import womanBarImage from '../assets/woman-bar.webp';
+import ShamrockParticles from './ShamrockParticles';
+import AnimatedLogo from './AnimatedLogo';
+import TypewriterText from './TypewriterText';
 
 const Hero: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const images = [womanBarImage];
+
+  // Упрощенная логика навигации без GSAP конфликтов
+  const handleNavigation = (sectionId: string, tab?: string) => {
+    // Скролим к секции
+    const element = document.getElementById(sectionId.replace('#', ''));
+    if (element) {
+      const offset = 80; // Высота navbar
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+    
+    // Обрабатываем переключение табов для entertainment секции
+    if (tab && sectionId === '#entertainment') {
+      setTimeout(() => {
+        const event = new CustomEvent('switchTab', { detail: { tab } });
+        window.dispatchEvent(event);
+      }, 200); // Увеличиваем задержку для стабильности
+    }
+  };
   
   useEffect(() => {
     const interval = setInterval(() => {
@@ -17,13 +44,6 @@ const Hero: React.FC = () => {
     return () => clearInterval(interval);
   }, [images.length]);
 
-
-  const scrollToAbout = () => {
-    const aboutSection = document.getElementById('about');
-    if (aboutSection) {
-      aboutSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <section className="hero" id="home">
@@ -41,9 +61,16 @@ const Hero: React.FC = () => {
       
     
       
+      {/* Частицы трилистников */}
+      <ShamrockParticles />
+      
       <div className="hero-content">
         <div className="hero-logo-container">
-          <img src={logo} alt="The Auld Dub" className="pub-logo" />
+          <AnimatedLogo
+            logoSrc={logo}
+            alt="The Auld Dub"
+            className="pub-logo"
+          />
           <span className="location-tag">Stockholm</span>
         </div>
 
@@ -52,9 +79,14 @@ const Hero: React.FC = () => {
           <span className="highlight">Irish Spirit</span>
         </h1>
         
-        <p className="hero-subtitle">
-          Authentic Irish Pub in Stockholm
-        </p>
+        <div className="hero-subtitle">
+          <TypewriterText
+            text="Authentic Irish Pub in Stockholm"
+            delay={2000} // Начинаем после анимации логотипа
+            speed={80}
+            className="typewriter-subtitle"
+          />
+        </div>
         
         <div className="hero-buttons">
           <div className="button-row">
@@ -62,15 +94,15 @@ const Hero: React.FC = () => {
               <FaCalendarAlt className="button-icon" />
               Book a Table
             </a>
-            <a href="#entertainment?tab=music" className="hero-button secondary-button">
+            <a href="#entertainment" className="hero-button secondary-button" onClick={() => handleNavigation('#entertainment', 'music')}>
               <FaMusic className="button-icon" />
               Live Music
             </a>
-            <a href="#entertainment?tab=sports" className="hero-button secondary-button">
+            <a href="#entertainment" className="hero-button secondary-button" onClick={() => handleNavigation('#entertainment', 'sports')}>
               <FaFutbol className="button-icon" />
               Sports
             </a>
-            <a href="#entertainment?tab=quiz" className="hero-button secondary-button">
+            <a href="#entertainment" className="hero-button secondary-button" onClick={() => handleNavigation('#entertainment', 'quiz')}>
               <FaBrain className="button-icon" />
               Pub Quiz
             </a>
@@ -78,9 +110,6 @@ const Hero: React.FC = () => {
         </div>
       </div>
 
-      <div className="scroll-indicator" onClick={scrollToAbout}>
-        <FaArrowDown className="scroll-icon" />
-      </div>
     </section>
   );
 };

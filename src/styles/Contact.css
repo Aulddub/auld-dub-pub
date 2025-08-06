@@ -4,7 +4,6 @@
   color: #fff;
   position: relative;
   z-index: 40;
-  margin-top: -25vh;
   margin-bottom: 0; /* Убираем отступ снизу */
 }
 

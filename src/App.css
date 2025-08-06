@@ -51,6 +51,13 @@ body {
   flex-direction: column;
 }
 
+/* Оптимизация секций для анимаций */
+section {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
