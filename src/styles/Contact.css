@@ -1,10 +1,11 @@
 .contact {
   background-color: #0a0a0a;
-  padding: 60px 24px;
+  padding: 60px 24px 40px 24px; /* Уменьшенный bottom padding */
   color: #fff;
-  margin-top: -1px;
   position: relative;
-  z-index: 1;
+  z-index: 40;
+  margin-top: -25vh;
+  margin-bottom: 0; /* Убираем отступ снизу */
 }
 
 .contact::before {
@@ -24,9 +25,13 @@
 }
 
 .contact h2 {
-  
-  margin-bottom: 40px;
- 
+  text-align: center;
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: #c8b273;
+  margin-bottom: 2.5rem;
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
 }
 
 .contact-content {

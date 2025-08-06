@@ -33,15 +33,63 @@ const Loading = () => (
 );
 
 function App() {
-  // Инициализируем плавный скролл Lenis
+  // Используем Lenis для плавного скролла
   useLenis();
 
   useEffect(() => {
-    // Обработка хэша в URL при загрузке страницы
-    const hash = window.location.hash;
-    if (hash) {
-      setTimeout(() => {
-        // Извлекаем только ID элемента из хеша, игнорируя параметры URL
+    // Функция для создания профессионального эффекта наложения секций
+    const setupScrollAnimations = () => {
+      // Очищаем предыдущие триггеры
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      
+      // Настраиваем секции с правильными z-index
+      const sections = [
+        { element: document.querySelector('#hero'), zIndex: 1 },
+        { element: document.querySelector('#about'), zIndex: 10 },
+        { element: document.querySelector('#menu'), zIndex: 20 },
+        { element: document.querySelector('#entertainment'), zIndex: 30 },
+        { element: document.querySelector('#contact'), zIndex: 40 }
+      ];
+      
+      sections.forEach(({ element, zIndex }, index) => {
+        if (!element) return;
+        
+        // Устанавливаем базовые стили для корректного наложения
+        gsap.set(element, {
+          zIndex,
+          position: 'relative',
+          willChange: 'transform' // Оптимизация для GPU
+        });
+        
+        // Создаем быстрый профессиональный эффект наложения
+        if (index > 0) {
+          // Устанавливаем изначальное положение секций ниже viewport
+          gsap.set(element, { y: '25vh' });
+          
+          gsap.to(element, {
+            y: '0vh', // Движение в нормальное положение
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: element,
+              start: 'top bottom', // Начинаем когда секция входит в viewport
+              end: 'top center', // Заканчиваем в центре
+              scrub: 0.8,
+              invalidateOnRefresh: true
+            }
+          });
+        }
+      });
+      
+      ScrollTrigger.refresh();
+    };
+    
+    // Устанавливаем анимации после загрузки всех компонентов
+    const timeoutId = setTimeout(setupScrollAnimations, 100);
+    
+    // Обработка хэша URL для навигации
+    const handleHashNavigation = () => {
+      const hash = window.location.hash;
+      if (hash) {
         const elementId = hash.split('?')[0];
         const element = document.querySelector(elementId);
         if (element) {
@@ -53,12 +101,16 @@ function App() {
             behavior: 'smooth'
           });
         }
-      }, 100);
-    }
-
-    setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 100);
+      }
+    };
+    
+    setTimeout(handleHashNavigation, 200);
+    
+    // Очистка при размонтировании
+    return () => {
+      clearTimeout(timeoutId);
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   }, []);
 
   return (

@@ -6,36 +6,55 @@ declare global {
   interface Window {
     ScrollTrigger?: {
       update: () => void;
+      refresh: () => void;
     };
   }
 }
 
 export const useLenis = () => {
   useEffect(() => {
-    // Создаем экземпляр Lenis с настройками для плавного скролла
+    // Создаем экземпляр Lenis с оптимизированными настройками
     const lenis = new Lenis({
-      duration: 2.0, // Длительность анимации скролла в секундах
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Функция плавности
-      lerp: 0.05, // Интенсивность линейной интерполяции (0-1)
-      smoothWheel: true, // Плавный скролл колесиком мыши
-      syncTouch: false, // Отключаем синхронизацию с тач-устройствами для стабильности
+      duration: 1, // Оптимальная длительность для баланса плавности и отзывчивости
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Плавная функция easing
+      lerp: 0.07, // Оптимальное значение для плавного следования за скроллом
+      smoothWheel: true,
+      syncTouch: false, // Отключаем для стабильности на мобильных
+      touchMultiplier: 1.5, // Умеренная чувствительность на тач
+      wheelMultiplier: 1.2, // Слегка увеличенная чувствительность колеса
+      infinite: false,
+      orientation: 'vertical',
+      gestureOrientation: 'vertical'
     });
 
-    // Функция для обновления анимации
+    // Оптимизированная функция анимации
+    let rafId: number;
     function raf(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
 
-    // Интеграция с GSAP ScrollTrigger если он используется
+    // Интеграция с GSAP ScrollTrigger
     if (window.ScrollTrigger) {
-      lenis.on('scroll', window.ScrollTrigger.update);
+      lenis.on('scroll', () => {
+        window.ScrollTrigger?.update();
+      });
     }
+
+    // Обновление при изменении размера окна
+    const handleResize = () => {
+      lenis.resize();
+      window.ScrollTrigger?.refresh();
+    };
+
+    window.addEventListener('resize', handleResize);
 
     // Очистка при размонтировании
     return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener('resize', handleResize);
       lenis.destroy();
     };
   }, []);

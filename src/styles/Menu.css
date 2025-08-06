@@ -1,11 +1,14 @@
 .menu {
-  padding: 2rem 1.5rem;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9));
+  padding: 0 1.5rem;
+  background: #0a0a0a; /* Непрозрачный черный фон */
   min-height: 100vh;
   color: #e4e4e4;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  z-index: 20;
+  margin-top: -25vh;
 }
 
 .menu-container {
@@ -17,7 +20,13 @@
 }
 
 .menu h2 {
-  margin-bottom: 4rem;
+  text-align: center;
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: #c8b273;
+  margin-bottom: 2.5rem;
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
 }
 
 /* Menu Overview Styles */
