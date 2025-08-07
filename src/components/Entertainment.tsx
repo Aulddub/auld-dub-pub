@@ -175,20 +175,7 @@ const Entertainment: React.FC = () => {
             folk tunes to modern Irish rock, our carefully selected musicians create an 
             atmosphere that'll transport you straight to Dublin.
           </p>
-          <div className="stats-grid">
-            <div className="stat">
-              <span className="stat-number">2</span>
-              <span className="stat-label">Live Shows Weekly</span>
-            </div>
-            <div className="stat">
-              <span className="stat-number">20+</span>
-              <span className="stat-label">Regular Bands</span>
-            </div>
-            <div className="stat">
-              <span className="stat-number">100%</span>
-              <span className="stat-label">Irish Spirit</span>
-            </div>
-          </div>
+
         </div>
         <div className="hero-image">
           <img src={sceneImage} alt="Live band performing" />
@@ -241,20 +228,7 @@ const Entertainment: React.FC = () => {
             events including Premier League, Champions League, Six Nations Rugby, GAA matches, 
             and much more.
           </p>
-          <div className="stats-grid">
-            <div className="stat">
-              <span className="stat-number">5</span>
-              <span className="stat-label">Full HD Screens</span>
-            </div>
-            <div className="stat">
-              <span className="stat-number">1</span>
-              <span className="stat-label">Projector Screen</span>
-            </div>
-            <div className="stat">
-              <span className="stat-number">100+</span>
-              <span className="stat-label">Events Monthly</span>
-            </div>
-          </div>
+
         </div>
         <div className="hero-image">
           <img src={sportsCrowd} alt="Sports fans watching" />
@@ -306,7 +280,7 @@ const Entertainment: React.FC = () => {
         <div className="hero-text">
           <h3>Test Your Knowledge</h3>
           <p>
-            Join us every Thursday night for The Auld Dub's most entertaining pub quiz! 
+            Join us every Monday for The Auld Dub's most entertaining pub quiz! 
             Gather your friends, form a team, and compete for exciting prizes while 
             enjoying our special quiz night deals on drinks and snacks.
           </p>

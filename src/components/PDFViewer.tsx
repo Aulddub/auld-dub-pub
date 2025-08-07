@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import '../styles/PDFViewer.css';
 
 interface PDFViewerProps {
@@ -10,6 +10,7 @@ interface PDFViewerProps {
 
 const PDFViewer: React.FC<PDFViewerProps> = ({ isOpen, onClose, pdfUrl, title }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     if (isOpen) {
@@ -34,10 +35,58 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ isOpen, onClose, pdfUrl, title })
     }
   };
 
+  // Обработка свайп-жестов для закрытия на мобильных
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    setTouchStart({
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY
+    });
+  }, []);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    if (!touchStart) return;
+    
+    const touchEnd = {
+      x: e.changedTouches[0].clientX,
+      y: e.changedTouches[0].clientY
+    };
+    
+    const deltaX = touchEnd.x - touchStart.x;
+    const deltaY = touchEnd.y - touchStart.y;
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    
+    // Закрытие при свайпе вниз или в стороны (расстояние > 150px)
+    if (distance > 150 && (Math.abs(deltaY) > 100 || Math.abs(deltaX) > 100)) {
+      onClose();
+    }
+  }, [touchStart, onClose]);
+
+  // Закрытие по клавише ESC
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
-    <div className="pdf-viewer-overlay" onClick={handleOverlayClick}>
+    <div 
+      className="pdf-viewer-overlay" 
+      onClick={handleOverlayClick}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       <div className="pdf-viewer-container">
         <div className="pdf-viewer-header">
           <h3 className="pdf-viewer-title">{title}</h3>
@@ -47,6 +96,13 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ isOpen, onClose, pdfUrl, title })
             </svg>
           </button>
         </div>
+        
+        {/* Дополнительная кнопка закрытия для мобильных */}
+        <button className="pdf-viewer-mobile-close" onClick={onClose} aria-label="Close menu">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
         
         {isLoading && (
           <div className="pdf-viewer-loading">

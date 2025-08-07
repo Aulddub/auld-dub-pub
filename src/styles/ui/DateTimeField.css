@@ -1,0 +1,312 @@
+/* DateTimeField Component Styles */
+.datetime-field {
+  position: relative;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+/* Static label on top */
+.datetime-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  color: #c8b273;
+  font-family: var(--font-secondary);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.datetime-required {
+  color: #ef4444;
+  margin-left: 2px;
+}
+
+.datetime-input-container {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  background: rgba(26, 26, 26, 0.8);
+  border: 2px solid rgba(200, 178, 115, 0.2);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  min-height: 56px;
+  cursor: pointer;
+}
+
+.datetime-input-container:hover {
+  border-color: rgba(200, 178, 115, 0.4);
+  background: rgba(26, 26, 26, 0.9);
+}
+
+.datetime-input-container.focused {
+  border-color: #c8b273;
+  background: rgba(26, 26, 26, 0.95);
+  box-shadow: 0 0 0 2px rgba(200, 178, 115, 0.15);
+}
+
+.datetime-input-container.error {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.03);
+}
+
+.datetime-input-container.error.focused {
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+}
+
+/* Input icon */
+.datetime-input-icon {
+  padding: 0 1rem;
+  color: #888;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+  background: rgba(200, 178, 115, 0.05);
+  border-right: 1px solid rgba(200, 178, 115, 0.1);
+}
+
+.datetime-input-container.focused .datetime-input-icon {
+  color: #c8b273;
+  background: rgba(200, 178, 115, 0.1);
+}
+
+.datetime-input-container.error .datetime-input-icon {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* Input wrapper */
+.datetime-input-wrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+/* Native input (styled to match design) */
+.datetime-native-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: var(--font-size-body);
+  color: #e4e4e4;
+  padding: 1rem 1.25rem;
+  font-family: var(--font-secondary);
+  font-weight: var(--font-weight-regular);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.datetime-native-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: rgba(200, 178, 115, 0.05);
+}
+
+.datetime-native-input::placeholder {
+  color: #888;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-light);
+}
+
+/* Date and Time input styling */
+.datetime-native-input[type="date"],
+.datetime-native-input[type="time"] {
+  color-scheme: dark;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Custom styling for date/time picker indicators */
+.datetime-native-input[type="date"]::-webkit-calendar-picker-indicator,
+.datetime-native-input[type="time"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  margin-left: 0.5rem;
+  padding: 0.25rem;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  opacity: 0.7;
+}
+
+.datetime-native-input[type="date"]::-webkit-calendar-picker-indicator:hover,
+.datetime-native-input[type="time"]::-webkit-calendar-picker-indicator:hover {
+  background-color: rgba(200, 178, 115, 0.1);
+  border-radius: 6px;
+  opacity: 1;
+}
+
+/* Firefox styling */
+.datetime-native-input[type="date"]::-moz-calendar-picker-indicator,
+.datetime-native-input[type="time"]::-moz-time-picker-indicator {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+/* Edge and IE styling */
+.datetime-native-input[type="date"]::-ms-calendar-picker-indicator,
+.datetime-native-input[type="time"]::-ms-time-picker-indicator {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+/* Input border animation */
+.datetime-input-border {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #c8b273, #d4c285);
+  transform: scaleX(0);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 0 0 10px 10px;
+}
+
+.datetime-input-container.focused .datetime-input-border {
+  transform: scaleX(1);
+}
+
+/* Status icons */
+.datetime-status-icon {
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  min-width: 50px;
+  justify-content: center;
+  background: rgba(200, 178, 115, 0.05);
+  border-left: 1px solid rgba(200, 178, 115, 0.1);
+}
+
+.datetime-input-container.error .datetime-status-icon {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.datetime-icon-error {
+  color: #ef4444;
+}
+
+/* Error message */
+.datetime-error-message {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 8px;
+  color: #fca5a5;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .datetime-field {
+    margin-bottom: 1.25rem;
+  }
+
+  .datetime-label {
+    font-size: var(--font-size-small);
+    margin-bottom: 0.375rem;
+  }
+
+  .datetime-input-container {
+    border-radius: 10px;
+    min-height: 52px;
+  }
+
+  .datetime-display {
+    padding: 0.875rem 1rem;
+  }
+
+  .datetime-value,
+  .datetime-placeholder {
+    font-size: var(--font-size-body);
+  }
+
+  .datetime-input-icon {
+    padding: 0 0.75rem;
+  }
+
+  .datetime-status-icon {
+    padding: 0 0.75rem;
+    min-width: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .datetime-field {
+    margin-bottom: 1rem;
+  }
+
+  .datetime-input-container {
+    border-radius: 8px;
+    min-height: 48px;
+    border-width: 1.5px;
+  }
+
+  .datetime-display {
+    padding: 0.75rem 0.875rem;
+  }
+
+  .datetime-value,
+  .datetime-placeholder {
+    font-size: var(--font-size-small);
+  }
+
+  .datetime-input-icon {
+    padding: 0 0.625rem;
+  }
+
+  .datetime-status-icon {
+    padding: 0 0.625rem;
+    min-width: 40px;
+  }
+
+  .datetime-error-message {
+    padding: 0.625rem 0.875rem;
+    font-size: var(--font-size-small);
+  }
+}
+
+/* Browser compatibility */
+@media (prefers-reduced-motion: reduce) {
+  .datetime-input-container,
+  .datetime-input-border,
+  .datetime-input-icon,
+  .datetime-status-icon {
+    transition: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .datetime-input-container {
+    border-width: 3px;
+    border-color: #c8b273;
+  }
+
+  .datetime-input-container.focused {
+    border-width: 4px;
+    box-shadow: 0 0 0 2px #c8b273;
+  }
+
+  .datetime-label {
+    font-weight: var(--font-weight-bold);
+  }
+}
+
+/* Focus visible for keyboard navigation */
+.datetime-native-input:focus-visible {
+  outline: 2px solid #c8b273;
+  outline-offset: 2px;
+}
