@@ -45,6 +45,12 @@ const ShamrockParticles: React.FC = () => {
   useEffect(() => {
     if (!containerRef.current) return;
 
+    // Проверяем, не мобильное ли устройство
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      return; // Не создаем частицы на мобильных устройствах
+    }
+
     // Создаем частицы
     const createParticles = () => {
       const particles: Particle[] = [];
@@ -130,6 +136,13 @@ const ShamrockParticles: React.FC = () => {
 
     // Обновление размеров при ресайзе окна
     const handleResize = () => {
+      const isMobile = window.innerWidth <= 768;
+      if (isMobile) {
+        // Очищаем частицы на мобильных устройствах
+        particlesRef.current = [];
+        setParticleCount(0);
+        return;
+      }
       createParticles(); // Это уже вызовет setParticleCount
     };
 
