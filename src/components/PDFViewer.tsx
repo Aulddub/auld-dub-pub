@@ -97,11 +97,12 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ isOpen, onClose, pdfUrl, title })
           </button>
         </div>
         
-        {/* Дополнительная кнопка закрытия для мобильных */}
+        {/* Фиксированная кнопка закрытия для мобильных */}
         <button className="pdf-viewer-mobile-close" onClick={onClose} aria-label="Close menu">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
+          Close
         </button>
         
         {isLoading && (
@@ -120,20 +121,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ isOpen, onClose, pdfUrl, title })
           />
         </div>
         
-        <div className="pdf-viewer-actions">
-          <a 
-            href={pdfUrl} 
-            download 
-            className="pdf-download-btn"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Download
-          </a>
-        </div>
+
       </div>
     </div>
   );
