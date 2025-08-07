@@ -114,7 +114,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ isOpen, onClose, pdfUrl, title })
         
         <div className="pdf-viewer-content">
           <iframe
-            src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&messages=0&scrollbar=0`}
+            src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&statusbar=0&messages=0&view=FitH&zoom=page-width`}
             title={title}
             className="pdf-iframe"
             onLoad={handleIframeLoad}
