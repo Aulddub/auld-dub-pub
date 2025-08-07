@@ -1,5 +1,6 @@
 import React, { useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import './App.css';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -153,6 +154,7 @@ function App() {
           } />
         </Routes>
       </Router>
+      <Analytics />
     </>
   );
 }
