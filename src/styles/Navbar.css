@@ -95,17 +95,24 @@
   display: none;
   flex-direction: column;
   justify-content: space-around;
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 0;
+  padding: 8px;
   z-index: 1001;
   position: relative;
   outline: none;
   -webkit-tap-highlight-color: transparent;
-  border-radius: 0;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  overflow: visible;
+}
+
+.menu-toggle.active {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
 }
 
 .menu-toggle:focus {
@@ -122,6 +129,7 @@
   height: 2px;
   background-color: #fff;
   transition: all 0.3s ease;
+  border-radius: 1px;
 }
 
 .menu-toggle:hover .hamburger-line {
@@ -129,7 +137,8 @@
 }
 
 .menu-toggle.active .hamburger-line:nth-child(1) {
-  transform: translateY(9.5px) rotate(45deg);
+  transform: translateY(8px) rotate(45deg);
+  background-color: #fff;
 }
 
 .menu-toggle.active .hamburger-line:nth-child(2) {
@@ -137,7 +146,8 @@
 }
 
 .menu-toggle.active .hamburger-line:nth-child(3) {
-  transform: translateY(-9.5px) rotate(-45deg);
+  transform: translateY(-8px) rotate(-45deg);
+  background-color: #fff;
 }
 
 .navbar-menu {
@@ -331,7 +341,7 @@
 @media (max-width: 1030px) {
   .navbar-container {
     padding: 0 1rem;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
   }
   .navbar.scrolled .navbar-container {
@@ -359,6 +369,7 @@
     position: static;
     top: auto;
     transform: none;
+    margin-left: auto;
   }
 
   .navbar-menu {
@@ -424,6 +435,11 @@
 
   .navbar-logo {
     height: 40px;
+    display: none;
+  }
+
+  .navbar.scrolled .navbar-logo {
+    display: flex;
   }
 
   .navbar-menu {
@@ -434,6 +450,7 @@
     position: static;
     top: auto;
     transform: none;
+    margin-left: auto;
   }
 }
 
@@ -444,19 +461,31 @@
 
   .navbar-container {
     padding: 0 0.75rem;
+    justify-content: flex-end;
   }
 
   .navbar-logo {
     height: 35px;
+    display: none;
+  }
+
+  .navbar.scrolled .navbar-logo {
+    display: flex;
+  }
+
+  .navbar.scrolled .navbar-container {
+    justify-content: space-between !important;
   }
 
   .menu-toggle {
-    width: 28px;
-    height: 20px;
+    width: 36px;
+    height: 36px;
     position: static;
     right: auto;
     top: auto;
     transform: none;
+    margin-left: auto;
+    padding: 6px;
   }
 
   .navbar-menu {
@@ -480,10 +509,23 @@
 @media (max-width: 360px) {
   .navbar-container {
     padding: 0 0.5rem;
+    justify-content: flex-end;
+  }
+
+  .navbar.scrolled .navbar-container {
+    justify-content: space-between !important;
+  }
+
+  .navbar-logo {
+    display: none;
+  }
+
+  .navbar.scrolled .navbar-logo {
+    display: flex;
   }
 
   .menu-toggle {
-    right: 0.5rem;
+    margin-left: auto;
   }
 
   .navbar-menu {
