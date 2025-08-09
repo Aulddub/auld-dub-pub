@@ -3,8 +3,9 @@ import '../styles/Menu.css';
 import menuPreview from '../assets/menu-preview.png';
 import { db } from '../config/firebase';
 import { collection, getDocs } from 'firebase/firestore';
-import menuPdf from '../assets/menu_drinks/menu.pdf';
-import drinksPdf from '../assets/menu_drinks/drinks.pdf';
+// PDF файлы теперь в папке public для чистых URL
+const menuPdf = '/menu.pdf';
+const drinksPdf = '/drinks.pdf';
 
 interface MenuPDF {
   id: string;
