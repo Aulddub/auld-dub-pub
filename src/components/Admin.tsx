@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import { motion, AnimatePresence } from 'framer-motion';
 import { auth, db } from '../config/firebase';
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
@@ -140,12 +141,16 @@ const Admin = () => {
   // Form state
   const [newMatch, setNewMatch] = useState({
     sport: '',
+    customSport: '',
     league: '',
+    customLeague: '',
     team1: '',
     team2: '',
     date: '',
     time: ''
   });
+  const [useCustomSport, setUseCustomSport] = useState(false);
+  const [useCustomLeague, setUseCustomLeague] = useState(false);
   const [newBand, setNewBand] = useState({
     name: '',
     genre: '',
@@ -362,13 +367,25 @@ const Admin = () => {
   const handleAddMatch = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      if (!newMatch.sport || !newMatch.league || !newMatch.team1 || !newMatch.team2 || !newMatch.date || !newMatch.time) {
+      const finalSport = useCustomSport ? newMatch.customSport : newMatch.sport;
+      const finalLeague = useCustomLeague ? newMatch.customLeague : newMatch.league;
+      if (!finalSport || !finalLeague || !newMatch.team1 || !newMatch.team2 || !newMatch.date || !newMatch.time) {
         toast.error('Please fill in all fields');
         return;
       }
       const loadingToast = toast.loading('Adding match...');
-      await addDoc(collection(db, 'matches'), newMatch);
-      setNewMatch({ sport: '', league: '', team1: '', team2: '', date: '', time: '' });
+      const matchData = {
+        sport: finalSport,
+        league: finalLeague,
+        team1: newMatch.team1,
+        team2: newMatch.team2,
+        date: newMatch.date,
+        time: newMatch.time
+      };
+      await addDoc(collection(db, 'matches'), matchData);
+      setNewMatch({ sport: '', customSport: '', league: '', customLeague: '', team1: '', team2: '', date: '', time: '' });
+      setUseCustomSport(false);
+      setUseCustomLeague(false);
       await fetchMatches();
       toast.success('Match added successfully!', { id: loadingToast });
     } catch (error) {
@@ -380,9 +397,21 @@ const Admin = () => {
   // Match management functions
   const handleEditMatch = (match: Match) => {
     setEditingMatch(match);
+    
+    // Check if the sport exists in our predefined options
+    const isCustomSport = !SPORTS.some(sport => sport.value === match.sport);
+    
+    // Check if the league exists in our predefined options
+    const predefinedLeagues = LEAGUES[match.sport as keyof typeof LEAGUES] || [];
+    const isCustomLeague = !predefinedLeagues.some(league => league.value === match.league);
+    
+    setUseCustomSport(isCustomSport);
+    setUseCustomLeague(isCustomLeague);
     setNewMatch({
-      sport: match.sport,
-      league: match.league,
+      sport: isCustomSport ? '' : match.sport,
+      customSport: isCustomSport ? match.sport : '',
+      league: isCustomLeague ? '' : match.league,
+      customLeague: isCustomLeague ? match.league : '',
       team1: match.team1,
       team2: match.team2,
       date: match.date,
@@ -395,14 +424,26 @@ const Admin = () => {
     if (!editingMatch) return;
     
     try {
-      if (!newMatch.sport || !newMatch.league || !newMatch.team1 || !newMatch.team2 || !newMatch.date || !newMatch.time) {
+      const finalSport = useCustomSport ? newMatch.customSport : newMatch.sport;
+      const finalLeague = useCustomLeague ? newMatch.customLeague : newMatch.league;
+      if (!finalSport || !finalLeague || !newMatch.team1 || !newMatch.team2 || !newMatch.date || !newMatch.time) {
         toast.error('Please fill in all fields');
         return;
       }
       
       const loadingToast = toast.loading('Updating match...');
-      await updateDoc(doc(db, 'matches', editingMatch.id), newMatch);
-      setNewMatch({ sport: '', league: '', team1: '', team2: '', date: '', time: '' });
+      const matchData = {
+        sport: finalSport,
+        league: finalLeague,
+        team1: newMatch.team1,
+        team2: newMatch.team2,
+        date: newMatch.date,
+        time: newMatch.time
+      };
+      await updateDoc(doc(db, 'matches', editingMatch.id), matchData);
+      setNewMatch({ sport: '', customSport: '', league: '', customLeague: '', team1: '', team2: '', date: '', time: '' });
+      setUseCustomSport(false);
+      setUseCustomLeague(false);
       setEditingMatch(null);
       await fetchMatches();
       toast.success('Match updated successfully!', { id: loadingToast });
@@ -433,7 +474,9 @@ const Admin = () => {
 
   const cancelEditMatch = () => {
     setEditingMatch(null);
-    setNewMatch({ sport: '', league: '', team1: '', team2: '', date: '', time: '' });
+    setNewMatch({ sport: '', customSport: '', league: '', customLeague: '', team1: '', team2: '', date: '', time: '' });
+    setUseCustomSport(false);
+    setUseCustomLeague(false);
   };
 
 
@@ -442,6 +485,12 @@ const Admin = () => {
   if (!isLoggedIn) {
     return (
       <>
+        <Helmet>
+          <title>Admin Login - The Auld Dub</title>
+          <meta name="robots" content="noindex, nofollow" />
+          <meta name="googlebot" content="noindex, nofollow" />
+          <meta name="bingbot" content="noindex, nofollow" />
+        </Helmet>
         <Toaster position="top-right" />
         <div className="admin-login-container">
           <motion.div
@@ -466,7 +515,6 @@ const Admin = () => {
                   value={email}
                   onChange={setEmail}
                   placeholder="admin@irishpub.com"
-                  required
                   icon={<User size={18} />}
                 />
                 
@@ -476,7 +524,6 @@ const Admin = () => {
                   value={password}
                   onChange={setPassword}
                   placeholder="Your secure password"
-                  required
                   icon={<LogOut size={18} />}
                 />
                 
@@ -500,6 +547,12 @@ const Admin = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Admin Panel - The Auld Dub</title>
+        <meta name="robots" content="noindex, nofollow" />
+        <meta name="googlebot" content="noindex, nofollow" />
+        <meta name="bingbot" content="noindex, nofollow" />
+      </Helmet>
       <Toaster position="top-right" />
       <ConfirmModal
         isOpen={confirmModal.isOpen}
@@ -639,22 +692,62 @@ const Admin = () => {
             <div className="form-grid">
               <FormField
                 label="Sport Type"
-                type="select"
-                value={newMatch.sport}
-                onChange={(value) => setNewMatch({ ...newMatch, sport: value, league: '' })}
-                options={SPORTS}
-                placeholder="Choose a sport"
-                required
+                type={useCustomSport ? "text" : "select"}
+                value={useCustomSport ? newMatch.customSport : newMatch.sport}
+                onChange={(value) => {
+                  if (useCustomSport) {
+                    setNewMatch({ ...newMatch, customSport: value, league: '', customLeague: '' });
+                  } else {
+                    setNewMatch({ ...newMatch, sport: value, league: '', customLeague: '' });
+                  }
+                  setUseCustomLeague(false);
+                }}
+                options={useCustomSport ? undefined : SPORTS}
+                placeholder={useCustomSport ? "Enter custom sport" : "Choose a sport"}
+                autoComplete="off"
+                statusIcon={
+                  <button
+                    type="button"
+                    className={`inline-toggle ${useCustomSport ? 'active' : ''}`}
+                    onClick={() => {
+                      setUseCustomSport(!useCustomSport);
+                      setNewMatch({ ...newMatch, sport: '', customSport: '', league: '', customLeague: '' });
+                      setUseCustomLeague(false);
+                    }}
+                  >
+                    Custom
+                  </button>
+                }
               />
+              
               <FormField
                 label="League / Competition"
-                type="select"
-                value={newMatch.league}
-                onChange={(value) => setNewMatch({ ...newMatch, league: value })}
-                options={newMatch.sport ? LEAGUES[newMatch.sport as keyof typeof LEAGUES] : []}
-                placeholder={newMatch.sport ? "Choose a league" : "Select sport first"}
-                disabled={!newMatch.sport}
-                required
+                type={useCustomLeague ? "text" : "select"}
+                value={useCustomLeague ? newMatch.customLeague : newMatch.league}
+                onChange={(value) => {
+                  if (useCustomLeague) {
+                    setNewMatch({ ...newMatch, customLeague: value });
+                  } else {
+                    setNewMatch({ ...newMatch, league: value });
+                  }
+                }}
+                options={useCustomLeague ? undefined : (useCustomSport ? [] : (newMatch.sport ? LEAGUES[newMatch.sport as keyof typeof LEAGUES] : []))}
+                placeholder={useCustomLeague ? "Enter custom league" : (useCustomSport || !newMatch.sport ? "Select sport first" : "Choose a league")}
+                disabled={useCustomLeague ? false : (useCustomSport ? false : !newMatch.sport)}
+                autoComplete="off"
+                statusIcon={
+                  <button
+                    type="button"
+                    className={`inline-toggle ${useCustomLeague ? 'active' : ''}`}
+                    onClick={() => {
+                      setUseCustomLeague(!useCustomLeague);
+                      setNewMatch({ ...newMatch, league: '', customLeague: '' });
+                    }}
+                    disabled={useCustomSport ? false : !newMatch.sport}
+                  >
+                    Custom
+                  </button>
+                }
               />
               <FormField
                 label="Home Team"
@@ -662,7 +755,6 @@ const Admin = () => {
                 onChange={(value) => setNewMatch({ ...newMatch, team1: value })}
                 placeholder="Enter home team name"
                 autoComplete="off"
-                required
               />
               <FormField
                 label="Away Team"
@@ -670,7 +762,6 @@ const Admin = () => {
                 onChange={(value) => setNewMatch({ ...newMatch, team2: value })}
                 placeholder="Enter away team name"
                 autoComplete="off"
-                required
               />
               <DateTimeField
                 label="Match Date"
@@ -678,14 +769,12 @@ const Admin = () => {
                 value={newMatch.date}
                 onChange={(value) => setNewMatch({ ...newMatch, date: value })}
                 min={today}
-                required
               />
               <DateTimeField
                 label="Kick-off Time"
                 type="time"
                 value={newMatch.time}
                 onChange={(value) => setNewMatch({ ...newMatch, time: value })}
-                required
               />
             </div>
             <div className="form-actions">
@@ -779,7 +868,6 @@ const Admin = () => {
                 onChange={(value) => setNewBand({ ...newBand, name: value })}
                 placeholder="Enter artist or band name"
                 autoComplete="off"
-                required
               />
               <FormField
                 label="Music Genre"
@@ -788,7 +876,6 @@ const Admin = () => {
                 onChange={(value) => setNewBand({ ...newBand, genre: value })}
                 options={GENRES}
                 placeholder="Select music genre"
-                required
               />
               <DateTimeField
                 label="Performance Date"
@@ -796,14 +883,12 @@ const Admin = () => {
                 value={newBand.date}
                 onChange={(value) => setNewBand({ ...newBand, date: value })}
                 min={today}
-                required
               />
               <DateTimeField
                 label="Start Time"
                 type="time"
                 value={newBand.time}
                 onChange={(value) => setNewBand({ ...newBand, time: value })}
-                required
               />
             </div>
             <div className="form-actions">

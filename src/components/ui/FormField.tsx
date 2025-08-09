@@ -17,6 +17,7 @@ interface FormFieldProps {
   className?: string;
   options?: Array<{ value: string; label: string }>;
   autoComplete?: string;
+  statusIcon?: React.ReactNode;
 }
 
 const FormField: React.FC<FormFieldProps> = ({
@@ -32,7 +33,8 @@ const FormField: React.FC<FormFieldProps> = ({
   icon,
   className = '',
   options,
-  autoComplete
+  autoComplete,
+  statusIcon
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const id = useId();
@@ -99,30 +101,34 @@ const FormField: React.FC<FormFieldProps> = ({
         </div>
 
         <div className="form-status-icon">
-          <AnimatePresence mode="wait">
-            {hasError && (
-              <motion.div
-                key="error"
-                initial={{ scale: 0, rotate: -180 }}
-                animate={{ scale: 1, rotate: 0 }}
-                exit={{ scale: 0, rotate: 180 }}
-                transition={{ duration: 0.2 }}
-              >
-                <AlertCircle className="form-icon-error" size={18} />
-              </motion.div>
-            )}
-            {success && !hasError && hasValue && (
-              <motion.div
-                key="success"
-                initial={{ scale: 0, rotate: -180 }}
-                animate={{ scale: 1, rotate: 0 }}
-                exit={{ scale: 0, rotate: 180 }}
-                transition={{ duration: 0.2 }}
-              >
-                <CheckCircle className="form-icon-success" size={18} />
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {statusIcon ? (
+            statusIcon
+          ) : (
+            <AnimatePresence mode="wait">
+              {hasError && (
+                <motion.div
+                  key="error"
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  exit={{ scale: 0, rotate: 180 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <AlertCircle className="form-icon-error" size={18} />
+                </motion.div>
+              )}
+              {success && !hasError && hasValue && (
+                <motion.div
+                  key="success"
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  exit={{ scale: 0, rotate: 180 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <CheckCircle className="form-icon-success" size={18} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          )}
         </div>
       </div>
 

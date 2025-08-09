@@ -549,3 +549,43 @@
     border-width: 2px;
   }
 }
+
+
+.inline-toggle {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(200, 178, 115, 0.3);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-medium);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.inline-toggle:hover {
+  background: rgba(200, 178, 115, 0.1);
+  border-color: rgba(200, 178, 115, 0.5);
+  color: #c8b273;
+}
+
+.inline-toggle.active {
+  background: linear-gradient(135deg, #c8b273 0%, #d4c285 100%);
+  border-color: #c8b273;
+  color: #1a1a1a;
+  box-shadow: 0 2px 6px rgba(200, 178, 115, 0.3);
+}
+
+.inline-toggle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.inline-toggle:disabled:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(200, 178, 115, 0.3);
+  color: rgba(255, 255, 255, 0.7);
+}

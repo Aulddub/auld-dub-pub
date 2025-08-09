@@ -6,6 +6,7 @@ import '../styles/AllMatches.css';
 
 interface Match {
   id: string;
+  sport: string;
   league: string;
   team1: string;
   team2: string;
@@ -13,18 +14,6 @@ interface Match {
   time: string;
 }
 
-const LEAGUES = [
-  "Premier League",
-  "Champions League",
-  "Europa League",
-  "La Liga",
-  "Bundesliga",
-  "Serie A",
-  "Six Nations Rugby",
-  "Champions Cup Rugby",
-  "GAA Football",
-  "GAA Hurling"
-];
 
 const AllMatches = () => {
   const [matches, setMatches] = useState<Match[]>([]);
@@ -63,6 +52,9 @@ const AllMatches = () => {
   const filteredMatches = selectedLeague
     ? matches.filter(match => match.league === selectedLeague)
     : matches;
+
+  // Получаем уникальные лиги из существующих матчей
+  const availableLeagues = Array.from(new Set(matches.map(match => match.league))).sort();
 
   if (loading) {
     return (
@@ -109,7 +101,7 @@ const AllMatches = () => {
             className="league-filter"
           >
             <option value="">All Leagues</option>
-            {LEAGUES.map(league => (
+            {availableLeagues.map(league => (
               <option key={league} value={league}>{league}</option>
             ))}
           </select>
@@ -130,6 +122,7 @@ const AllMatches = () => {
                       </span>
                     </div>
                     <div className="match-details">
+                      <div className="match-sport">{match.sport}</div>
                       <div className="match-league">{match.league}</div>
                       <div className="match-teams">
                         {match.team1} vs {match.team2}

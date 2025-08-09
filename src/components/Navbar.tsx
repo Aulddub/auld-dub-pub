@@ -26,6 +26,18 @@ const Navbar: React.FC = () => {
     setIsOpen(false);
   };
 
+  const scrollToElementWithOffset = (element: Element) => {
+    // Dynamic offset based on screen size
+    const offset = window.innerWidth <= 768 ? 100 : 120;
+    const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+    const offsetPosition = elementPosition - offset;
+    
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth'
+    });
+  };
+
   const handleNavigation = (sectionId: string, tab?: string) => {
     closeMenu();
     if (location.pathname !== '/') {
@@ -35,7 +47,7 @@ const Navbar: React.FC = () => {
       setTimeout(() => {
         const element = document.getElementById(sectionId.replace('#', ''));
         if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
+          scrollToElementWithOffset(element);
         }
         // Handle tab switching for entertainment section
         if (tab && sectionId === '#entertainment') {
@@ -47,7 +59,7 @@ const Navbar: React.FC = () => {
       // If on home page, just scroll to section
       const element = document.getElementById(sectionId.replace('#', ''));
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        scrollToElementWithOffset(element);
       }
       // Handle tab switching for entertainment section
       if (tab && sectionId === '#entertainment') {

@@ -1,6 +1,7 @@
 {
   "short_name": "The Auld Dub",
-  "name": "The Auld Dub - Irish Pub Stockholm",
+  "name": "The Auld Dub - Authentic Irish Pub Stockholm",
+  "description": "Stockholm's most authentic Irish pub offering traditional Irish food, craft beers, live music and sports viewing.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -18,8 +19,8 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#c8b273",
+  "background_color": "#0a0a0a"
 }

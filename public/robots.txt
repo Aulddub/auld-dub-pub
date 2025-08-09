@@ -1,8 +1,22 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Allow: /
-Disallow: /admin
-Disallow: /assets/documents/theaulddub-menu-english-2020.pdf
+
+# Block admin area completely
+Disallow: /admin*
+Disallow: /login*
+
+# Block all PDF files from indexing
+Disallow: *.pdf
+Disallow: /menu.pdf
+Disallow: /drinks.pdf
+Disallow: /assets/documents/
+Disallow: /assets/*.pdf
+
+# Block development and build files
+Disallow: /static/
+Disallow: /_next/
+Disallow: /build/
 
 # Sitemap location
 Sitemap: https://www.theaulddub.se/sitemap.xml
