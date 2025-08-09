@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Menu.css';
 import menuPreview from '../assets/menu-preview.png';
-import PDFViewer from './PDFViewer';
 import { db } from '../config/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import menuPdf from '../assets/menu_drinks/menu.pdf';
@@ -18,12 +17,6 @@ interface MenuPDF {
 }
 
 const Menu: React.FC = () => {
-  const [pdfViewer, setPdfViewer] = useState<{
-    isOpen: boolean;
-    pdfUrl: string;
-    title: string;
-  }>({ isOpen: false, pdfUrl: '', title: '' });
-  
   const [dynamicMenus, setDynamicMenus] = useState<MenuPDF[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -50,12 +43,8 @@ const Menu: React.FC = () => {
     fetchMenus();
   }, []);
 
-  const openPDF = (pdfUrl: string, title: string) => {
-    setPdfViewer({ isOpen: true, pdfUrl, title });
-  };
-
-  const closePDF = () => {
-    setPdfViewer({ isOpen: false, pdfUrl: '', title: '' });
+  const openPDF = (pdfUrl: string, _title: string) => {
+    window.open(pdfUrl, '_blank');
   };
 
   // Получаем активные меню по типу
@@ -137,12 +126,7 @@ const Menu: React.FC = () => {
           </div>
         )}
         
-        <PDFViewer
-          isOpen={pdfViewer.isOpen}
-          onClose={closePDF}
-          pdfUrl={pdfViewer.pdfUrl}
-          title={pdfViewer.title}
-        />
+
       </div>
     </section>
   );
