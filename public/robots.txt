@@ -1,6 +1,8 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /assets/documents/theaulddub-menu-english-2020.pdf
 
 # Sitemap location
 Sitemap: https://www.theaulddub.se/sitemap.xml

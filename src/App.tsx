@@ -1,6 +1,7 @@
 import React, { useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
+import { Helmet } from 'react-helmet';
 import './App.css';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -148,9 +149,15 @@ function App() {
             </>
           } />
           <Route path="/admin" element={
-            <Suspense fallback={<Loading />}>
-              <Admin />
-            </Suspense>
+            <>
+              <Helmet>
+                <meta name="robots" content="noindex, nofollow" />
+                <meta name="googlebot" content="noindex, nofollow" />
+              </Helmet>
+              <Suspense fallback={<Loading />}>
+                <Admin />
+              </Suspense>
+            </>
           } />
         </Routes>
       </Router>
