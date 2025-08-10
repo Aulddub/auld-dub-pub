@@ -9,16 +9,16 @@
 
 export const emailjsConfig = {
   // Your EmailJS Public Key (found in Account > API Keys)
-  publicKey: 'AFL39bF-Mhov-tLkM',
+  publicKey: '1aLlFBydFS30OB9TX',
   
   // Your EmailJS Service ID (found in Email Services)
-  serviceId: 'service_jiyzxd4',
+  serviceId: 'service_nvzctvd',
   
   // Your EmailJS Template ID (found in Email Templates)
-  templateId: 'template_oaoe87d',
+  templateId: 'template_55vvr4q',
   
   // Restaurant email where messages will be sent
-  restaurantEmail: 'shamillorsan@gmail.com'
+  restaurantEmail: 'info@theaulddub.se'
 };
 
 // Template variables that should be used in your EmailJS template:
