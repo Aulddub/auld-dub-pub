@@ -107,13 +107,20 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={
-            <div className="outer-container">
-              <div className="inner-container">
-                <div className="App">
-                  <Navbar />
-                  <section id="hero">
-                    <Hero />
-                  </section>
+            <>
+              <Helmet>
+                <title>The Auld Dub - Best Pub & Restaurant Stockholm Hötorget | Irish Food, Sports & Music</title>
+                <meta name="description" content="Stockholm's best pub & restaurant at Hötorget in Stockholm City Center. Watch live sports, enjoy pub quiz, live music, traditional Irish food & Guinness. Perfect central location for tourists & locals." />
+                <meta name="robots" content="index, follow" />
+                <link rel="canonical" href="https://www.theaulddub.se/" />
+              </Helmet>
+              <div className="outer-container">
+                <div className="inner-container">
+                  <div className="App">
+                    <Navbar />
+                    <section id="hero">
+                      <Hero />
+                    </section>
                   <Suspense fallback={<Loading />}>
                     <section id="about">
                       <About />
@@ -128,12 +135,19 @@ function App() {
                       <Contact />
                     </section>
                   </Suspense>
+                  </div>
                 </div>
               </div>
-            </div>
+            </>
           } />
           <Route path="/all-matches" element={
             <>
+              <Helmet>
+                <title>All Sports Matches - The Auld Dub Stockholm | Live Football & Sports</title>
+                <meta name="description" content="Watch all live sports matches at The Auld Dub Stockholm. Premier League, Champions League, and more on big screens with great atmosphere and Guinness." />
+                <meta name="robots" content="index, follow" />
+                <link rel="canonical" href="https://www.theaulddub.se/all-matches" />
+              </Helmet>
               <Navbar />
               <Suspense fallback={<Loading />}>
                 <AllMatches />
@@ -142,6 +156,12 @@ function App() {
           } />
           <Route path="/all-live-music" element={
             <>
+              <Helmet>
+                <title>Live Music Events - The Auld Dub Stockholm | Irish Traditional Music</title>
+                <meta name="description" content="Experience authentic Irish live music at The Auld Dub Stockholm. Traditional Irish sessions, local bands, and musical entertainment in Stockholm's best Irish pub." />
+                <meta name="robots" content="index, follow" />
+                <link rel="canonical" href="https://www.theaulddub.se/all-live-music" />
+              </Helmet>
               <Navbar />
               <Suspense fallback={<Loading />}>
                 <AllLiveMusic />

@@ -5,6 +5,8 @@ Allow: /
 # Block admin area completely
 Disallow: /admin*
 Disallow: /login*
+Disallow: /Admin*
+Disallow: /ADMIN*
 
 # Block all PDF files from indexing
 Disallow: *.pdf
