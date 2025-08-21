@@ -20,5 +20,14 @@ Disallow: /static/
 Disallow: /_next/
 Disallow: /build/
 
+# Block React development files
+Disallow: /manifest.json
+Disallow: /logo192.png
+Disallow: /logo512.png
+Disallow: /favicon.ico
+
+# Block any query parameters or React routes
+Disallow: /*?*
+
 # Sitemap location
 Sitemap: https://www.theaulddub.se/sitemap.xml
