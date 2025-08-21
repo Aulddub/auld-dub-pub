@@ -9,7 +9,7 @@ Disallow: /Admin*
 Disallow: /ADMIN*
 
 # Block all PDF files from indexing
-Disallow: *.pdf
+Disallow: /*.pdf
 Disallow: /menu.pdf
 Disallow: /drinks.pdf
 Disallow: /assets/documents/
@@ -24,7 +24,6 @@ Disallow: /build/
 Disallow: /manifest.json
 Disallow: /logo192.png
 Disallow: /logo512.png
-Disallow: /favicon.ico
 
 # Block any query parameters or React routes
 Disallow: /*?*
