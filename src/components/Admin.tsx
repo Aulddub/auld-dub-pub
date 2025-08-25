@@ -14,6 +14,7 @@ import {
   Trash2,
   Edit3,
   Eye,
+  EyeOff,
   Upload,
   Download
 } from 'lucide-react';
@@ -128,6 +129,7 @@ const Admin = () => {
   // Authentication state
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   
@@ -673,14 +675,24 @@ const Admin = () => {
                   icon={<User size={18} />}
                 />
                 
-                <FormField
-                  label="Password"
-                  type="password"
-                  value={password}
-                  onChange={setPassword}
-                  placeholder="Your secure password"
-                  icon={<LogOut size={18} />}
-                />
+                <div className="password-field-container">
+                  <FormField
+                    label="Password"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={setPassword}
+                    placeholder="Your secure password"
+                    icon={<LogOut size={18} />}
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle-btn"
+                    onClick={() => setShowPassword(!showPassword)}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
                 
                 <Button
                   type="submit"

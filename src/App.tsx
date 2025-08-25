@@ -171,11 +171,18 @@ function App() {
               </Suspense>
             </>
           } />
-          <Route path="/admin" element={
+          <Route path="/management-dashboard" element={
             <>
               <Helmet>
+                <title>Management Access</title>
                 <meta name="robots" content="noindex, nofollow" />
                 <meta name="googlebot" content="noindex, nofollow" />
+                <meta name="bingbot" content="noindex, nofollow" />
+                <meta name="slurp" content="noindex, nofollow" />
+                <meta name="description" content="" />
+                <meta property="og:title" content="" />
+                <meta property="og:description" content="" />
+                <meta name="referrer" content="no-referrer" />
               </Helmet>
               <Suspense fallback={<Loading />}>
                 <Admin />

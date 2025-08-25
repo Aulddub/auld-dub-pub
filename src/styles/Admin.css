@@ -98,6 +98,52 @@
   margin-top: 1rem;
 }
 
+/* Password field with show/hide toggle */
+.password-field-container {
+  position: relative;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #a8a8a8;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.password-toggle-btn:hover {
+  color: #c8b273;
+  background-color: rgba(200, 178, 115, 0.1);
+}
+
+.password-toggle-btn:focus {
+  outline: none;
+  color: #c8b273;
+  box-shadow: 0 0 0 2px rgba(200, 178, 115, 0.3);
+}
+
+/* Make form fields larger for better visibility */
+.admin-login-form .form-field input {
+  font-size: 16px;
+  padding: 14px 12px;
+  min-height: 50px;
+}
+
+.admin-login-form .form-field label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
 /* Main Admin Panel */
 .admin-panel-container {
   min-height: 100vh;
