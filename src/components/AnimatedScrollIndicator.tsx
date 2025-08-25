@@ -64,7 +64,7 @@ const AnimatedScrollIndicator: React.FC<AnimatedScrollIndicatorProps> = ({ onCli
         opacity: 0
       });
 
-      // Бесконечная анимация пузырька
+  
       const tl = gsap.timeline({ repeat: -1, delay: Math.random() * 2 });
       
       tl.to(bubble, {
@@ -73,8 +73,8 @@ const AnimatedScrollIndicator: React.FC<AnimatedScrollIndicatorProps> = ({ onCli
       })
       .to(bubble, {
         y: -60,
-        x: startX + (Math.random() * 20 - 10), // Небольшое покачивание
-        scale: Math.random() * 0.5 + 0.5, // Изменение размера
+        x: startX + (Math.random() * 20 - 10),
+        scale: Math.random() * 0.5 + 0.5, 
         duration,
         ease: 'power1.out'
       })
@@ -111,7 +111,7 @@ const AnimatedScrollIndicator: React.FC<AnimatedScrollIndicatorProps> = ({ onCli
     const container = containerRef.current;
     const mug = mugRef.current;
 
-    // Основная анимация подпрыгивания кружки
+    
     const bounceAnimation = gsap.timeline({ repeat: -1 });
     bounceAnimation
       .to(mug, {
@@ -124,9 +124,9 @@ const AnimatedScrollIndicator: React.FC<AnimatedScrollIndicatorProps> = ({ onCli
         duration: 0.6,
         ease: 'bounce.out'
       })
-      .to({}, { duration: 1 }); // Пауза
+      .to({}, { duration: 1 }); 
 
-    // Анимация при наведении
+    
     const handleMouseEnter = () => {
       gsap.to(mug, {
         scale: 1.1,
@@ -184,9 +184,9 @@ const AnimatedScrollIndicator: React.FC<AnimatedScrollIndicatorProps> = ({ onCli
         Scroll for More
       </div>
 
-      {/* Контейнер кружки с пузырьками */}
+      
       <div style={{ position: 'relative' }}>
-        {/* Пузырьки */}
+        
         <div
           style={{
             position: 'absolute',
@@ -203,7 +203,7 @@ const AnimatedScrollIndicator: React.FC<AnimatedScrollIndicatorProps> = ({ onCli
           ))}
         </div>
 
-        {/* Кружка */}
+        
         <div
           ref={mugRef}
           style={{

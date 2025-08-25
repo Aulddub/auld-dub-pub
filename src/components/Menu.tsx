@@ -1,38 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Menu.css';
 import menuPreview from '../assets/menu-preview.png';
-import { db } from '../config/firebase';
-import { collection, getDocs } from 'firebase/firestore';
-// PDF файлы теперь в папке public для чистых URL
-const menuPdf = '/menu.pdf';
-const drinksPdf = '/drinks.pdf';
+import { databaseService } from '../services/database';
 
 interface MenuPDF {
   id: string;
   name: string;
-  type: 'food' | 'drinks' | 'seasonal';
-  pdfUrl: string;
-  fileName: string;
-  isActive: boolean;
-  uploadDate: string;
+  type: 'food' | 'drinks';
+  file_url: string;
+  file_name: string;
+  is_active: boolean;
+  upload_date: string;
 }
 
 const Menu: React.FC = () => {
   const [dynamicMenus, setDynamicMenus] = useState<MenuPDF[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showUnavailableModal, setShowUnavailableModal] = useState(false);
+  const [modalMenuType, setModalMenuType] = useState<'food' | 'drinks'>('food');
 
   useEffect(() => {
     const fetchMenus = async () => {
       try {
-        const menusCollection = collection(db, 'menus');
-        const menusSnapshot = await getDocs(menusCollection);
-        const menusList = menusSnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })) as MenuPDF[];
+        const menusList = await databaseService.getMenus();
         
-        // Фильтруем только активные меню
-        const activeMenus = menusList.filter(menu => menu.isActive);
+        
+        const activeMenus = menusList.filter(menu => {
+          const isActive = menu.is_active ?? false;
+          return isActive;
+        });
         setDynamicMenus(activeMenus);
       } catch (error) {
         console.error('Error fetching menus:', error);
@@ -44,29 +40,49 @@ const Menu: React.FC = () => {
     fetchMenus();
   }, []);
 
-  const openPDF = (pdfUrl: string, _title: string) => {
-    window.open(pdfUrl, '_blank');
+  const openPDF = (fileUrl: string | undefined, _title: string) => {
+    if (fileUrl) {
+      window.open(fileUrl, '_blank');
+    }
   };
 
-  // Получаем активные меню по типу
-  const getActiveMenuByType = (type: 'food' | 'drinks' | 'seasonal') => {
-    return dynamicMenus.find(menu => menu.type === type && menu.isActive);
+  const handleMenuClick = (menuType: 'food' | 'drinks') => {
+    const menu = menuType === 'food' ? getFoodMenu() : getDrinksMenu();
+    if (menu) {
+      openPDF(menu.url, menu.title);
+    } else {
+      setModalMenuType(menuType);
+      setShowUnavailableModal(true);
+    }
   };
 
-  // Определяем какое меню использовать (динамическое или статическое)
+  
+  const getActiveMenuByType = (type: 'food' | 'drinks') => {
+    return dynamicMenus.find(menu => {
+      const isActive = menu.is_active ?? false;
+      return menu.type === type && isActive;
+    });
+  };
+
+  
   const getFoodMenu = () => {
     const dynamicMenu = getActiveMenuByType('food');
-    return dynamicMenu ? { url: dynamicMenu.pdfUrl, title: dynamicMenu.name } : { url: menuPdf, title: 'Food Menu' };
+    if (dynamicMenu) {
+      const url = dynamicMenu.file_url || '';
+      return { url, title: dynamicMenu.name };
+    }
+    return null;
   };
 
   const getDrinksMenu = () => {
     const dynamicMenu = getActiveMenuByType('drinks');
-    return dynamicMenu ? { url: dynamicMenu.pdfUrl, title: dynamicMenu.name } : { url: drinksPdf, title: 'Drinks Menu' };
+    if (dynamicMenu) {
+      const url = dynamicMenu.file_url || '';
+      return { url, title: dynamicMenu.name };
+    }
+    return null;
   };
 
-  const getSeasonalMenu = () => {
-    return getActiveMenuByType('seasonal');
-  };
 
   if (loading) {
     return (
@@ -79,9 +95,8 @@ const Menu: React.FC = () => {
     );
   }
 
-  const foodMenu = getFoodMenu();
-  const drinksMenu = getDrinksMenu();
-  const seasonalMenu = getSeasonalMenu();
+  // const foodMenu = getFoodMenu();
+  // const drinksMenu = getDrinksMenu();
 
   return (
     <section className="menu" id="menu">
@@ -89,12 +104,9 @@ const Menu: React.FC = () => {
         <h2 className="menu-title">THE MENUS</h2>
         
         <div className="menu-showcase">
-          <div className="menu-section food-section" onClick={() => openPDF(foodMenu.url, foodMenu.title)}>
+          <div className="menu-section food-section" onClick={() => handleMenuClick('food')}>
             <h3>Food</h3>
             <p className="menu-section-subtitle">VIEW MENU</p>
-            {getActiveMenuByType('food') && (
-              <p className="menu-section-note">Updated: {new Date(getActiveMenuByType('food')!.uploadDate).toLocaleDateString()}</p>
-            )}
           </div>
           
           <div className="menu-image-container">
@@ -102,33 +114,51 @@ const Menu: React.FC = () => {
                src={menuPreview} 
                alt="Menu Preview" 
                className="menu-preview-image" 
-               onClick={() => openPDF(foodMenu.url, foodMenu.title)}
+               onClick={() => handleMenuClick('food')}
              />
-             <button className="see-full-menu-btn" onClick={() => openPDF(foodMenu.url, foodMenu.title)}>See Full Menu</button>
+             <button className="see-full-menu-btn" onClick={() => handleMenuClick('food')}>See Full Menu</button>
            </div>
           
-          <div className="menu-section drinks-section" onClick={() => openPDF(drinksMenu.url, drinksMenu.title)}>
+          <div className="menu-section drinks-section" onClick={() => handleMenuClick('drinks')}>
             <h3>Drinks</h3>
             <p className="menu-section-subtitle">VIEW MENU</p>
-            {getActiveMenuByType('drinks') && (
-              <p className="menu-section-note">Updated: {new Date(getActiveMenuByType('drinks')!.uploadDate).toLocaleDateString()}</p>
-            )}
           </div>
         </div>
         
-        {/* Показываем сезонное меню если оно есть */}
-        {seasonalMenu && (
-          <div className="seasonal-menu-section">
-            <div className="seasonal-menu-card" onClick={() => openPDF(seasonalMenu.pdfUrl, seasonalMenu.name)}>
-              <h3>🍂 {seasonalMenu.name}</h3>
-              <p className="menu-section-subtitle">LIMITED TIME</p>
-              <p className="menu-section-note">Available until: {new Date(seasonalMenu.uploadDate).toLocaleDateString()}</p>
-            </div>
-          </div>
-        )}
-        
 
       </div>
+
+      {/* Modal for unavailable menu */}
+      {showUnavailableModal && (
+        <div className="menu-modal-overlay" onClick={() => setShowUnavailableModal(false)}>
+          <div className="menu-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="menu-modal-icon">
+              <div className="menu-icon-circle">
+                <span className="menu-icon-utensils">🍽️</span>
+              </div>
+            </div>
+            <div className="menu-modal-body">
+              <h3 className="menu-modal-title">
+                {modalMenuType === 'food' ? 'Food Menu' : 'Drinks Menu'} Temporarily Unavailable
+              </h3>
+              <p className="menu-modal-message">
+                We're currently updating our {modalMenuType === 'food' ? 'food' : 'drinks'} menu to bring you 
+                the best selection possible. Our delicious offerings will be back online shortly.
+              </p>
+              <p className="menu-modal-submessage">
+                Thank you for your patience!
+              </p>
+            </div>
+            <button 
+              className="menu-modal-close"
+              onClick={() => setShowUnavailableModal(false)}
+              aria-label="Close modal"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

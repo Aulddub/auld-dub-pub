@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs, orderBy, query } from 'firebase/firestore';
-import { db } from '../config/firebase';
+import { databaseService } from '../services/database';
 import { useNavigate } from 'react-router-dom';
 import '../styles/AllLiveMusic.css';
 
@@ -20,14 +19,7 @@ const AllLiveMusic = () => {
   useEffect(() => {
     const fetchBands = async () => {
       try {
-        const bandsCollection = collection(db, 'bands');
-        const q = query(bandsCollection, orderBy('date', 'asc'));
-        const bandsSnapshot = await getDocs(q);
-        const bandsList = bandsSnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })) as Band[];
-        
+        const bandsList = await databaseService.getBands();
         setBands(bandsList);
       } catch (error) {
         console.error('Error fetching bands:', error);

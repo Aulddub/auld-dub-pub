@@ -1,6 +1,5 @@
 import React, { useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Analytics } from '@vercel/analytics/react';
 import { Helmet } from 'react-helmet';
 import './App.css';
 import Navbar from './components/Navbar';
@@ -35,22 +34,22 @@ const Loading = () => (
 );
 
 function App() {
-  // Используем Lenis для плавного скролла
+  
   useLenis();
 
   useEffect(() => {
-    // Исправляем позиционирование секций сохраняя другие анимации
+    
     const setupScrollAnimations = () => {
       // Очищаем только ScrollTrigger триггеры наложения секций
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
       
-      // Исправляем только позиционирование секций
+      
       const sections = document.querySelectorAll('#hero, #about, #menu, #entertainment, #contact');
       
       sections.forEach((element) => {
         if (!element) return;
         
-        // Очищаем только transform свойства, сохраняя остальные анимации
+        
         gsap.set(element, {
           y: 0,
           x: 0,
@@ -60,10 +59,10 @@ function App() {
       });
     };
     
-    // Устанавливаем анимации после загрузки всех компонентов
+    
     const timeoutId = setTimeout(setupScrollAnimations, 100);
     
-    // Упрощенная обработка хэша URL для навигации
+    
     const handleHashNavigation = () => {
       const hash = window.location.hash;
       
@@ -72,7 +71,7 @@ function App() {
         const element = document.querySelector(elementId);
         if (element) {
           const offset = 80;
-          // Используем стандартный offset для всех секций
+          
           const elementPosition = element.getBoundingClientRect().top;
           const offsetPosition = elementPosition + window.pageYOffset - offset;
           
@@ -86,14 +85,14 @@ function App() {
     
     setTimeout(handleHashNavigation, 200);
     
-    // Добавляем обработчик для hashchange событий
+    
     const handleHashChange = () => {
       handleHashNavigation();
     };
     
     window.addEventListener('hashchange', handleHashChange);
     
-    // Очистка при размонтировании
+    
     return () => {
       clearTimeout(timeoutId);
       window.removeEventListener('hashchange', handleHashChange);
@@ -181,7 +180,6 @@ function App() {
           } />
         </Routes>
       </Router>
-      <Analytics />
     </>
   );
 }

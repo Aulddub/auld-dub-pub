@@ -1,6 +1,6 @@
 .menu {
   padding: 0 1.5rem;
-  background: #0a0a0a; /* Непрозрачный черный фон */
+  background: #0a0a0a; 
   min-height: 100vh;
   color: #e4e4e4;
   display: flex;
@@ -8,6 +8,123 @@
   justify-content: center;
   position: relative;
   z-index: 20;
+}
+
+/* Modal Styles */
+.menu-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+.menu-modal-content {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  border: 2px solid #c8b273;
+  border-radius: 15px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  animation: modalSlideIn 0.3s ease-out;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.menu-modal-icon {
+  margin-bottom: 1.5rem;
+}
+
+.menu-icon-circle {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #c8b273 0%, #d4c58a 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  box-shadow: 0 8px 20px rgba(200, 178, 115, 0.3);
+}
+
+.menu-icon-utensils {
+  font-size: 2rem;
+  filter: grayscale(100%) brightness(0.2);
+}
+
+.menu-modal-title {
+  color: #c8b273;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  letter-spacing: 0.5px;
+}
+
+.menu-modal-message {
+  color: #e4e4e4;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  opacity: 0.9;
+}
+
+.menu-modal-submessage {
+  color: #c8b273;
+  font-size: 0.95rem;
+  font-weight: 500;
+  font-style: italic;
+  margin-bottom: 0;
+}
+
+.menu-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #c8b273;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.menu-modal-close:hover {
+  background: rgba(200, 178, 115, 0.1);
+  transform: rotate(90deg);
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalSlideIn {
+  from {
+    transform: translateY(-50px) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 }
 
 

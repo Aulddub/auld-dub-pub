@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import Lenis from 'lenis';
 
-// Расширяем тип Window для ScrollTrigger
+
 declare global {
   interface Window {
     ScrollTrigger?: {
@@ -13,15 +13,15 @@ declare global {
 
 export const useLenis = () => {
   useEffect(() => {
-    // Создаем экземпляр Lenis с оптимизированными настройками
+    
     const lenis = new Lenis({
-      duration: 1, // Оптимальная длительность для баланса плавности и отзывчивости
+      duration: 1, 
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Плавная функция easing
-      lerp: 0.07, // Оптимальное значение для плавного следования за скроллом
+      lerp: 0.07, 
       smoothWheel: true,
-      syncTouch: false, // Отключаем для стабильности на мобильных
-      touchMultiplier: 1.5, // Умеренная чувствительность на тач
-      wheelMultiplier: 1.2, // Слегка увеличенная чувствительность колеса
+      syncTouch: false, 
+      touchMultiplier: 1.5, 
+      wheelMultiplier: 1.2, 
       infinite: false,
       orientation: 'vertical',
       gestureOrientation: 'vertical'
@@ -36,14 +36,14 @@ export const useLenis = () => {
 
     rafId = requestAnimationFrame(raf);
 
-    // Интеграция с GSAP ScrollTrigger
+    
     if (window.ScrollTrigger) {
       lenis.on('scroll', () => {
         window.ScrollTrigger?.update();
       });
     }
 
-    // Обновление при изменении размера окна
+    
     const handleResize = () => {
       lenis.resize();
       window.ScrollTrigger?.refresh();
@@ -51,7 +51,7 @@ export const useLenis = () => {
 
     window.addEventListener('resize', handleResize);
 
-    // Очистка при размонтировании
+    
     return () => {
       cancelAnimationFrame(rafId);
       window.removeEventListener('resize', handleResize);

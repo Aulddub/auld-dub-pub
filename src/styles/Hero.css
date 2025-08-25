@@ -10,9 +10,8 @@
   align-items: center;
   justify-content: center;
   z-index: 1;
-  /* Оптимизация для анимаций */
   will-change: transform;
-  transform: translateZ(0); /* Принудительное использование GPU */
+  transform: translateZ(0); 
   backface-visibility: hidden;
 }
 

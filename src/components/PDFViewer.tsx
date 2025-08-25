@@ -97,7 +97,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ isOpen, onClose, pdfUrl, title })
           </button>
         </div>
         
-        {/* Фиксированная кнопка закрытия для мобильных */}
+        
         <button className="pdf-viewer-mobile-close" onClick={onClose} aria-label="Close menu">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

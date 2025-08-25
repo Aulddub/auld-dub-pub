@@ -45,68 +45,68 @@ const ShamrockParticles: React.FC = () => {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // Проверяем, не мобильное ли устройство
+    
     const isMobile = window.innerWidth <= 768;
     if (isMobile) {
-      return; // Не создаем частицы на мобильных устройствах
+      return; 
     }
 
-    // Создаем частицы
+    
     const createParticles = () => {
       const particles: Particle[] = [];
-      const particleCount = 15; // Не слишком много для производительности
+      const particleCount = 15;
 
       for (let i = 0; i < particleCount; i++) {
         particles.push({
           x: Math.random() * window.innerWidth,
           y: Math.random() * window.innerHeight,
-          size: Math.random() * 20 + 15, // 15-35px
-          speed: Math.random() * 0.5 + 0.2, // Медленная скорость
+          size: Math.random() * 20 + 15,
+          speed: Math.random() * 0.5 + 0.2, 
           rotation: Math.random() * 360,
           rotationSpeed: (Math.random() - 0.5) * 2, // -1 до 1
-          opacity: Math.random() * 0.3 + 0.1 // 0.1-0.4 для тонкого эффекта
+          opacity: Math.random() * 0.3 + 0.1 
         });
       }
       
       particlesRef.current = particles;
-      setParticleCount(particles.length); // Принудительно обновляем компонент
+      setParticleCount(particles.length); 
     };
 
-    // Анимация частиц
+    
     const animateParticles = () => {
       if (!containerRef.current) return;
 
       const container = containerRef.current;
       
       particlesRef.current.forEach((particle, index) => {
-        // Если мышь в hero секции, частицы следуют за курсором
+        
         if (isMouseInHero.current) {
           const dx = mousePosition.current.x - particle.x;
           const dy = mousePosition.current.y - particle.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
           
-          // Притягиваем частицы к курсору, но не слишком сильно
+          
           if (distance < 200) {
             particle.x += dx * 0.02;
             particle.y += dy * 0.02;
           }
         }
         
-        // Обычное движение вверх (но медленнее если мышь рядом)
+        
         const speedMultiplier = isMouseInHero.current ? 0.3 : 1;
         particle.y -= particle.speed * speedMultiplier;
         particle.rotation += particle.rotationSpeed;
 
-        // Если частица ушла за верх экрана, перемещаем её вниз
+        
         if (particle.y < -50) {
           particle.y = window.innerHeight + 50;
           particle.x = Math.random() * window.innerWidth;
         }
 
-        // Обновляем позицию в DOM с оптимизацией
+        
         const particleElement = container.children[index] as HTMLElement;
         if (particleElement) {
-          // Используем transform3d для лучшей производительности
+          
           particleElement.style.transform = `translate3d(${particle.x}px, ${particle.y}px, 0) rotate(${particle.rotation}deg)`;
         }
       });
@@ -117,7 +117,7 @@ const ShamrockParticles: React.FC = () => {
     createParticles();
     animateParticles();
 
-    // Отслеживание движения мыши
+    
     const handleMouseMove = (e: MouseEvent) => {
       mousePosition.current = {
         x: e.clientX,
@@ -125,7 +125,7 @@ const ShamrockParticles: React.FC = () => {
       };
     };
 
-    // Отслеживание вхождения мыши в hero секцию
+    
     const handleMouseEnterHero = () => {
       isMouseInHero.current = true;
     };
@@ -134,16 +134,16 @@ const ShamrockParticles: React.FC = () => {
       isMouseInHero.current = false;
     };
 
-    // Обновление размеров при ресайзе окна
+    
     const handleResize = () => {
       const isMobile = window.innerWidth <= 768;
       if (isMobile) {
-        // Очищаем частицы на мобильных устройствах
+        
         particlesRef.current = [];
         setParticleCount(0);
         return;
       }
-      createParticles(); // Это уже вызовет setParticleCount
+      createParticles(); 
     };
 
     const heroSection = document.getElementById('hero');
@@ -183,7 +183,7 @@ const ShamrockParticles: React.FC = () => {
         height: '100%',
         pointerEvents: 'none',
         zIndex: 1,
-        color: '#4ade80', // Зеленый цвет
+        color: '#4ade80',
         overflow: 'hidden'
       }}
     >
@@ -205,7 +205,7 @@ const ShamrockParticles: React.FC = () => {
             <ShamrockSVG
               size={particle.size}
               opacity={particle.opacity}
-              rotation={0} // Ротация теперь через transform
+              rotation={0} 
             />
           </div>
         );

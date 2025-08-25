@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
-import { db } from '../config/firebase';
+import { databaseService } from '../services/database';
 import { Link } from 'react-router-dom';
 import '../styles/Entertainment.css';
 import { FaMusic, FaFutbol, FaCalendarAlt } from 'react-icons/fa';
@@ -55,30 +54,14 @@ const Entertainment: React.FC = () => {
       setIsLoading(true);
       try {
         // Fetch bands
-        const bandsRef = collection(db, 'bands');
-        const bandsQuery = query(bandsRef, orderBy('date', 'desc'), limit(3));
-        const bandsSnapshot = await getDocs(bandsQuery);
-        const bands = bandsSnapshot.docs.map(doc => ({
-          id: doc.id,
-          name: doc.data().name,
-          date: doc.data().date,
-          time: doc.data().time,
-          genre: doc.data().genre
-        }));
+        const bands = await databaseService.getLatestBands(3);
         setLatestBands(bands);
 
         // Fetch matches
-        const matchesRef = collection(db, 'matches');
-        const matchesQuery = query(matchesRef);
-        const matchesSnapshot = await getDocs(matchesQuery);
+        const allMatches = await databaseService.getMatches();
         const now = new Date();
-        const matches = matchesSnapshot.docs
-          .map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          })) as Match[];
 
-        const upcomingMatches = matches
+        const upcomingMatches = allMatches
           .filter(match => {
             const matchDate = new Date(match.date + 'T' + match.time);
             return matchDate >= now;

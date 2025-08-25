@@ -3,8 +3,8 @@ import { gsap } from 'gsap';
 
 interface TypewriterTextProps {
   text: string;
-  delay?: number; // Задержка перед началом анимации
-  speed?: number; // Скорость печатания (мс между символами)
+  delay?: number; 
+  speed?: number; 
   className?: string;
   showCursor?: boolean;
   onComplete?: () => void;
@@ -30,7 +30,7 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
     let timeoutId: NodeJS.Timeout;
     let cursorAnimation: gsap.core.Timeline;
 
-    // Анимация мигающего курсора
+    
     if (showCursor && cursorRef.current) {
       cursorAnimation = gsap.timeline({ repeat: -1 });
       cursorAnimation.to(cursorRef.current, {
@@ -50,9 +50,9 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
         currentIndex++;
         timeoutId = setTimeout(typeNextCharacter, speed);
       } else {
-        // Анимация завершена
+        
         if (showCursor) {
-          // Продолжаем мигание курсора еще немного, затем скрываем
+          
           setTimeout(() => {
             setShowBlinkingCursor(false);
             if (cursorAnimation) {
@@ -67,7 +67,7 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
       }
     };
 
-    // Запускаем анимацию с задержкой
+    
     const startAnimation = () => {
       typeNextCharacter();
     };

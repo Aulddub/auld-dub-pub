@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { motion, AnimatePresence } from 'framer-motion';
-import { auth, db } from '../config/firebase';
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import { signInWithSupabase, signOutSupabase, onAuthStateChange } from '../services/supabaseAuth';
+import { databaseService } from '../services/database';
+import { supabase } from '../config/supabase';
 import { 
   User, 
   LogOut, 
@@ -13,10 +13,13 @@ import {
   Plus,
   Trash2,
   Edit3,
-  Eye
+  Eye,
+  Upload,
+  Download
 } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';
 import { Card, FormField, DateTimeField, Button, ConfirmModal, ListSkeleton } from './ui';
+import FileUpload from './FileUpload';
 import '../styles/Admin.css';
 
 interface Match {
@@ -40,11 +43,11 @@ interface Band {
 interface MenuPDF {
   id: string;
   name: string;
-  type: 'food' | 'drinks' | 'seasonal';
-  pdfUrl: string;
-  fileName: string;
-  isActive: boolean;
-  uploadDate: string;
+  type: 'food' | 'drinks';
+  file_url: string;
+  file_name: string;
+  is_active: boolean;
+  upload_date: string;
 }
 
 // Constants for form options
@@ -117,8 +120,7 @@ const GENRES = [
 
 const MENU_TYPES = [
   { value: "food", label: "Food Menu" },
-  { value: "drinks", label: "Drinks Menu" },
-  { value: "seasonal", label: "Seasonal Menu" }
+  { value: "drinks", label: "Drinks Menu" }
 ];
 
 
@@ -137,6 +139,16 @@ const Admin = () => {
   const [bands, setBands] = useState<Band[]>([]);
   const [menus, setMenus] = useState<MenuPDF[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  
+  // Menu upload state
+  const [newMenu, setNewMenu] = useState({
+    name: '',
+    type: 'food' as 'food' | 'drinks',
+    file: null as File | null
+  });
+  const [uploadingMenu, setUploadingMenu] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [_editingMenu, _setEditingMenu] = useState<MenuPDF | null>(null);
   
   // Form state
   const [newMatch, setNewMatch] = useState({
@@ -176,7 +188,7 @@ const Admin = () => {
   });
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+    const { data: { subscription } } = onAuthStateChange(async (user) => {
       if (user) {
         setIsLoggedIn(true);
         setIsLoading(true);
@@ -188,6 +200,7 @@ const Admin = () => {
           ]);
           toast.success('Welcome to Admin Panel!');
         } catch (error) {
+          console.error('Error loading data:', error);
           toast.error('Error loading data');
         } finally {
           setIsLoading(false);
@@ -198,40 +211,34 @@ const Admin = () => {
       }
     });
     
-    return () => unsubscribe();
+    return () => subscription.unsubscribe();
   }, []);
 
   const fetchBands = async () => {
-    const bandsCollection = collection(db, 'bands');
-    const bandsSnapshot = await getDocs(bandsCollection);
-    const bandsList = bandsSnapshot.docs.map(doc => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        name: data.name || '',
-        genre: data.genre || '',
-        date: data.date || '',
-        time: data.time || ''
-      };
-    }) as Band[];
-    setBands(bandsList.sort((a, b) => {
-      const dateA = new Date(a.date + 'T' + a.time);
-      const dateB = new Date(b.date + 'T' + b.time);
-      return dateA.getTime() - dateB.getTime();
-    }));
+    try {
+      const bandsList = await databaseService.getBands();
+      setBands(bandsList.sort((a, b) => {
+        const dateA = new Date(a.date + 'T' + a.time);
+        const dateB = new Date(b.date + 'T' + b.time);
+        return dateA.getTime() - dateB.getTime();
+      }));
+    } catch (error) {
+      console.error('Error fetching bands:', error);
+      toast.error('Error fetching bands');
+    }
   };
 
   const fetchMenus = async () => {
     try {
-      const menusCollection = collection(db, 'menus');
-      const menusSnapshot = await getDocs(menusCollection);
-      const menusList = menusSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as MenuPDF[];
-      setMenus(menusList.sort((a, b) => new Date(b.uploadDate).getTime() - new Date(a.uploadDate).getTime()));
+      const menusList = await databaseService.getMenus();
+      setMenus(menusList.sort((a, b) => {
+        const dateA = a.upload_date || '';
+        const dateB = b.upload_date || '';
+        return new Date(dateB).getTime() - new Date(dateA).getTime();
+      }));
     } catch (error) {
       console.error('Error fetching menus:', error);
+      toast.error('Error fetching menus');
     }
   };
 
@@ -239,11 +246,11 @@ const Admin = () => {
     e.preventDefault();
     try {
       if (!newBand.name || !newBand.genre || !newBand.date || !newBand.time) {
-        alert('Please fill in all fields');
+        toast.error('Please fill in all fields');
         return;
       }
       const loadingToast = toast.loading('Adding band...');
-      await addDoc(collection(db, 'bands'), newBand);
+      await databaseService.addBand(newBand);
       setNewBand({ name: '', genre: '', date: '', time: '' });
       await fetchBands();
       toast.success('Band added successfully!', { id: loadingToast });
@@ -275,7 +282,7 @@ const Admin = () => {
       }
       
       const loadingToast = toast.loading('Updating band...');
-      await updateDoc(doc(db, 'bands', editingBand.id), newBand);
+      await databaseService.updateBand(editingBand.id, newBand);
       setNewBand({ name: '', genre: '', date: '', time: '' });
       setEditingBand(null);
       await fetchBands();
@@ -294,7 +301,7 @@ const Admin = () => {
       onConfirm: async () => {
         try {
           const loadingToast = toast.loading('Deleting band...');
-          await deleteDoc(doc(db, 'bands', bandId));
+          await databaseService.deleteBand(bandId);
           await fetchBands();
           toast.success('Band deleted successfully!', { id: loadingToast });
         } catch (error) {
@@ -313,25 +320,17 @@ const Admin = () => {
 
 
   const fetchMatches = async () => {
-    const matchesCollection = collection(db, 'matches');
-    const matchesSnapshot = await getDocs(matchesCollection);
-    const matchesList = matchesSnapshot.docs.map(doc => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        sport: data.sport || 'Football', // Default to Football if sport is missing
-        league: data.league || '',
-        team1: data.team1 || '',
-        team2: data.team2 || '',
-        date: data.date || '',
-        time: data.time || ''
-      };
-    }) as Match[];
-    setMatches(matchesList.sort((a, b) => {
-      const dateA = new Date(a.date + 'T' + a.time);
-      const dateB = new Date(b.date + 'T' + b.time);
-      return dateA.getTime() - dateB.getTime();
-    }));
+    try {
+      const matchesList = await databaseService.getMatches();
+      setMatches(matchesList.sort((a, b) => {
+        const dateA = new Date(a.date + 'T' + a.time);
+        const dateB = new Date(b.date + 'T' + b.time);
+        return dateA.getTime() - dateB.getTime();
+      }));
+    } catch (error) {
+      console.error('Error fetching matches:', error);
+      toast.error('Error fetching matches');
+    }
   };
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -343,11 +342,15 @@ const Admin = () => {
     
     setIsLoggingIn(true);
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      toast.success('Login successful!');
+      const { user, error } = await signInWithSupabase(email, password);
+      if (error) {
+        toast.error(error.message || 'Failed to login. Please check your credentials.');
+      } else if (user) {
+        toast.success('Login successful!');
+      }
     } catch (error: any) {
       console.error('Login error:', error);
-      toast.error(error.message || 'Failed to login. Please check your credentials.');
+      toast.error('Failed to login. Please try again.');
     } finally {
       setIsLoggingIn(false);
     }
@@ -355,12 +358,16 @@ const Admin = () => {
 
   const handleLogout = async () => {
     try {
-      await signOut(auth);
-      setIsLoggedIn(false);
-      toast.success('Logged out successfully');
+      const { error } = await signOutSupabase();
+      if (error) {
+        toast.error(error.message || 'Failed to logout.');
+      } else {
+        setIsLoggedIn(false);
+        toast.success('Logged out successfully');
+      }
     } catch (error: any) {
       console.error('Logout error:', error);
-      toast.error(error.message || 'Failed to logout.');
+      toast.error('Failed to logout.');
     }
   };
 
@@ -382,7 +389,7 @@ const Admin = () => {
         date: newMatch.date,
         time: newMatch.time
       };
-      await addDoc(collection(db, 'matches'), matchData);
+      await databaseService.addMatch(matchData);
       setNewMatch({ sport: '', customSport: '', league: '', customLeague: '', team1: '', team2: '', date: '', time: '' });
       setUseCustomSport(false);
       setUseCustomLeague(false);
@@ -440,7 +447,7 @@ const Admin = () => {
         date: newMatch.date,
         time: newMatch.time
       };
-      await updateDoc(doc(db, 'matches', editingMatch.id), matchData);
+      await databaseService.updateMatch(editingMatch.id, matchData);
       setNewMatch({ sport: '', customSport: '', league: '', customLeague: '', team1: '', team2: '', date: '', time: '' });
       setUseCustomSport(false);
       setUseCustomLeague(false);
@@ -461,7 +468,7 @@ const Admin = () => {
       onConfirm: async () => {
         try {
           const loadingToast = toast.loading('Deleting match...');
-          await deleteDoc(doc(db, 'matches', matchId));
+          await databaseService.deleteMatch(matchId);
           await fetchMatches();
           toast.success('Match deleted successfully!', { id: loadingToast });
         } catch (error) {
@@ -477,6 +484,154 @@ const Admin = () => {
     setNewMatch({ sport: '', customSport: '', league: '', customLeague: '', team1: '', team2: '', date: '', time: '' });
     setUseCustomSport(false);
     setUseCustomLeague(false);
+  };
+
+  // Menu management functions
+  const handleFileSelect = (file: File) => {
+    setNewMenu({ ...newMenu, file });
+  };
+
+  const handleFileRemove = () => {
+    setNewMenu({ ...newMenu, file: null });
+  };
+
+  const uploadFileToSupabase = async (file: File): Promise<string> => {
+    const timestamp = Date.now();
+    const fileName = `${timestamp}-${file.name}`;
+    // Убираем дублирование "menus/" в пути
+    const filePath = fileName;
+    
+    setUploadProgress(0);
+    
+    // For now, we'll use a simple upload without progress tracking
+    // In a real implementation, you might want to use a chunked upload with progress
+    const { data: _uploadData, error } = await supabase.storage
+      .from('menus')
+      .upload(filePath, file);
+    
+    if (error) {
+      throw error;
+    }
+    
+    // Get public URL - попробуем альтернативный способ
+    const { data: urlData } = supabase.storage
+      .from('menus')
+      .getPublicUrl(filePath); // Используем filePath вместо data.path
+    
+    setUploadProgress(100);
+    console.log('Upload successful. File path:', filePath);
+    console.log('Public URL:', urlData.publicUrl);
+    return urlData.publicUrl;
+  };
+
+  const handleAddMenu = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!newMenu.name || !newMenu.type || !newMenu.file) {
+      toast.error('Please fill in all fields and select a file');
+      return;
+    }
+    
+    setUploadingMenu(true);
+    const loadingToast = toast.loading('Uploading menu...');
+    
+    try {
+      // Upload file to Supabase Storage
+      const fileUrl = await uploadFileToSupabase(newMenu.file);
+      
+      // Save menu record to database
+      const menuData = {
+        name: newMenu.name,
+        type: newMenu.type,
+        file_url: fileUrl,
+        file_name: newMenu.file.name,
+        is_active: true,
+        upload_date: new Date().toISOString()
+      };
+      
+      await (databaseService as any).addMenu(menuData);
+      
+      // Reset form
+      setNewMenu({ name: '', type: 'food', file: null });
+      setUploadProgress(0);
+      
+      // Refresh menus
+      await fetchMenus();
+      
+      toast.success('Menu uploaded successfully!', { id: loadingToast });
+    } catch (error) {
+      console.error('Error uploading menu:', error);
+      toast.error('Error uploading menu', { id: loadingToast });
+    } finally {
+      setUploadingMenu(false);
+    }
+  };
+
+  const handleToggleMenuActive = async (menuId: string, currentStatus: boolean) => {
+    try {
+      const loadingToast = toast.loading('Updating menu status...');
+      
+      await (databaseService as any).updateMenu(menuId, {
+        is_active: !currentStatus
+      });
+      
+      await fetchMenus();
+      toast.success('Menu status updated!', { id: loadingToast });
+    } catch (error) {
+      console.error('Error updating menu status:', error);
+      toast.error('Error updating menu status');
+    }
+  };
+
+  const handleDeleteMenu = async (menuId: string, menuName: string) => {
+    setConfirmModal({
+      isOpen: true,
+      title: 'Delete Menu',
+      message: `Are you sure you want to delete "${menuName}"? This action cannot be undone.`,
+      onConfirm: async () => {
+        try {
+          const loadingToast = toast.loading('Deleting menu...');
+          
+          // Находим меню чтобы получить путь к файлу
+          const menuToDelete = menus.find(menu => menu.id === menuId);
+          
+          if (menuToDelete) {
+            // Извлекаем имя файла из URL
+            const fileUrl = menuToDelete.file_url || '';
+            const fileName = fileUrl.split('/').pop(); // Получаем последнюю часть URL
+            
+            if (fileName) {
+              // Удаляем файл из Storage
+              const { error: storageError } = await supabase.storage
+                .from('menus')
+                .remove([fileName]);
+              
+              if (storageError) {
+                console.error('Error deleting file from storage:', storageError);
+                // Продолжаем удаление из БД даже если файл не удалился
+              }
+            }
+          }
+          
+          // Удаляем запись из базы данных
+          await (databaseService as any).deleteMenu(menuId);
+          await fetchMenus();
+          toast.success('Menu deleted successfully!', { id: loadingToast });
+        } catch (error) {
+          console.error('Error deleting menu:', error);
+          toast.error('Error deleting menu');
+        }
+      }
+    });
+  };
+
+  const handleViewMenu = (menu: MenuPDF) => {
+    const url = menu.file_url || '';
+    if (url) {
+      window.open(url, '_blank');
+    } else {
+      toast.error('Menu file not found');
+    }
   };
 
 
@@ -963,38 +1118,59 @@ const Admin = () => {
             <p className="admin-section-subtitle">Upload and manage PDF menus</p>
           </div>
           <Button
-            onClick={() => toast('Menu upload will be available after Supabase migration')}
+            onClick={() => {/* Form is always visible now */}}
             variant="primary"
             icon={<Plus size={16} />}
+            disabled={uploadingMenu}
           >
             Upload Menu
           </Button>
         </div>
         
         <Card className="admin-add-form" padding="lg">
-          <form>
+          <form onSubmit={handleAddMenu}>
             <div className="form-grid">
               <FormField
                 label="Menu Name"
-                value=""
-                onChange={() => {}}
+                value={newMenu.name}
+                onChange={(value) => setNewMenu({ ...newMenu, name: value })}
                 placeholder="e.g., Weekend Brunch Menu"
-                disabled
+                disabled={uploadingMenu}
               />
               <FormField
                 label="Menu Type"
                 type="select"
-                value=""
-                onChange={() => {}}
+                value={newMenu.type}
+                onChange={(value) => setNewMenu({ ...newMenu, type: value as 'food' | 'drinks' })}
                 options={MENU_TYPES}
                 placeholder="Select menu type"
-                disabled
+                disabled={uploadingMenu}
               />
             </div>
-            <div className="upload-placeholder">
-              <MenuIcon size={48} />
-              <h3>Menu Upload Coming Soon</h3>
-              <p>Menu upload functionality will be implemented with Supabase integration. You'll be able to upload PDF menus, set active status, and manage all your restaurant menus from here.</p>
+            
+            <div className="file-upload-section">
+              <FileUpload
+                onFileSelect={handleFileSelect}
+                onFileRemove={handleFileRemove}
+                selectedFile={newMenu.file}
+                uploading={uploadingMenu}
+                uploadProgress={uploadProgress}
+                accept=".pdf"
+                maxSize={10}
+              />
+            </div>
+            
+            <div className="form-actions">
+              <Button 
+                type="submit" 
+                variant="primary" 
+                size="lg"
+                loading={uploadingMenu}
+                disabled={!newMenu.name || !newMenu.type || !newMenu.file}
+                icon={<Upload size={16} />}
+              >
+                {uploadingMenu ? 'Uploading...' : 'Upload Menu'}
+              </Button>
             </div>
           </form>
         </Card>
@@ -1002,41 +1178,63 @@ const Admin = () => {
         <div className="admin-items-grid">
           {menus.length === 0 ? (
             <Card className="admin-empty-state" padding="xl">
+              <MenuIcon size={48} style={{ color: '#6b7280', marginBottom: '1rem' }} />
               <p>No menus uploaded yet. Upload your first menu!</p>
             </Card>
           ) : (
-            menus.map((menu) => (
-              <Card key={menu.id} hoverable className="admin-item-card">
-                <div className="admin-item-header">
-                  <h3 className="admin-item-title">{menu.name}</h3>
-                  <div className="admin-item-actions">
-                    <Button variant="ghost" size="sm" icon={<Eye size={14} />} />
-                    <Button variant="ghost" size="sm" icon={<Edit3 size={14} />} />
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      icon={<Trash2 size={14} />}
-                      onClick={() => toast('Delete functionality will be available after Supabase migration')}
-                    />
+            menus.map((menu) => {
+              const isActive = menu.is_active ?? false;
+              const uploadDate = menu.upload_date || '';
+              
+              return (
+                <Card key={menu.id} hoverable className="admin-item-card">
+                  <div className="admin-item-header">
+                    <h3 className="admin-item-title">{menu.name}</h3>
+                    <div className="admin-item-actions">
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        icon={<Eye size={14} />}
+                        onClick={() => handleViewMenu(menu)}
+                      />
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        icon={<Download size={14} />}
+                        onClick={() => handleViewMenu(menu)}
+                      />
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        icon={<Trash2 size={14} />}
+                        onClick={() => handleDeleteMenu(menu.id, menu.name)}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="admin-item-content">
-                  <p className="admin-item-meta">{menu.type}</p>
-                  <p className="admin-item-date">
-                    Uploaded: {new Date(menu.uploadDate).toLocaleDateString('en-GB', {
-                      year: 'numeric', 
-                      month: 'long', 
-                      day: 'numeric'
-                    })}
-                  </p>
-                  <div className="admin-item-status">
-                    <span className={`status-badge ${menu.isActive ? 'active' : 'inactive'}`}>
-                      {menu.isActive ? 'Active' : 'Inactive'}
-                    </span>
+                  <div className="admin-item-content">
+                    <p className="admin-item-meta">
+                      {menu.type.charAt(0).toUpperCase() + menu.type.slice(1)} Menu
+                    </p>
+                    <p className="admin-item-date">
+                      Uploaded: {uploadDate ? new Date(uploadDate).toLocaleDateString('en-GB', {
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric'
+                      }) : 'Unknown date'}
+                    </p>
+                    <div className="admin-item-status">
+                      <button
+                        className={`status-badge ${isActive ? 'active' : 'inactive'} clickable`}
+                        onClick={() => handleToggleMenuActive(menu.id, isActive)}
+                        title="Click to toggle status"
+                      >
+                        {isActive ? 'Active' : 'Inactive'}
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </Card>
-            ))
+                </Card>
+              );
+            })
           )}
         </div>
       </div>

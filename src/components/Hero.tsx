@@ -12,9 +12,9 @@ const Hero: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const images = [womanBarImage];
 
-  // Упрощенная логика навигации без GSAP конфликтов
+  
   const handleNavigation = (sectionId: string, tab?: string) => {
-    // Скролим к секции
+    
     const element = document.getElementById(sectionId.replace('#', ''));
     if (element) {
       const offset = 80; // Высота navbar
@@ -27,19 +27,19 @@ const Hero: React.FC = () => {
       });
     }
     
-    // Обрабатываем переключение табов для entertainment секции
+    
     if (tab && sectionId === '#entertainment') {
       setTimeout(() => {
         const event = new CustomEvent('switchTab', { detail: { tab } });
         window.dispatchEvent(event);
-      }, 200); // Увеличиваем задержку для стабильности
+      }, 200); 
     }
   };
   
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 5000); // Change image every 5 seconds
+    }, 5000); 
     
     return () => clearInterval(interval);
   }, [images.length]);

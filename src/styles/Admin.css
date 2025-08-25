@@ -7,6 +7,7 @@
 @import url('./ui/Button.css');
 @import url('./ui/ConfirmModal.css');
 @import url('./ui/LoadingSkeleton.css');
+@import url('./FileUpload.css');
 
 /* Reset and base */
 * {
@@ -588,4 +589,56 @@
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(200, 178, 115, 0.3);
   color: rgba(255, 255, 255, 0.7);
+}
+
+/* Menu Upload Specific Styles */
+.file-upload-section {
+  margin: 1.5rem 0;
+}
+
+.status-badge.clickable {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.status-badge.clickable:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.status-badge.active.clickable:hover {
+  border-color: #059669;
+  background: #d1fae5;
+}
+
+.status-badge.inactive.clickable:hover {
+  border-color: #dc2626;
+  background: #fee2e2;
+}
+
+.upload-placeholder {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: #f9fafb;
+  border-radius: 12px;
+  border: 2px dashed #e5e7eb;
+  margin: 1.5rem 0;
+}
+
+.upload-placeholder svg {
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.upload-placeholder h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.upload-placeholder p {
+  color: #6b7280;
+  line-height: 1.5;
 }

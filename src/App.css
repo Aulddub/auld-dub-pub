@@ -77,7 +77,7 @@ section[id],
   flex-direction: column;
 }
 
-/* Оптимизация секций для анимаций */
+
 section {
   will-change: transform;
   transform: translateZ(0);

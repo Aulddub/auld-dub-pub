@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../config/firebase';
+import { databaseService } from '../services/database';
 import { useNavigate } from 'react-router-dom';
 import '../styles/AllMatches.css';
 
@@ -24,12 +23,7 @@ const AllMatches = () => {
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        const matchesCollection = collection(db, 'matches');
-        const matchesSnapshot = await getDocs(matchesCollection);
-        const matchesList = matchesSnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })) as Match[];
+        const matchesList = await databaseService.getMatches();
         
         // Sort matches by date and time
         matchesList.sort((a, b) => {
