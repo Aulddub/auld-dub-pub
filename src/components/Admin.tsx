@@ -216,6 +216,42 @@ const Admin = () => {
     return () => subscription.unsubscribe();
   }, []);
 
+  // Handle browser/tab close - force logout for security
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      // Force logout when browser/tab is closing
+      signOutSupabase();
+      // Clear any remaining session data
+      sessionStorage.clear();
+    };
+
+    const handleUnload = () => {
+      // Additional cleanup on page unload
+      signOutSupabase();
+      sessionStorage.clear();
+    };
+
+    const handleVisibilityChange = () => {
+      // Optional: Also logout when tab becomes hidden for extended period
+      if (document.hidden) {
+        // Tab is now hidden - could add additional security logic here
+        console.log('Admin tab hidden - session maintained until close');
+      }
+    };
+
+    // Add event listeners
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener('unload', handleUnload);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // Cleanup event listeners
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('unload', handleUnload);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+
   const fetchBands = async () => {
     try {
       const bandsList = await databaseService.getBands();
@@ -361,14 +397,31 @@ const Admin = () => {
   const handleLogout = async () => {
     try {
       const { error } = await signOutSupabase();
+      
+      // Clear all session storage data for security
+      sessionStorage.clear();
+      
+      // Reset component state
+      setIsLoggedIn(false);
+      setEmail('');
+      setPassword('');
+      setShowPassword(false);
+      
+      // Clear data arrays for security
+      setMatches([]);
+      setBands([]);
+      setMenus([]);
+      
       if (error) {
         toast.error(error.message || 'Failed to logout.');
       } else {
-        setIsLoggedIn(false);
         toast.success('Logged out successfully');
       }
     } catch (error: any) {
       console.error('Logout error:', error);
+      // Still clear session data even if Supabase logout fails
+      sessionStorage.clear();
+      setIsLoggedIn(false);
       toast.error('Failed to logout.');
     }
   };
