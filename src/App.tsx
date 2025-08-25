@@ -1,6 +1,6 @@
-import React, { useEffect, Suspense, lazy } from 'react';
+import { useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import './App.css';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -101,9 +101,13 @@ function App() {
   }, []);
 
   return (
-    <>
-
-      <Router>
+    <HelmetProvider>
+      <Router 
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true
+        }}
+      >
         <Routes>
           <Route path="/" element={
             <>
@@ -180,7 +184,7 @@ function App() {
           } />
         </Routes>
       </Router>
-    </>
+    </HelmetProvider>
   );
 }
 

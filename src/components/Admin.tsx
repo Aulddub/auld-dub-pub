@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'framer-motion';
 import { signInWithSupabase, signOutSupabase, onAuthStateChange } from '../services/supabaseAuth';
 import { databaseService } from '../services/database';
