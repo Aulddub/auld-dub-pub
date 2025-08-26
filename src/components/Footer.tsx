@@ -3,13 +3,11 @@ import '../styles/Footer.css';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
-  const foundingYear = 2025;
-  const copyrightYear = currentYear > foundingYear ? `${foundingYear}-${currentYear}` : `${foundingYear}`;
 
   return (
     <footer className="footer">
       <div className="footer-content">
-        <p>© {copyrightYear} Auld Dub. All rights reserved.</p>
+        <p>© {currentYear} Auld Dub. All rights reserved.</p>
         <p>
           Website by{' '}
           <a 
