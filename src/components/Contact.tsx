@@ -196,7 +196,7 @@ const Contact: React.FC = () => {
 
           <div className="map-container">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2034.3074476851374!2d18.06686821642134!3d59.33762348166249!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465f9d62c8b60ebf%3A0x8b8e8f6a8b8e8f6a!2sHoll%C3%A4ndargatan%201%2C%20111%2036%20Stockholm!5e0!3m2!1sen!2sse!4v1732634400000!5m2!1sen!2sse"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2034.5!2d18.0686!3d59.3293!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sHolländargatan%201%2C%20Stockholm!5e0!3m2!1sen!2sse!4v1635000000000!5m2!1sen!2sse"
               width="100%"
               height="100%"
               style={{ border: 0 }}
