@@ -7,6 +7,7 @@ import Hero from './components/Hero';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Admin from './components/Admin';
+import Footer from './components/Footer';
 import { useLenis } from './hooks/useLenis';
 
 
@@ -116,6 +117,8 @@ function App() {
                 <meta name="description" content="Stockholm's best pub & restaurant at Hötorget in Stockholm City Center. Watch live sports, enjoy pub quiz, live music, traditional Irish food & Guinness. Perfect central location for tourists & locals." />
                 <meta name="robots" content="index, follow" />
                 <link rel="canonical" href="https://www.theaulddub.se/" />
+                <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
+                <meta httpEquiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
               </Helmet>
               <div className="outer-container">
                 <div className="inner-container">
@@ -138,6 +141,7 @@ function App() {
                       <Contact />
                     </section>
                   </Suspense>
+                  <Footer />
                   </div>
                 </div>
               </div>
@@ -150,11 +154,14 @@ function App() {
                 <meta name="description" content="Watch all live sports matches at The Auld Dub Stockholm. Premier League, Champions League, and more on big screens with great atmosphere and Guinness." />
                 <meta name="robots" content="index, follow" />
                 <link rel="canonical" href="https://www.theaulddub.se/all-matches" />
+                <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
+                <meta httpEquiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
               </Helmet>
               <Navbar />
               <Suspense fallback={<Loading />}>
                 <AllMatches />
               </Suspense>
+              <Footer />
             </>
           } />
           <Route path="/all-live-music" element={
@@ -164,11 +171,14 @@ function App() {
                 <meta name="description" content="Experience authentic Irish live music at The Auld Dub Stockholm. Traditional Irish sessions, local bands, and musical entertainment in Stockholm's best Irish pub." />
                 <meta name="robots" content="index, follow" />
                 <link rel="canonical" href="https://www.theaulddub.se/all-live-music" />
+                <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
+                <meta httpEquiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
               </Helmet>
               <Navbar />
               <Suspense fallback={<Loading />}>
                 <AllLiveMusic />
               </Suspense>
+              <Footer />
             </>
           } />
           <Route path="/management-dashboard" element={
@@ -183,6 +193,9 @@ function App() {
                 <meta property="og:title" content="" />
                 <meta property="og:description" content="" />
                 <meta name="referrer" content="no-referrer" />
+                <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
+                <meta httpEquiv="X-Frame-Options" content="DENY" />
+                <meta httpEquiv="Referrer-Policy" content="no-referrer" />
               </Helmet>
               <Suspense fallback={<Loading />}>
                 <Admin />
