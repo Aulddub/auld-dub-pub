@@ -10,24 +10,24 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    # Content Security Policy - temporarily disabled for Google Maps testing
-    # Content-Security-Policy = """
-    #   default-src 'self';
-    #   script-src 'self' 'unsafe-inline' 'unsafe-eval' https://api.emailjs.com;
-    #   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-    #   font-src 'self' https://fonts.gstatic.com;
-    #   img-src 'self' data: blob: https: *.supabase.co *.supabase.in;
-    #   connect-src 'self' https://api.emailjs.com *.supabase.co *.supabase.in wss://*.supabase.co wss://*.supabase.in;
-    #   frame-src *;
-    #   object-src 'none';
-    #   base-uri 'self';
-    #   form-action 'self' https://api.emailjs.com;
-    #   frame-ancestors 'none';
-    #   upgrade-insecure-requests;
-    # """
+    # Content Security Policy - restrict resource loading
+    Content-Security-Policy = """
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://api.emailjs.com;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      font-src 'self' https://fonts.gstatic.com;
+      img-src 'self' data: blob: https: *.supabase.co *.supabase.in;
+      connect-src 'self' https://api.emailjs.com *.supabase.co *.supabase.in wss://*.supabase.co wss://*.supabase.in;
+      frame-src 'self' https://www.google.com;
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self' https://api.emailjs.com;
+      frame-ancestors 'none';
+      upgrade-insecure-requests;
+    """
     
-    # Prevent clickjacking attacks - temporarily disabled for Google Maps
-    # X-Frame-Options = "DENY"
+    # Prevent clickjacking attacks
+    X-Frame-Options = "SAMEORIGIN"
     
     # Prevent MIME type sniffing
     X-Content-Type-Options = "nosniff"
