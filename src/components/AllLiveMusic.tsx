@@ -20,7 +20,13 @@ const AllLiveMusic = () => {
     const fetchBands = async () => {
       try {
         const bandsList = await databaseService.getBands();
-        setBands(bandsList);
+        // Sort bands by date and time, earliest first
+        const sortedBands = bandsList.sort((a, b) => {
+          const dateA = new Date(a.date + 'T' + a.time);
+          const dateB = new Date(b.date + 'T' + b.time);
+          return dateA.getTime() - dateB.getTime();
+        });
+        setBands(sortedBands);
       } catch (error) {
         console.error('Error fetching bands:', error);
       } finally {

@@ -106,6 +106,16 @@ const LEAGUES = {
   ]
 };
 
+const ARTISTS = [
+  "Tomas Pereda",
+  "The Copy Cat",
+  "Dale Watts",
+  "Band of Five",
+  "Nick Ennis",
+  "Sean Maccabe",
+  "Chris Lonergan"
+];
+
 const GENRES = [
   { value: "Rock", label: "Rock" },
   { value: "Pop", label: "Pop" },
@@ -116,7 +126,11 @@ const GENRES = [
   { value: "Country", label: "Country" },
   { value: "Electronic", label: "Electronic" },
   { value: "Acoustic", label: "Acoustic" },
-  { value: "Indie", label: "Indie" }
+  { value: "Indie", label: "Indie" },
+  { value: "Troubadour", label: "Troubadour" },
+  { value: "Pub Music", label: "Pub Music" },
+  { value: "Celtic", label: "Celtic" },
+  { value: "Singer-Songwriter", label: "Singer-Songwriter" }
 ];
 
 const MENU_TYPES = [
@@ -169,8 +183,11 @@ const Admin = () => {
     name: '',
     genre: '',
     date: '',
-    time: ''
+    time: '22:00'
   });
+  const [selectedArtists, setSelectedArtists] = useState<string[]>([]);
+  const [showArtistList, setShowArtistList] = useState(false);
+  const [noMusic, setNoMusic] = useState(false);
 
   // Edit and delete states
   const [editingMatch, setEditingMatch] = useState<Match | null>(null);
@@ -283,13 +300,34 @@ const Admin = () => {
   const handleAddBand = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      if (noMusic) {
+        if (!newBand.date) {
+          toast.error('Please select a date');
+          return;
+        }
+        const loadingToast = toast.loading('Adding no music day...');
+        await databaseService.addBand({
+          name: 'No Music',
+          genre: 'No Music',
+          date: newBand.date,
+          time: '00:00'
+        });
+        setNewBand({ name: '', genre: '', date: '', time: '22:00' });
+        setSelectedArtists([]);
+        setNoMusic(false);
+        await fetchBands();
+        toast.success('No music day added successfully!', { id: loadingToast });
+        return;
+      }
+
       if (!newBand.name || !newBand.genre || !newBand.date || !newBand.time) {
         toast.error('Please fill in all fields');
         return;
       }
       const loadingToast = toast.loading('Adding band...');
       await databaseService.addBand(newBand);
-      setNewBand({ name: '', genre: '', date: '', time: '' });
+      setNewBand({ name: '', genre: '', date: '', time: '22:00' });
+      setSelectedArtists([]);
       await fetchBands();
       toast.success('Band added successfully!', { id: loadingToast });
     } catch (error) {
@@ -312,17 +350,18 @@ const Admin = () => {
   const handleUpdateBand = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingBand) return;
-    
+
     try {
       if (!newBand.name || !newBand.genre || !newBand.date || !newBand.time) {
         toast.error('Please fill in all fields');
         return;
       }
-      
+
       const loadingToast = toast.loading('Updating band...');
       await databaseService.updateBand(editingBand.id, newBand);
-      setNewBand({ name: '', genre: '', date: '', time: '' });
+      setNewBand({ name: '', genre: '', date: '', time: '22:00' });
       setEditingBand(null);
+      setSelectedArtists([]);
       await fetchBands();
       toast.success('Band updated successfully!', { id: loadingToast });
     } catch (error) {
@@ -352,7 +391,23 @@ const Admin = () => {
 
   const cancelEditBand = () => {
     setEditingBand(null);
-    setNewBand({ name: '', genre: '', date: '', time: '' });
+    setNewBand({ name: '', genre: '', date: '', time: '22:00' });
+    setSelectedArtists([]);
+    setNoMusic(false);
+  };
+
+  const handleAddArtistToList = (artist: string) => {
+    if (!selectedArtists.includes(artist)) {
+      const newList = [...selectedArtists, artist];
+      setSelectedArtists(newList);
+      setNewBand({ ...newBand, name: newList.join(', ') });
+    }
+  };
+
+  const handleRemoveArtist = (artist: string) => {
+    const newList = selectedArtists.filter(a => a !== artist);
+    setSelectedArtists(newList);
+    setNewBand({ ...newBand, name: newList.join(', ') });
   };
 
 
@@ -1082,20 +1137,100 @@ const Admin = () => {
         <Card className="admin-add-form" padding="lg">
           <form onSubmit={editingBand ? handleUpdateBand : handleAddBand}>
             <div className="form-grid">
-              <FormField
-                label="Artist / Band Name"
-                value={newBand.name}
-                onChange={(value) => setNewBand({ ...newBand, name: value })}
-                placeholder="Enter artist or band name"
-                autoComplete="off"
-              />
+              <div style={{ position: 'relative' }}>
+                <FormField
+                  label="Artist / Band Name"
+                  value={noMusic ? 'No Music' : newBand.name}
+                  onChange={(value) => {
+                    if (!noMusic) {
+                      setNewBand({ ...newBand, name: value });
+                      // Clear selected artists when manually editing
+                      if (selectedArtists.length > 0 && value !== selectedArtists.join(', ')) {
+                        setSelectedArtists([]);
+                      }
+                    }
+                  }}
+                  placeholder="Enter artist or band name"
+                  autoComplete="off"
+                  disabled={noMusic}
+                  statusIcon={
+                    <button
+                      type="button"
+                      className="inline-toggle"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowArtistList(!showArtistList);
+                      }}
+                      style={{ padding: '4px 8px', fontSize: '20px' }}
+                      disabled={noMusic}
+                    >
+                      {showArtistList ? '✕' : '☰'}
+                    </button>
+                  }
+                />
+                {showArtistList && (
+                  <>
+                    <div
+                      className="artist-list-backdrop"
+                      onClick={() => setShowArtistList(false)}
+                      style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        zIndex: 999,
+                        background: 'transparent'
+                      }}
+                    />
+                    <div className="artist-list-dropdown">
+                      {ARTISTS.map((artist) => (
+                        <div
+                          key={artist}
+                          className={`artist-list-item ${selectedArtists.includes(artist) ? 'selected' : ''}`}
+                        >
+                          <span className="artist-name">{artist}</span>
+                          {selectedArtists.includes(artist) ? (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleRemoveArtist(artist);
+                              }}
+                              className="artist-action-btn remove"
+                            >
+                              ✕
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleAddArtistToList(artist);
+                              }}
+                              className="artist-action-btn add"
+                            >
+                              +
+                            </button>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
               <FormField
                 label="Music Genre"
                 type="select"
-                value={newBand.genre}
-                onChange={(value) => setNewBand({ ...newBand, genre: value })}
+                value={noMusic ? 'No Music' : newBand.genre}
+                onChange={(value) => {
+                  if (!noMusic) {
+                    setNewBand({ ...newBand, genre: value });
+                  }
+                }}
                 options={GENRES}
                 placeholder="Select music genre"
+                disabled={noMusic}
               />
               <DateTimeField
                 label="Performance Date"
@@ -1105,13 +1240,47 @@ const Admin = () => {
                 min={today}
               />
               <DateTimeField
-                label="Start Time"
+                label="Start Time (default 22:00)"
                 type="time"
                 value={newBand.time}
                 onChange={(value) => setNewBand({ ...newBand, time: value })}
+                disabled={noMusic}
               />
             </div>
             <div className="form-actions">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginRight: 'auto' }}>
+                <label style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  color: '#c8b273',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: '500'
+                }}>
+                  <input
+                    type="checkbox"
+                    checked={noMusic}
+                    onChange={(e) => {
+                      setNoMusic(e.target.checked);
+                      if (e.target.checked) {
+                        setNewBand({ ...newBand, name: '', genre: '', time: '00:00' });
+                        setSelectedArtists([]);
+                        setShowArtistList(false);
+                      } else {
+                        setNewBand({ ...newBand, name: '', genre: '', time: '22:00' });
+                      }
+                    }}
+                    style={{
+                      width: '18px',
+                      height: '18px',
+                      cursor: 'pointer',
+                      accentColor: '#c8b273'
+                    }}
+                  />
+                  No Music This Day
+                </label>
+              </div>
               {editingBand ? (
                 <>
                   <Button type="submit" variant="primary" size="lg">
@@ -1123,7 +1292,7 @@ const Admin = () => {
                 </>
               ) : (
                 <Button type="submit" variant="primary" size="lg">
-                  Add Band
+                  {noMusic ? 'Mark No Music Day' : 'Add Band'}
                 </Button>
               )}
             </div>

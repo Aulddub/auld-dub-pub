@@ -28,7 +28,7 @@ interface Match {
 type TabType = 'music' | 'sports' | 'quiz';
 
 const Entertainment: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<TabType>('music');
+  const [activeTab, setActiveTab] = useState<TabType>('sports');
   const [latestBands, setLatestBands] = useState<Band[]>([]);
   const [upcomingMatches, setUpcomingMatches] = useState<Match[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -53,13 +53,26 @@ const Entertainment: React.FC = () => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        // Fetch bands
-        const bands = await databaseService.getLatestBands(3);
-        setLatestBands(bands);
+        // Fetch bands - get all bands and sort by earliest first
+        const allBands = await databaseService.getBands();
+        const now = new Date();
+
+        const upcomingBands = allBands
+          .filter(band => {
+            const bandDate = new Date(band.date + 'T' + band.time);
+            return bandDate >= now;
+          })
+          .sort((a, b) => {
+            const dateA = new Date(a.date + 'T' + a.time);
+            const dateB = new Date(b.date + 'T' + b.time);
+            return dateA.getTime() - dateB.getTime();
+          })
+          .slice(0, 3);
+
+        setLatestBands(upcomingBands);
 
         // Fetch matches
         const allMatches = await databaseService.getMatches();
-        const now = new Date();
 
         const upcomingMatches = allMatches
           .filter(match => {
@@ -129,8 +142,8 @@ const Entertainment: React.FC = () => {
   };
 
   const tabs = [
-    { id: 'music', label: 'Live Music', icon: FaMusic },
     { id: 'sports', label: 'Live Sports', icon: FaFutbol },
+    { id: 'music', label: 'Live Music', icon: FaMusic },
     { id: 'quiz', label: 'Pub Quiz', icon: FaMusic }
   ];
 
@@ -182,7 +195,7 @@ const Entertainment: React.FC = () => {
                 <div className="event-details">
                   <h5>{band.name}</h5>
                   <p className="genre">{band.genre}</p>
-                  <p className="time">{band.time}</p>
+                  <p className="time">{band.time.substring(0, 5)}</p>
                 </div>
               </div>
             ))
@@ -312,8 +325,8 @@ const Entertainment: React.FC = () => {
 
         <div className="tab-content-container">
           <AnimatePresence mode="wait">
-            {activeTab === 'music' && renderMusicContent()}
             {activeTab === 'sports' && renderSportsContent()}
+            {activeTab === 'music' && renderMusicContent()}
             {activeTab === 'quiz' && renderQuizContent()}
           </AnimatePresence>
         </div>
