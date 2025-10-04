@@ -24,15 +24,25 @@ const AllMatches = () => {
     const fetchMatches = async () => {
       try {
         const matchesList = await databaseService.getMatches();
-        
-        // Sort matches by date and time
-        matchesList.sort((a, b) => {
-          const dateA = new Date(a.date + 'T' + a.time);
-          const dateB = new Date(b.date + 'T' + b.time);
-          return dateA.getTime() - dateB.getTime();
-        });
-        
-        setMatches(matchesList);
+
+        // Get end of today for comparison (23:59:59)
+        const endOfToday = new Date();
+        endOfToday.setHours(23, 59, 59, 999);
+
+        // Filter and sort matches by date and time
+        const upcomingMatches = matchesList
+          .filter(match => {
+            const matchDate = new Date(match.date + 'T' + match.time);
+            // Show events only if they're today or in the future
+            return matchDate > endOfToday;
+          })
+          .sort((a, b) => {
+            const dateA = new Date(a.date + 'T' + a.time);
+            const dateB = new Date(b.date + 'T' + b.time);
+            return dateA.getTime() - dateB.getTime();
+          });
+
+        setMatches(upcomingMatches);
       } catch (error) {
         console.error('Error fetching matches:', error);
       } finally {

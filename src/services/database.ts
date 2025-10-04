@@ -100,7 +100,41 @@ class SupabaseService {
       .from('bands')
       .delete()
       .eq('id', id);
-    
+
+    if (error) throw error;
+  }
+
+  // NOTE: These methods are kept for manual cleanup if needed
+  // Automatic cleanup is handled by Supabase pg_cron (see /supabase/migrations/)
+  // The scheduled job runs daily at 00:01 UTC
+
+  async deleteOldBands(): Promise<void> {
+    // Get yesterday's date at end of day (23:59:59)
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    yesterday.setHours(23, 59, 59, 999);
+    const yesterdayStr = yesterday.toISOString().split('T')[0];
+
+    const { error } = await supabase
+      .from('bands')
+      .delete()
+      .lt('date', yesterdayStr);
+
+    if (error) throw error;
+  }
+
+  async deleteOldMatches(): Promise<void> {
+    // Get yesterday's date at end of day (23:59:59)
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    yesterday.setHours(23, 59, 59, 999);
+    const yesterdayStr = yesterday.toISOString().split('T')[0];
+
+    const { error } = await supabase
+      .from('matches')
+      .delete()
+      .lt('date', yesterdayStr);
+
     if (error) throw error;
   }
 

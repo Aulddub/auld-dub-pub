@@ -20,13 +20,25 @@ const AllLiveMusic = () => {
     const fetchBands = async () => {
       try {
         const bandsList = await databaseService.getBands();
-        // Sort bands by date and time, earliest first
-        const sortedBands = bandsList.sort((a, b) => {
-          const dateA = new Date(a.date + 'T' + a.time);
-          const dateB = new Date(b.date + 'T' + b.time);
-          return dateA.getTime() - dateB.getTime();
-        });
-        setBands(sortedBands);
+
+        // Get end of today for comparison (23:59:59)
+        const endOfToday = new Date();
+        endOfToday.setHours(23, 59, 59, 999);
+
+        // Filter and sort bands by date and time, earliest first
+        const upcomingBands = bandsList
+          .filter(band => {
+            const bandDate = new Date(band.date + 'T' + band.time);
+            // Show events only if they're today or in the future
+            return bandDate > endOfToday;
+          })
+          .sort((a, b) => {
+            const dateA = new Date(a.date + 'T' + a.time);
+            const dateB = new Date(b.date + 'T' + b.time);
+            return dateA.getTime() - dateB.getTime();
+          });
+
+        setBands(upcomingBands);
       } catch (error) {
         console.error('Error fetching bands:', error);
       } finally {

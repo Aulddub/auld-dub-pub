@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'framer-motion';
 import { signInWithSupabase, signOutSupabase, onAuthStateChange } from '../services/supabaseAuth';
@@ -138,6 +138,187 @@ const MENU_TYPES = [
   { value: "drinks", label: "Drinks Menu" }
 ];
 
+// ArtistDropdown Component
+interface ArtistDropdownProps {
+  value: string;
+  selectedArtists: string[];
+  disabled: boolean;
+  onValueChange: (value: string) => void;
+  onAddArtist: (artist: string) => void;
+  onRemoveArtist: (artist: string) => void;
+}
+
+const ArtistDropdown: React.FC<ArtistDropdownProps> = ({
+  value,
+  selectedArtists,
+  disabled,
+  onValueChange,
+  onAddArtist,
+  onRemoveArtist
+}) => {
+  const [showArtistList, setShowArtistList] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState<'right' | 'below'>('right');
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const updatePosition = () => {
+      if (!triggerRef.current || !showArtistList) return;
+
+      const triggerRect = triggerRef.current.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const dropdownWidth = 320;
+      const dropdownHeight = 500; // max-height
+
+      // Check if we're on mobile (width < 768px)
+      const isMobile = viewportWidth < 768;
+
+      if (isMobile) {
+        setDropdownPosition('below');
+      } else {
+        // Desktop: Check if there's enough space to the right
+        const spaceRight = viewportWidth - triggerRect.right;
+        const spaceBelow = viewportHeight - triggerRect.bottom;
+
+        if (spaceRight >= dropdownWidth + 16) {
+          // Enough space to the right
+          setDropdownPosition('right');
+        } else if (spaceBelow >= Math.min(dropdownHeight, 300)) {
+          // Not enough space right, but enough space below
+          setDropdownPosition('below');
+        } else {
+          // Default to right even if it might overflow (will be scrollable)
+          setDropdownPosition('right');
+        }
+      }
+    };
+
+    updatePosition();
+    window.addEventListener('resize', updatePosition);
+    window.addEventListener('scroll', updatePosition, true);
+
+    return () => {
+      window.removeEventListener('resize', updatePosition);
+      window.removeEventListener('scroll', updatePosition, true);
+    };
+  }, [showArtistList]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        showArtistList &&
+        dropdownRef.current &&
+        triggerRef.current &&
+        !dropdownRef.current.contains(event.target as Node) &&
+        !triggerRef.current.contains(event.target as Node)
+      ) {
+        setShowArtistList(false);
+      }
+    };
+
+    if (showArtistList) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [showArtistList]);
+
+  // Close dropdown on Escape key
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && showArtistList) {
+        setShowArtistList(false);
+      }
+    };
+
+    if (showArtistList) {
+      document.addEventListener('keydown', handleEscape);
+      return () => document.removeEventListener('keydown', handleEscape);
+    }
+  }, [showArtistList]);
+
+  return (
+    <div ref={triggerRef} style={{ position: 'relative' }}>
+      <FormField
+        label="Artist / Band Name"
+        value={value}
+        onChange={onValueChange}
+        placeholder="Enter artist or band name"
+        autoComplete="off"
+        disabled={disabled}
+        statusIcon={
+          <button
+            type="button"
+            className="inline-toggle"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowArtistList(!showArtistList);
+            }}
+            style={{ padding: '4px 8px', fontSize: '20px' }}
+            disabled={disabled}
+            aria-label={showArtistList ? 'Close artist list' : 'Open artist list'}
+            aria-expanded={showArtistList}
+          >
+            {showArtistList ? '✕' : '☰'}
+          </button>
+        }
+      />
+      {showArtistList && (
+        <>
+          <div
+            className="artist-list-backdrop"
+            onClick={() => setShowArtistList(false)}
+            aria-hidden="true"
+          />
+          <div
+            ref={dropdownRef}
+            className={`artist-list-dropdown artist-list-dropdown--${dropdownPosition}`}
+            role="listbox"
+            aria-label="Artist selection"
+          >
+            {ARTISTS.map((artist) => (
+              <div
+                key={artist}
+                className={`artist-list-item ${selectedArtists.includes(artist) ? 'selected' : ''}`}
+                role="option"
+                aria-selected={selectedArtists.includes(artist)}
+              >
+                <span className="artist-name">{artist}</span>
+                {selectedArtists.includes(artist) ? (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onRemoveArtist(artist);
+                    }}
+                    className="artist-action-btn remove"
+                    aria-label={`Remove ${artist}`}
+                  >
+                    ✕
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onAddArtist(artist);
+                    }}
+                    className="artist-action-btn add"
+                    aria-label={`Add ${artist}`}
+                  >
+                    +
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
 
 const Admin = () => {
   // Authentication state
@@ -186,7 +367,6 @@ const Admin = () => {
     time: '22:00'
   });
   const [selectedArtists, setSelectedArtists] = useState<string[]>([]);
-  const [showArtistList, setShowArtistList] = useState(false);
   const [noMusic, setNoMusic] = useState(false);
 
   // Edit and delete states
@@ -229,7 +409,7 @@ const Admin = () => {
         setIsLoading(false);
       }
     });
-    
+
     return () => subscription.unsubscribe();
   }, []);
 
@@ -326,8 +506,9 @@ const Admin = () => {
       }
       const loadingToast = toast.loading('Adding band...');
       await databaseService.addBand(newBand);
-      setNewBand({ name: '', genre: '', date: '', time: '22:00' });
-      setSelectedArtists([]);
+      // Keep the artist name, but clear other fields
+      setNewBand({ ...newBand, genre: '', date: '', time: '22:00' });
+      // Don't clear selectedArtists to keep the name intact
       await fetchBands();
       toast.success('Band added successfully!', { id: loadingToast });
     } catch (error) {
@@ -1137,88 +1318,22 @@ const Admin = () => {
         <Card className="admin-add-form" padding="lg">
           <form onSubmit={editingBand ? handleUpdateBand : handleAddBand}>
             <div className="form-grid">
-              <div style={{ position: 'relative' }}>
-                <FormField
-                  label="Artist / Band Name"
-                  value={noMusic ? 'No Music' : newBand.name}
-                  onChange={(value) => {
-                    if (!noMusic) {
-                      setNewBand({ ...newBand, name: value });
-                      // Clear selected artists when manually editing
-                      if (selectedArtists.length > 0 && value !== selectedArtists.join(', ')) {
-                        setSelectedArtists([]);
-                      }
+              <ArtistDropdown
+                value={noMusic ? 'No Music' : newBand.name}
+                selectedArtists={selectedArtists}
+                disabled={noMusic}
+                onValueChange={(value) => {
+                  if (!noMusic) {
+                    setNewBand({ ...newBand, name: value });
+                    // Clear selected artists when manually editing
+                    if (selectedArtists.length > 0 && value !== selectedArtists.join(', ')) {
+                      setSelectedArtists([]);
                     }
-                  }}
-                  placeholder="Enter artist or band name"
-                  autoComplete="off"
-                  disabled={noMusic}
-                  statusIcon={
-                    <button
-                      type="button"
-                      className="inline-toggle"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setShowArtistList(!showArtistList);
-                      }}
-                      style={{ padding: '4px 8px', fontSize: '20px' }}
-                      disabled={noMusic}
-                    >
-                      {showArtistList ? '✕' : '☰'}
-                    </button>
                   }
-                />
-                {showArtistList && (
-                  <>
-                    <div
-                      className="artist-list-backdrop"
-                      onClick={() => setShowArtistList(false)}
-                      style={{
-                        position: 'fixed',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        zIndex: 999,
-                        background: 'transparent'
-                      }}
-                    />
-                    <div className="artist-list-dropdown">
-                      {ARTISTS.map((artist) => (
-                        <div
-                          key={artist}
-                          className={`artist-list-item ${selectedArtists.includes(artist) ? 'selected' : ''}`}
-                        >
-                          <span className="artist-name">{artist}</span>
-                          {selectedArtists.includes(artist) ? (
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleRemoveArtist(artist);
-                              }}
-                              className="artist-action-btn remove"
-                            >
-                              ✕
-                            </button>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleAddArtistToList(artist);
-                              }}
-                              className="artist-action-btn add"
-                            >
-                              +
-                            </button>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                )}
-              </div>
+                }}
+                onAddArtist={handleAddArtistToList}
+                onRemoveArtist={handleRemoveArtist}
+              />
               <FormField
                 label="Music Genre"
                 type="select"
@@ -1266,7 +1381,6 @@ const Admin = () => {
                       if (e.target.checked) {
                         setNewBand({ ...newBand, name: '', genre: '', time: '00:00' });
                         setSelectedArtists([]);
-                        setShowArtistList(false);
                       } else {
                         setNewBand({ ...newBand, name: '', genre: '', time: '22:00' });
                       }

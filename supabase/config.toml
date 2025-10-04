@@ -1,0 +1,8 @@
+# Supabase Configuration
+# This file is used when deploying Edge Functions
+
+[project]
+project_id = "YOUR_PROJECT_ID"  # Replace with your actual project ID from Supabase Dashboard
+
+[functions.cleanup-old-events]
+verify_jwt = false  # Allow scheduled cron jobs to call this function without authentication

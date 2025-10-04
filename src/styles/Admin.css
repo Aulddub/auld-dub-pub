@@ -320,6 +320,11 @@
 /* Add Form */
 .admin-add-form {
   margin-bottom: 1rem;
+  overflow: visible !important;
+}
+
+.admin-add-form.card {
+  overflow: visible !important;
 }
 
 .form-grid {
@@ -327,6 +332,7 @@
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   margin-bottom: 2rem;
+  overflow: visible;
 }
 
 .form-actions {
@@ -530,6 +536,12 @@
   .admin-login-container {
     padding: 1rem;
   }
+
+  /* Artist dropdown mobile optimization */
+  .artist-list-dropdown--below {
+    max-width: calc(100vw - 3rem);
+    min-width: 250px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -690,22 +702,55 @@
 }
 
 /* Artist List Dropdown Styles */
+.artist-list-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99998;
+  background: transparent;
+}
+
 .artist-list-dropdown {
   position: absolute;
-  top: 100%;
-  right: 0;
-  z-index: 1000;
+  z-index: 99999;
   background: rgba(26, 26, 26, 0.98);
   border: 1px solid rgba(200, 178, 115, 0.3);
   border-radius: 8px;
   padding: 8px;
-  margin-top: 4px;
   min-width: 280px;
-  max-height: 320px;
+  max-width: 320px;
+  max-height: 250px;
   overflow-y: auto;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5),
               0 0 0 1px rgba(200, 178, 115, 0.1);
   backdrop-filter: blur(10px);
+  animation: fadeInScale 0.2s ease-out;
+}
+
+/* Desktop: Position to the right */
+.artist-list-dropdown--right {
+  top: 0;
+  left: calc(100% + 8px);
+}
+
+/* Position below the input */
+.artist-list-dropdown--below {
+  top: calc(100% + 4px);
+  left: 0;
+  right: auto;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .artist-list-dropdown::-webkit-scrollbar {
