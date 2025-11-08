@@ -25,16 +25,16 @@ const AllMatches = () => {
       try {
         const matchesList = await databaseService.getMatches();
 
-        // Get end of today for comparison (23:59:59)
-        const endOfToday = new Date();
-        endOfToday.setHours(23, 59, 59, 999);
+        // Get start of today for comparison (00:00:00)
+        const startOfToday = new Date();
+        startOfToday.setHours(0, 0, 0, 0);
 
         // Filter and sort matches by date and time
         const upcomingMatches = matchesList
           .filter(match => {
             const matchDate = new Date(match.date + 'T' + match.time);
-            // Show events only if they're today or in the future
-            return matchDate > endOfToday;
+            // Show events from today onwards
+            return matchDate >= startOfToday;
           })
           .sort((a, b) => {
             const dateA = new Date(a.date + 'T' + a.time);

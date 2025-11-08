@@ -21,16 +21,16 @@ const AllLiveMusic = () => {
       try {
         const bandsList = await databaseService.getBands();
 
-        // Get end of today for comparison (23:59:59)
-        const endOfToday = new Date();
-        endOfToday.setHours(23, 59, 59, 999);
+        // Get start of today for comparison (00:00:00)
+        const startOfToday = new Date();
+        startOfToday.setHours(0, 0, 0, 0);
 
         // Filter and sort bands by date and time, earliest first
         const upcomingBands = bandsList
           .filter(band => {
             const bandDate = new Date(band.date + 'T' + band.time);
-            // Show events only if they're today or in the future
-            return bandDate > endOfToday;
+            // Show events from today onwards
+            return bandDate >= startOfToday;
           })
           .sort((a, b) => {
             const dateA = new Date(a.date + 'T' + a.time);

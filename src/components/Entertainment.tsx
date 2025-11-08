@@ -55,15 +55,15 @@ const Entertainment: React.FC = () => {
       try {
         // Fetch bands - get all bands and sort by earliest first
         const allBands = await databaseService.getBands();
-        // Get end of today for comparison (23:59:59)
-        const endOfToday = new Date();
-        endOfToday.setHours(23, 59, 59, 999);
+        // Get start of today for comparison (00:00:00)
+        const startOfToday = new Date();
+        startOfToday.setHours(0, 0, 0, 0);
 
         const upcomingBands = allBands
           .filter(band => {
             const bandDate = new Date(band.date + 'T' + band.time);
-            // Show events only if they're today or in the future
-            return bandDate > endOfToday;
+            // Show events from today onwards
+            return bandDate >= startOfToday;
           })
           .sort((a, b) => {
             const dateA = new Date(a.date + 'T' + a.time);
@@ -80,8 +80,8 @@ const Entertainment: React.FC = () => {
         const upcomingMatches = allMatches
           .filter(match => {
             const matchDate = new Date(match.date + 'T' + match.time);
-            // Show events only if they're today or in the future
-            return matchDate > endOfToday;
+            // Show events from today onwards
+            return matchDate >= startOfToday;
           })
           .sort((a, b) => {
             const dateA = new Date(a.date + 'T' + a.time);
